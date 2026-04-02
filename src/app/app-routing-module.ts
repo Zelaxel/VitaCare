@@ -8,7 +8,7 @@ const routes: Routes = [
   {path: 'patient', component: Patient},
   {path: 'doctor', component: Doctor},
   {path: 'login', component: Login},
-  {path: '', redirectTo: '/login', pathMatch: 'full'}
+  {path: '', redirectTo: '/patient', pathMatch: 'full'}
 ];
 
 @NgModule({
