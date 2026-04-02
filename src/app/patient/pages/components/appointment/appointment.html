@@ -1,0 +1,20 @@
+<article [style.background-color]="active? '#63B995' : '#9C9C9C'" ] class="appointment-container">
+  <section class="appointment-buttons">
+    <button class="edit-buton">
+      <img src="svg/edit_pen.svg" alt="edit">
+    </button>
+    <button class="delete-buton">
+      <img src="svg/trash_can.svg" alt="delete">
+    </button>
+  </section>
+  <h1>{{tittle}}</h1>
+  <button class="doctor-button">
+    <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="user icon">
+    {{doctorName}}
+  </button>
+  <button class="description-button">{{description}}</button>
+  <footer>
+    <label class="department-label-appointment">{{department}}</label>
+    <label class="date-label">{{date}}</label>
+  </footer>
+</article>
