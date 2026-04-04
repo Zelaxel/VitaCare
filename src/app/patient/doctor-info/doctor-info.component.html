@@ -1,0 +1,37 @@
+<div class="page-background">
+
+  <div class="header-section">
+    <div class="avatar-circle">
+      <span class="icon">🖼️</span>
+    </div>
+
+    <div class="name-container">
+      <h1>{{ doctor.name }} {{ doctor.surname }} - {{ doctor.department }}</h1>
+      <hr class="blue-line">
+    </div>
+  </div>
+
+  <div class="hours-section">
+    <h2>Visiting hours</h2>
+    <p><strong>{{ doctor.visitingHours }}</strong></p>
+  </div>
+
+  <div class="appointments-section">
+    <h2>Curriculum</h2>
+
+    <div class="green-card" *ngFor="let app of appointments">
+      
+      <div class="card-top-row">
+        <span>📅 {{ app.date }}</span>
+        <span>🏥 {{ app.hospital }}</span>
+        <span>⭐ {{ app.category }}</span>
+      </div>
+
+      <p class="card-description">
+        {{ app.description }}
+      </p>
+
+    </div>
+  </div>
+
+</div>

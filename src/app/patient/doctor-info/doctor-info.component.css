@@ -1,0 +1,85 @@
+
+.page-background {
+  background-color: #D9D9D9;
+  min-height: 100vh;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+  color: #326273; 
+}
+
+/* HEADER  */
+.header-section {
+  display: flex; 
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  border: 4px solid #326273; 
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  background-color: transparent;
+}
+
+.name-container h1 {
+  font-size: 36px;
+  margin: 0;
+  color: #326273;
+}
+
+.blue-line {
+  border: none;
+  border-bottom: 4px solid #326273; 
+  margin-top: 10px;
+  width: 100%;
+}
+
+/*  HORARIOS */
+.hours-section {
+  margin-bottom: 30px;
+  margin-left: 140px; 
+}
+
+.hours-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* GREEN BOXES */
+.appointments-section {
+  margin-left: 140px; 
+}
+
+.appointments-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.green-card {
+  background-color: #63B995;
+  border-radius: 20px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  width: 80%;
+  
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between; 
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 10px;
+}
+
+.card-description {
+  margin: 0;
+  line-height: 1.4;
+}
