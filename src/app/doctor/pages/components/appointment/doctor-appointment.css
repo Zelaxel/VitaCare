@@ -25,12 +25,14 @@ h1 {
   font-size: 1.2rem;
 }
 
-.description-button {
+.description {
   margin: 0;
   overflow-y: hidden;
 }
 
 .appointment-buttons {
+  display: flex;
+  flex-direction: row;
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
