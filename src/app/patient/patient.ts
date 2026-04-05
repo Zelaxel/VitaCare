@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Homepage } from './pages/homepage/homepage'
 
 @Component({
   selector: 'app-patient',
@@ -8,5 +7,4 @@ import { Homepage } from './pages/homepage/homepage'
   styleUrl: './patient.css',
 })
 export class Patient {
-
 }

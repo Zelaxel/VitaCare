@@ -1,7 +1,7 @@
 <div class="homepage">
   <form class="homepage-form container">
     <div class="search-bar">
-      <app-search-bar></app-search-bar>
+      <app-patient-search-bar></app-patient-search-bar>
     </div>
     <div class="wrap">
       <div class="form-dates container">
@@ -18,21 +18,14 @@
           <input class="date-input" type="date">
         </label>
       </div>
-      <select class="department-select">
-        <option value="" disabled selected>--departament--</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
       <div class="form-buttons container">
         <button class="filter-button">filter</button>
         <button class="clear-filter-button">clear filter</button>
-        <button class="create-button">Create appointment</button>
       </div>
     </div>
   </form>
 
   <main class="homepage-main container">
-    <app-appointment-grid [appointments]="appointments"></app-appointment-grid>
+    <app-doctor-appointment-grid [appointments]="appointments"></app-doctor-appointment-grid>
   </main>
 </div>

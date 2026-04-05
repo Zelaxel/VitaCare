@@ -44,6 +44,7 @@ button img{
 .date-label {
   flex-direction: column;
   align-items: start;
+  font-weight: bold;
 }
 
 .separator {
@@ -97,13 +98,17 @@ button img{
   width: 100%;
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1050px) {
   .form-buttons {
     margin-left: 0 !important;
   }
 }
 
 @media (max-width: 790px) {
+  .homepage {
+    gap: 1rem !important;
+  }
+
   .wrap {
     justify-content: center;
   }
@@ -121,20 +126,8 @@ button img{
     flex-grow: 1 !important;
   }
 
-  .separator {
-    height: 5rem !important;
-  }
-
-  .department-select, .form-buttons button {
-    height: 3rem !important;
-  }
-
   .date-label-form {
     flex-grow: 1 !important;
-  }
-
-  .date-input {
-    height: 3rem !important;
   }
 }
 
