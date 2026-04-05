@@ -6,7 +6,7 @@
     <button [style.display]="active? 'flex' : 'none'" class="delete-buton">
       <img src="svg/trash_can.svg" alt="delete">
     </button>
-    <button [style.display]="active? 'none' : 'flex'" class="report-button">
+    <button [routerLink]="['/patient/report']" [style.display]="active? 'none' : 'flex'" class="report-button">
       <img class="report-button" src="svg/info.svg" alt="delete">
     </button>
   </section>
