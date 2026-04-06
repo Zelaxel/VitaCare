@@ -1,1 +1,28 @@
-<p>login works!</p>
+<div class="login-container">
+    <img src="svg\Vital Care (logo).svg"> 
+    <hr class="separator">
+
+    <div class="login-forms">
+        <label for="email">ID / Passport</label>
+        <input type="email" id="email">
+    </div>
+
+    <div class="login-forms">
+        <label for="password">Password</label>
+        <div class="input-group">
+            <input type="password" id="password" #passwordInput>
+            
+            <img 
+            [src]="passwordInput.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
+            (click)="passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password'"
+            class="toggle-icon"
+            >
+        </div>
+    </div>
+
+    <button aria-label="Close">Sign in</button>
+    <hr class="separator">
+
+    <a href="...">Request technical support</a>
+    <a href= "patient/register">Register</a>
+</div>

@@ -1,0 +1,106 @@
+.login-container {
+    width: 680px;
+    margin: 60px auto;
+    padding: 45px;
+    background-color: #66ad8c;
+    border-radius: 15px;
+    text-align: left;
+}
+
+.login-container img {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 6px solid #3b6773;
+    background-color: #ffffff;
+}
+
+.separator {
+    border: none;
+    height: 5px;
+    background-color: #3b6773;
+    margin: 20px 0;
+}
+
+.login-forms {
+    margin-bottom: 20px;
+}
+
+.login-forms label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #1f1f1f;
+    font-size: 18px;
+}
+
+.login-forms input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: #d9d9d9;
+    font-size: 14px;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    padding: 12px 30px;
+    background-color: #3b6773;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2f5560;
+}
+
+.login-container a {
+    display: block;
+    margin-top: 10px;
+    color: #1f1f1f;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes para la visualizacion de la contraseña */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; /* O el ancho que desees para el input */
+}
+
+#password {
+    width: 100%;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+
+.input-group .toggle-icon {
+    display: inline;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    z-index: 2;
+}

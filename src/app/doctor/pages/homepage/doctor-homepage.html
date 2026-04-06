@@ -1,0 +1,31 @@
+<div class="homepage">
+  <form class="homepage-form container">
+    <div class="search-bar">
+      <app-patient-search-bar></app-patient-search-bar>
+    </div>
+    <div class="wrap">
+      <div class="form-dates container">
+        <label class="date-label container">
+          START RANGE
+          <input class="date-input" type="date">
+        </label>
+        <div class="separator">
+          <img src="svg/simple_line.svg">
+          <img src="svg/simple_line.svg">
+        </div>
+        <label class="date-label container">
+          FINISH RANGE
+          <input class="date-input" type="date">
+        </label>
+      </div>
+      <div class="form-buttons container">
+        <button class="filter-button">filter</button>
+        <button class="clear-filter-button">clear filter</button>
+      </div>
+    </div>
+  </form>
+
+  <main class="homepage-main container">
+    <app-doctor-appointment-grid [appointments]="appointments"></app-doctor-appointment-grid>
+  </main>
+</div>
