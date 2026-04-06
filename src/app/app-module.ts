@@ -1,5 +1,6 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -16,7 +17,8 @@ import { DoctorAppointment } from './doctor/pages/components/appointment/doctor-
 import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-grid/doctor-appointment-grid';
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
-import { Register } from './patient/pages/register/register';
+import { FillReport } from './doctor/pages/fill-report/fill-report';
+import { UserProfile } from './patient/pages/user-profile/user-profile';
 
 @NgModule({
   declarations: [
@@ -34,9 +36,10 @@ import { Register } from './patient/pages/register/register';
     DoctorAppointmentGrid,
     PatientReport,
     DoctorReport,
-    Register,
+    FillReport,
+    UserProfile,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })
