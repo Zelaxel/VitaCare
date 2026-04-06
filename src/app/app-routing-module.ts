@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Doctor } from "./doctor/doctor";
 import {Patient} from './patient/patient';
 import {Login} from './login/login';
+import {Register} from './patient/pages/register/register';
 import {PatientHomepage} from './patient/pages/homepage/patient-homepage';
 import {DoctorHomepage} from './doctor/pages/homepage/doctor-homepage';
 import {PatientReport} from './patient/pages/report/patient-report';
@@ -13,7 +14,8 @@ const routes: Routes = [
     path: 'patient', component: Patient,
     children: [
       { path: 'home', component: PatientHomepage },
-      { path: 'report', component: PatientReport }
+      { path: 'report', component: PatientReport },
+      { path: 'register', component: Register}
     ]
   },
   {

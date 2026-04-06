@@ -16,6 +16,7 @@ import { DoctorAppointment } from './doctor/pages/components/appointment/doctor-
 import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-grid/doctor-appointment-grid';
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
+import { Register } from './patient/pages/register/register';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DoctorReport } from './doctor/pages/report/doctor-report';
     DoctorAppointmentGrid,
     PatientReport,
     DoctorReport,
+    Register,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
