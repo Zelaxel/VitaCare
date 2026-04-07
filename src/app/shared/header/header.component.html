@@ -24,7 +24,7 @@
         <button class="btn-rounded" (click)="toggleSettings()">Settings</button>
 
         <div class="dropdown-menu" *ngIf="isDropdownMenuOpen">
-          <button routerLink="/patient/profile">Configuration</button>
+          <button [routerLink]="['/patient/user-profile']">Configuration</button>
           <button (click)="logout()">Logout</button>
         </div>
       </div>

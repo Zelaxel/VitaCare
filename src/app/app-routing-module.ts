@@ -23,6 +23,7 @@ const routes: Routes = [
       { path: 'register', component: Register},
       { path: 'create-appointment', component: AttendanceCreator},
       { path: 'doctor-info', component: DoctorInfoComponent},
+      { path: 'user-profile', component: UserProfile }
     ]
   },
   {
