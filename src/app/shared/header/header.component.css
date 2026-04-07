@@ -35,7 +35,7 @@
   align-items: center;
 }
 
-.patient-menu {
+.patient-menu, .doctor-menu {
   display: flex;
   align-items: center;
   gap: 15px; 

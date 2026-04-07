@@ -9,6 +9,9 @@
   <div class="header-right">
 
     <div *ngIf="userRole === 'doctor'" class="doctor-menu">
+      <div class="profile-circle">
+        <span>👤</span> 
+      </div>
       <button class="btn-rounded" (click)="logout()">Logout</button>
     </div>
 

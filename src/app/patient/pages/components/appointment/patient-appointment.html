@@ -11,7 +11,7 @@
     </button>
   </section>
   <h1>{{tittle}}</h1>
-  <button class="doctor-button">
+  <button [routerLink]="['/patient/doctor-info']"class="doctor-button">
     <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="user icon">
     {{doctorName}}
   </button>
