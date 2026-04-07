@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-patient-history',
-  standalone: true,
-  imports: [CommonModule],
+  standalone: false,
   templateUrl: './patient-history.html',
   styleUrls: ['./patient-history.css']
 })

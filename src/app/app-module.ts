@@ -46,7 +46,9 @@ import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.com
      FillReport,
      UserProfile,
      HeaderComponent,
-     DoctorInfoComponent
+     DoctorInfoComponent,
+     AttendanceCreator,
+     PatientHistory
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
   providers: [provideBrowserGlobalErrorListeners()],

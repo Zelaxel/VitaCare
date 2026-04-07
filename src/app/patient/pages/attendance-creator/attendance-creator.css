@@ -2,11 +2,20 @@
   box-sizing: border-box;
 }
 
-.page {
-  min-height: 100vh;
-  background: #92caca;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #161616;
+.page-buttons {
+  max-width: 970px;
+  width: 100%;
+}
+
+.back-button{
+  border: none;
+  background: none;
+  height: 3rem;
+}
+
+.back-button img {
+  height: 100%;
+  width: 100%;
 }
 
 .page-title {
@@ -55,6 +64,10 @@
   background: #d9d9d9;
   min-height: 918px;
   padding: 66px 56px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
 
 .form-card {
