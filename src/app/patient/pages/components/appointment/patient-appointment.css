@@ -70,3 +70,10 @@ footer label {
 .date-label {
   margin-left: auto;
 }
+
+@media(max-width: 600px) {
+  .appointment-container {
+    width: 400px !important;
+  }
+}
+
