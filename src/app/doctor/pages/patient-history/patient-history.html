@@ -1,8 +1,15 @@
+<app-header [userRole]="'doctor'"></app-header>
+
 <div class="patient-history-page">
-  <app-header [userRole]="'doctor'"></app-header>
 
   <main class="content-wrapper">
+
     <section class="patient-header">
+
+      <button [routerLink]="'/doctor/home'" class="back-button">
+        <img src="/svg/left_arrow.svg" alt="Back">
+      </button>
+
       <div class="patient-avatar">
         <span>🖼️</span>
       </div>
