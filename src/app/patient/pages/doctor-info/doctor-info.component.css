@@ -7,6 +7,17 @@
   color: #326273; 
 }
 
+.back-button{
+  border: none;
+  background: none;
+  height: 3rem;
+}
+
+.back-button img {
+  height: 100%;
+  width: 100%;
+}
+
 /* HEADER  */
 .header-section {
   display: flex; 

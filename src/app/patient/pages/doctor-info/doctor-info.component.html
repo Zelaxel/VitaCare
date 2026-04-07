@@ -1,8 +1,12 @@
 <app-header [userRole]="'patient'"></app-header>
 
 <div class="page-background">
-  
+
   <div class="header-section">
+    <button [routerLink]="'/patient/home'" class="back-button">
+      <img src="/svg/left_arrow.svg" alt="Back">
+    </button>
+
     <div class="avatar-circle">
       <img src="svg\avatar.svg"> 
     </div>

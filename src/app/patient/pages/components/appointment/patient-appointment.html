@@ -1,6 +1,6 @@
 <article [style.background-color]="active? '#63B995' : '#9C9C9C'" ] class="appointment-container">
   <section class="appointment-buttons">
-    <button [style.display]="active? 'flex' : 'none'" class="edit-buton">
+    <button [style.display]="active? 'flex' : 'none'" [routerLink]="['/patient/create-appointment']" class="edit-buton">
       <img src="svg/edit_pen.svg" alt="edit">
     </button>
     <button [style.display]="active? 'flex' : 'none'" class="delete-buton">
