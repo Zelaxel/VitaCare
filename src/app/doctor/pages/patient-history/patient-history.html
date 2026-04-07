@@ -1,14 +1,5 @@
 <div class="patient-history-page">
-  <header class="topbar">
-    <div class="topbar-left">
-      <span class="top-icon">🖼️</span>
-    </div>
-
-    <div class="topbar-right">
-      <span class="user-icon">👤</span>
-      <button class="logout-btn">Log out</button>
-    </div>
-  </header>
+  <app-header [userRole]="'doctor'"></app-header>
 
   <main class="content-wrapper">
     <section class="patient-header">
