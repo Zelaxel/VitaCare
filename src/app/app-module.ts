@@ -48,7 +48,7 @@ import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.com
      HeaderComponent,
      DoctorInfoComponent
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })

@@ -20,7 +20,8 @@ const routes: Routes = [
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
-      { path: 'register', component: Register}
+      { path: 'register', component: Register},
+      { path: 'create-appointment', component: AttendanceCreator},
     ]
   },
   {
