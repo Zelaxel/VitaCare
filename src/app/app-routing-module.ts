@@ -3,11 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { Doctor } from "./doctor/doctor";
 import {Patient} from './patient/patient';
 import {Login} from './login/login';
-import {Register} from './patient/pages/register/register';
 import {PatientHomepage} from './patient/pages/homepage/patient-homepage';
 import {DoctorHomepage} from './doctor/pages/homepage/doctor-homepage';
 import {PatientReport} from './patient/pages/report/patient-report';
 import {DoctorReport} from './doctor/pages/report/doctor-report';
+import { DoctorInfoComponent } from './patient/doctor-info/doctor-info.component';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
-      { path: 'register', component: Register}
+      { path: 'doctor-info', component: DoctorInfoComponent }
     ]
   },
   {

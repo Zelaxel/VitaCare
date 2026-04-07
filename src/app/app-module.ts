@@ -16,26 +16,27 @@ import { DoctorAppointment } from './doctor/pages/components/appointment/doctor-
 import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-grid/doctor-appointment-grid';
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
-import { Register } from './patient/pages/register/register';
+import { HeaderComponent } from './shared/header/header.component';
+import { DoctorInfoComponent } from './patient/doctor-info/doctor-info.component';
 
 @NgModule({
-  declarations: [
-    App,
-    Doctor,
-    Patient,
-    Login,
-    PatientHomepage,
-    PatientSearchBar,
-    PatientAppointment,
-    PatientAppointmentGrid,
-    DoctorHomepage,
-    DoctorSearchBar,
-    DoctorAppointment,
-    DoctorAppointmentGrid,
-    PatientReport,
-    DoctorReport,
-    Register,
-  ],
+  declarations: [App,
+     Doctor,
+     Patient,
+     Login,
+     PatientHomepage,
+     PatientSearchBar,
+     PatientAppointment,
+     PatientAppointmentGrid,
+     PatientHomepage,
+     DoctorHomepage,
+     DoctorSearchBar,
+     DoctorAppointment,
+     DoctorAppointmentGrid,
+     PatientReport,
+     DoctorReport,
+     HeaderComponent,
+     DoctorInfoComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],

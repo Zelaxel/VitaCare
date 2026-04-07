@@ -1,0 +1,31 @@
+<header class="main-header">
+  
+  <div class="header-left" [routerLink]="['/patient/home']"style="cursor: pointer;">
+    <div class="logo-box">
+      <img src="svg\Vital Care (logo).svg"> 
+    </div>
+  </div>
+
+  <div class="header-right">
+
+    <div *ngIf="userRole === 'doctor'" class="doctor-menu">
+      <button class="btn-rounded" (click)="logout()">Logout</button>
+    </div>
+
+    <div *ngIf="userRole === 'patient'" class="patient-menu">
+      <div class="profile-circle">
+        <span>👤</span> 
+      </div>
+      
+      <div class="settings-container">
+        <button class="btn-rounded" (click)="toggleSettings()">Settings</button>
+
+        <div class="dropdown-menu" *ngIf="isDropdownMenuOpen">
+          <button routerLink="/configuration">Configuration</button>
+          <button (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>
