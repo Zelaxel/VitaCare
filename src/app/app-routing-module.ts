@@ -9,13 +9,18 @@ import {PatientReport} from './patient/pages/report/patient-report';
 import {DoctorReport} from './doctor/pages/report/doctor-report';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
+import { DoctorInfoComponent } from './patient/doctor-info/doctor-info.component';
+import { Register } from './patient/pages/register/register';
+
 const routes: Routes = [
   {
     path: 'patient', component: Patient,
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
-      { path: 'profile', component: UserProfile }
+      { path: 'profile', component: UserProfile },
+      { path: 'doctor-info', component: DoctorInfoComponent },
+      { path: 'register', component: Register}
     ]
   },
   {
@@ -23,7 +28,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: DoctorHomepage },
       { path: 'report', component: DoctorReport },
-      { path: 'fill-report', component: FillReport },
+      { path: 'fill-report', component: FillReport }
     ]
   },
   {path: 'login', component: Login},
