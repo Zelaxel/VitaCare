@@ -1,0 +1,50 @@
+<div class="patient-history-page">
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="top-icon">🖼️</span>
+    </div>
+
+    <div class="topbar-right">
+      <span class="user-icon">👤</span>
+      <button class="logout-btn">Log out</button>
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <section class="patient-header">
+      <div class="patient-avatar">
+        <span>🖼️</span>
+      </div>
+
+      <div class="patient-info">
+        <h1>{{ patient.name }} {{ patient.surname }} - {{ patient.department }}</h1>
+        <div class="underline"></div>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <h2>Historial clínico</h2>
+
+      <div class="history-scroll">
+        <div
+          class="history-card"
+          *ngFor="let appointment of appointments; let i = index"
+          [class.inactive]="i === appointments.length - 1"
+        >
+          <h3>&lt;{{ appointment.title }}&gt;</h3>
+
+          <div class="doctor-row">
+            <span class="doctor-icon">👤</span>
+            <span>&lt;{{ appointment.doctor }}&gt;</span>
+          </div>
+
+          <p>{{ appointment.description }}</p>
+
+          <h4>&lt;{{ appointment.date }}&gt;</h4>
+        </div>
+      </div>
+
+      <button class="request-btn">Solicitar cita para el paciente</button>
+    </section>
+  </main>
+</div>

@@ -7,6 +7,8 @@ import {PatientHomepage} from './patient/pages/homepage/patient-homepage';
 import {DoctorHomepage} from './doctor/pages/homepage/doctor-homepage';
 import {PatientReport} from './patient/pages/report/patient-report';
 import {DoctorReport} from './doctor/pages/report/doctor-report';
+import { PatientHistory } from './doctor/pages/patient-history/patient-history';
+import { AttendanceCreator } from './patient/pages/attendance-creator/attendance-creator';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
@@ -18,8 +20,6 @@ const routes: Routes = [
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
-      { path: 'profile', component: UserProfile },
-      { path: 'doctor-info', component: DoctorInfoComponent },
       { path: 'register', component: Register}
     ]
   },
@@ -27,8 +27,7 @@ const routes: Routes = [
     path: 'doctor', component: Doctor,
     children: [
       { path: 'home', component: DoctorHomepage },
-      { path: 'report', component: DoctorReport },
-      { path: 'fill-report', component: FillReport }
+      { path: 'report', component: DoctorReport }
     ]
   },
   {path: 'login', component: Login},
