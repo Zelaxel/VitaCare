@@ -9,12 +9,12 @@
     <button [style.display]="active? 'flex' : 'none'" class="delete-buton">
       <img src="svg/trash_can.svg" alt="delete">
     </button>
-    <button [routerLink]="['/patient/report']" [style.display]="active? 'none' : 'flex'" class="report-button">
+    <button [routerLink]="['/doctor/report']" [style.display]="active? 'none' : 'flex'" class="report-button">
       <img class="report-button" src="svg/info.svg" alt="delete">
     </button>
   </section>
   <h1>{{tittle}}</h1>
-  <button class="doctor-button">
+  <button [routerLink]="['/doctor/patient-history']" class="doctor-button">
     <img [src]=patientIcon (error)="patientIcon='svg/missing_user.svg'" alt="user icon">
     {{patientName}}
   </button>

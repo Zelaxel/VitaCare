@@ -22,13 +22,17 @@ const routes: Routes = [
       { path: 'report', component: PatientReport },
       { path: 'register', component: Register},
       { path: 'create-appointment', component: AttendanceCreator},
+      { path: 'doctor-info', component: DoctorInfoComponent},
     ]
   },
   {
     path: 'doctor', component: Doctor,
     children: [
       { path: 'home', component: DoctorHomepage },
-      { path: 'report', component: DoctorReport }
+      { path: 'report', component: DoctorReport },
+      { path: 'fill-report', component: FillReport },
+      { path: 'patient-history', component: PatientHistory }
+
     ]
   },
   {path: 'login', component: Login},
