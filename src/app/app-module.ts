@@ -2,8 +2,8 @@ import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule} from '@angular/router';
-
 import { AppRoutingModule } from './app-routing-module';
+
 import { App } from './app';
 import { Doctor } from './doctor/doctor';
 import { Patient } from './patient/patient';
@@ -21,6 +21,8 @@ import { DoctorReport } from './doctor/pages/report/doctor-report';
 import { Register } from './patient/pages/register/register';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
+import { HeaderComponent } from './shared/header/header.component';
+import { DoctorInfoComponent } from './patient/doctor-info/doctor-info.component';  
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { UserProfile } from './patient/pages/user-profile/user-profile';
      DoctorReport,
      Register,
      FillReport,
-     UserProfile
+     UserProfile,
+     HeaderComponent,
+     DoctorInfoComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
   providers: [provideBrowserGlobalErrorListeners()],
