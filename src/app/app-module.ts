@@ -1,7 +1,9 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
+import { RouterModule} from '@angular/router';
 import { AppRoutingModule } from './app-routing-module';
+
 import { App } from './app';
 import { Doctor } from './doctor/doctor';
 import { Patient } from './patient/patient';
@@ -16,11 +18,15 @@ import { DoctorAppointment } from './doctor/pages/components/appointment/doctor-
 import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-grid/doctor-appointment-grid';
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
+import { Register } from './patient/pages/register/register';
+import { FillReport } from './doctor/pages/fill-report/fill-report';
+import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { HeaderComponent } from './shared/header/header.component';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
 
 @NgModule({
-  declarations: [App,
+  declarations: [
+    App,
      Doctor,
      Patient,
      Login,
@@ -28,16 +34,19 @@ import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.com
      PatientSearchBar,
      PatientAppointment,
      PatientAppointmentGrid,
-     PatientHomepage,
      DoctorHomepage,
      DoctorSearchBar,
      DoctorAppointment,
      DoctorAppointmentGrid,
      PatientReport,
      DoctorReport,
+     Register,
+     FillReport,
+     UserProfile,
      HeaderComponent,
-     DoctorInfoComponent],
-  imports: [BrowserModule, AppRoutingModule],
+     DoctorInfoComponent
+  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })

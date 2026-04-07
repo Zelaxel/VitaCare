@@ -1,0 +1,92 @@
+.report {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.report-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.back-button, .download-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.back-button img, .download-button img {
+  width: 30px;
+  height: auto;
+}
+
+/* La card verde del mockup */
+.appointment-info {
+  background-color: #6abf98;
+  border-radius: 15px;
+  padding: 30px;
+  color: #1a1a1a;
+}
+
+.appointment-details section {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.divider {
+  border: none;
+  border-top: 2px solid #1a1a1a;
+  margin: 20px 0;
+}
+
+/* Styling della Textarea */
+.appointment-conclusion-edit {
+  margin-top: 20px;
+}
+
+.conclusion-textarea {
+  width: 100%;
+  min-height: 200px;
+  background-color: #e2e2e2;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  margin-top: 10px;
+}
+
+.conclusion-textarea:focus {
+  outline: 2px solid #3b6572;
+}
+
+/* Pulsante Submit in basso al centro */
+.submit-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.submit-button {
+  background-color: #3b6572;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+}
