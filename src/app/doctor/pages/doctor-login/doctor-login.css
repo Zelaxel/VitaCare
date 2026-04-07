@@ -105,6 +105,25 @@ button:hover {
     z-index: 2;
 }
 
+.button-group {
+    display: flex;
+    gap: 10px;
+    width: 25%;
+    margin-bottom: 20px;
+}
+
+.button-group a {
+    flex: 1; 
+    text-decoration: none;
+}
+
+.button-group button {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 0;
+}
+
 @media (max-width: 768px) {
     .login-container {
         width: 80%;
