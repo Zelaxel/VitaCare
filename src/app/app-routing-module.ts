@@ -8,6 +8,8 @@ import {PatientHomepage} from './patient/pages/homepage/patient-homepage';
 import {DoctorHomepage} from './doctor/pages/homepage/doctor-homepage';
 import {PatientReport} from './patient/pages/report/patient-report';
 import {DoctorReport} from './doctor/pages/report/doctor-report';
+import { PatientHistory } from './doctor/pages/patient-history/patient-history';
+import { AttendanceCreator } from './patient/pages/attendance-creator/attendance-creator';
 
 const routes: Routes = [
   {
@@ -15,14 +17,16 @@ const routes: Routes = [
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
-      { path: 'register', component: Register}
+      { path: 'register', component: Register},
+      { path: 'create-appointment', component: AttendanceCreator },
     ]
   },
   {
     path: 'doctor', component: Doctor,
     children: [
       { path: 'home', component: DoctorHomepage },
-      { path: 'report', component: DoctorReport }
+      { path: 'report', component: DoctorReport },
+      { path: 'patient-history', component: PatientHistory }
     ]
   },
   {path: 'login', component: Login},

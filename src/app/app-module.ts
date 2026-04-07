@@ -17,6 +17,8 @@ import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-gri
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
 import { Register } from './patient/pages/register/register';
+import { PatientHistory } from './doctor/pages/patient-history/patient-history';
+import { AttendanceCreator } from './patient/pages/attendance-creator/attendance-creator';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,7 @@ import { Register } from './patient/pages/register/register';
     DoctorReport,
     Register,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, PatientHistory,AttendanceCreator],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })
