@@ -7,7 +7,8 @@ import {PatientHomepage} from './patient/pages/homepage/patient-homepage';
 import {DoctorHomepage} from './doctor/pages/homepage/doctor-homepage';
 import {PatientReport} from './patient/pages/report/patient-report';
 import {DoctorReport} from './doctor/pages/report/doctor-report';
-import { DoctorInfoComponent } from './patient/doctor-info/doctor-info.component';
+import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
+import {Register} from './patient/pages/register/register';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
-      { path: 'doctor-info', component: DoctorInfoComponent }
+      { path: 'doctor-info', component: DoctorInfoComponent },
+      { path: 'register', component: Register }
     ]
   },
   {

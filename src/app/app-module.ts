@@ -17,7 +17,7 @@ import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-gri
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
 import { HeaderComponent } from './shared/header/header.component';
-import { DoctorInfoComponent } from './patient/doctor-info/doctor-info.component';
+import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
 
 @NgModule({
   declarations: [App,
