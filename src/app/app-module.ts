@@ -19,6 +19,8 @@ import { DoctorAppointmentGrid } from './doctor/pages/components/appointment-gri
 import { PatientReport } from './patient/pages/report/patient-report';
 import { DoctorReport } from './doctor/pages/report/doctor-report';
 import { Register } from './patient/pages/register/register';
+import { PatientHistory } from './doctor/pages/patient-history/patient-history';
+import { AttendanceCreator } from './patient/pages/attendance-creator/attendance-creator';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { HeaderComponent } from './shared/header/header.component';
@@ -46,7 +48,7 @@ import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.com
      HeaderComponent,
      DoctorInfoComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })
