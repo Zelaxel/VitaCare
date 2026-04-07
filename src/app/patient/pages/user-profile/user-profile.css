@@ -4,12 +4,30 @@
   --dark-header: #3b6572;
 }
 
+.page-buttons {
+  max-width: 970px;
+  width: 100%;
+}
+
+.back-button{
+  border: none;
+  background: none;
+  height: 3rem;
+}
+
+.back-button img {
+  height: 100%;
+  width: 100%;
+}
+
 .profile-container {
   padding: 40px 20px;
   background-color: #d8d8d8;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .profile-card {
