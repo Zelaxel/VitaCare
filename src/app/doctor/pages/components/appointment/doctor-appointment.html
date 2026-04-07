@@ -3,7 +3,7 @@
     <button [style.display]="active? 'flex' : 'none'" class="edit-buton">
       <img src="svg/edit_pen.svg" alt="edit">
     </button>
-    <button [style.display]="active? 'flex' : 'none'" class="seal-buton">
+    <button [routerLink]="['/doctor/fill-report']" [style.display]="active? 'flex' : 'none'" class="seal-buton">
       <img src="svg/seal.svg" alt="delete">
     </button>
     <button [style.display]="active? 'flex' : 'none'" class="delete-buton">

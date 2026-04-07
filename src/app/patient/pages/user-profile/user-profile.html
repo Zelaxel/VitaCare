@@ -120,7 +120,7 @@
       </div>
 
       <div class="save-container">
-        <button type="button" class="save-btn" (click)="saveProfile()">Save changes</button>
+        <button [routerLink]="['/patient/home']" type="button" class="save-btn" (click)="saveProfile()">Save changes</button>
       </div>
     </form>
   </div>
