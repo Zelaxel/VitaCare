@@ -26,6 +26,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { PatientLogin } from './patient/pages/patient-login/patient-login';
 import { DoctorLogin } from './doctor/pages/doctor-login/doctor-login';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
+import { DoctorAttendanceCreator } from './doctor/pages/doctor-attendance-creator/doctor-attendance-creator';
 
 @NgModule({
   declarations: [
@@ -36,22 +37,22 @@ import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.com
     PatientSearchBar,
     PatientAppointment,
     PatientAppointmentGrid,
-    PatientHomepage,
-    PatientHistory,
     DoctorHomepage,
     DoctorSearchBar,
     DoctorAppointment,
     DoctorAppointmentGrid,
     PatientReport,
     DoctorReport,
-    HeaderComponent,
-    DoctorInfoComponent,
-    PatientLogin,
-    DoctorLogin,
+    Register,
+    PatientHistory,
     AttendanceCreator,
     FillReport,
     UserProfile,
-    Register
+    HeaderComponent,
+    PatientLogin,
+    DoctorLogin,
+    DoctorInfoComponent,
+    DoctorAttendanceCreator,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
   providers: [provideBrowserGlobalErrorListeners()],

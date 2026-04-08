@@ -13,6 +13,7 @@ import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
 import { Register } from './patient/pages/register/register';
+import { DoctorAttendanceCreator } from './doctor/pages/doctor-attendance-creator/doctor-attendance-creator';
 import { DoctorLogin } from './doctor/pages/doctor-login/doctor-login';
 
 const routes: Routes = [
@@ -33,9 +34,11 @@ const routes: Routes = [
     children: [
       { path: 'home', component: DoctorHomepage },
       { path: 'report', component: DoctorReport },
-      { path: 'fill-report', component: FillReport },
       { path: 'patient-history', component: PatientHistory },
-      { path: 'doctor-login', component: DoctorLogin}
+      { path: 'create-appointment', component: DoctorAttendanceCreator },
+      { path: 'fill-report', component: FillReport },
+      { path: 'doctor-login', component: DoctorLogin }
+
     ]
   },
   {path: '', redirectTo: '/patient/patient-login', pathMatch: 'full'}
