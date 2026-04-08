@@ -13,6 +13,7 @@ import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
 import { Register } from './patient/pages/register/register';
+import { DoctorAttendanceCreator } from './doctor/pages/doctor-attendance-creator/doctor-attendance-creator';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
     path: 'doctor', component: Doctor,
     children: [
       { path: 'home', component: DoctorHomepage },
-      { path: 'report', component: DoctorReport }
+      { path: 'report', component: DoctorReport },
+      { path: 'create-appointment', component: DoctorAttendanceCreator }
     ]
   },
   {path: 'login', component: Login},

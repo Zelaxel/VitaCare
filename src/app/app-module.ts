@@ -25,6 +25,7 @@ import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { HeaderComponent } from './shared/header/header.component';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
+import { DoctorAttendanceCreator } from './doctor/pages/doctor-attendance-creator/doctor-attendance-creator';
 
 @NgModule({
   declarations: [
