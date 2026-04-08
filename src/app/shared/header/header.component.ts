@@ -29,6 +29,6 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/patient/patient-login']);
   }
 }
