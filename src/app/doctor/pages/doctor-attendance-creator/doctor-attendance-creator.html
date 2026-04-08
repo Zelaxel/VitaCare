@@ -1,18 +1,13 @@
-<div class="page">
-  <div class="page-title">Creacion y moficiacion citas medicas</div>
-
-  <header class="topbar">
-    <div class="topbar-left">
-      <span class="top-icon">🖼️</span>
-    </div>
-
-    <div class="topbar-right">
-      <span class="user-icon">👤</span>
-      <button class="logout-btn">Log out</button>
-    </div>
-  </header>
+  <app-header [userRole]="'doctor'"></app-header>
 
   <main class="outer-panel">
+
+    <section class="page-buttons">
+      <button onclick="window.history.back()" class="back-button">
+        <img src="/svg/left_arrow.svg" alt="Back">
+      </button>
+    </section>
+
     <section class="form-card">
       <h1>Medical appointment form</h1>
       <div class="title-line"></div>
@@ -143,4 +138,3 @@
       </div>
     </section>
   </main>
-</div>
