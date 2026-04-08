@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Doctor } from "./doctor/doctor";
 import {Patient} from './patient/patient';
-import {Login} from './login/login';
 import {PatientHomepage} from './patient/pages/homepage/patient-homepage';
+import { PatientLogin } from './patient/pages/patient-login/patient-login';
 import {DoctorHomepage} from './doctor/pages/homepage/doctor-homepage';
 import {PatientReport} from './patient/pages/report/patient-report';
 import {DoctorReport} from './doctor/pages/report/doctor-report';
@@ -13,6 +13,7 @@ import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
 import { Register } from './patient/pages/register/register';
+import { DoctorLogin } from './doctor/pages/doctor-login/doctor-login';
 
 const routes: Routes = [
   {
@@ -20,9 +21,10 @@ const routes: Routes = [
     children: [
       { path: 'home', component: PatientHomepage },
       { path: 'report', component: PatientReport },
+      { path: 'doctor-info', component: DoctorInfoComponent },
+      { path: 'patient-login', component: PatientLogin},
       { path: 'register', component: Register},
       { path: 'create-appointment', component: AttendanceCreator},
-      { path: 'doctor-info', component: DoctorInfoComponent},
       { path: 'user-profile', component: UserProfile }
     ]
   },
@@ -32,12 +34,11 @@ const routes: Routes = [
       { path: 'home', component: DoctorHomepage },
       { path: 'report', component: DoctorReport },
       { path: 'fill-report', component: FillReport },
-      { path: 'patient-history', component: PatientHistory }
-
+      { path: 'patient-history', component: PatientHistory },
+      { path: 'doctor-login', component: DoctorLogin}
     ]
   },
-  {path: 'login', component: Login},
-  {path: '', redirectTo: '/patient/home', pathMatch: 'full'}
+  {path: '', redirectTo: '/patient/patient-login', pathMatch: 'full'}
 ];
 
 @NgModule({

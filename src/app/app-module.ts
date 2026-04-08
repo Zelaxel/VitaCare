@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { Doctor } from './doctor/doctor';
 import { Patient } from './patient/patient';
-import { Login } from './login/login';
 import { PatientHomepage } from './patient/pages/homepage/patient-homepage';
 import { PatientSearchBar } from './patient/pages/components/search-bar/patient-search-bar';
 import { PatientAppointment } from './patient/pages/components/appointment/patient-appointment';
@@ -24,31 +23,35 @@ import { AttendanceCreator } from './patient/pages/attendance-creator/attendance
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { HeaderComponent } from './shared/header/header.component';
+import { PatientLogin } from './patient/pages/patient-login/patient-login';
+import { DoctorLogin } from './doctor/pages/doctor-login/doctor-login';
 import { DoctorInfoComponent } from './patient/pages/doctor-info/doctor-info.component';
 
 @NgModule({
   declarations: [
     App,
-     Doctor,
-     Patient,
-     Login,
-     PatientHomepage,
-     PatientSearchBar,
-     PatientAppointment,
-     PatientAppointmentGrid,
-     DoctorHomepage,
-     DoctorSearchBar,
-     DoctorAppointment,
-     DoctorAppointmentGrid,
-     PatientReport,
-     DoctorReport,
-     Register,
-     FillReport,
-     UserProfile,
-     HeaderComponent,
-     DoctorInfoComponent,
-     AttendanceCreator,
-     PatientHistory
+    Doctor,
+    Patient,
+    PatientHomepage,
+    PatientSearchBar,
+    PatientAppointment,
+    PatientAppointmentGrid,
+    PatientHomepage,
+    PatientHistory,
+    DoctorHomepage,
+    DoctorSearchBar,
+    DoctorAppointment,
+    DoctorAppointmentGrid,
+    PatientReport,
+    DoctorReport,
+    HeaderComponent,
+    DoctorInfoComponent,
+    PatientLogin,
+    DoctorLogin,
+    AttendanceCreator,
+    FillReport,
+    UserProfile,
+    Register
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule],
   providers: [provideBrowserGlobalErrorListeners()],
