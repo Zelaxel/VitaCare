@@ -4,8 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-doctor-attendance-creator',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: false,
   templateUrl: './doctor-attendance-creator.html',
   styleUrls: ['./doctor-attendance-creator.css']
 })
