@@ -1,0 +1,34 @@
+<header class="main-header">
+  
+  <div class="header-left"style="cursor: pointer;">
+    <div class="logo-box">
+      <img src="svg\Vital Care (logo).svg"> 
+    </div>
+  </div>
+
+  <div class="header-right">
+
+    <div *ngIf="isDoctor()" class="doctor-menu">
+      <div class="profile-circle">
+        <span>👤</span> 
+      </div>
+      <button class="btn-rounded">Logout</button>
+    </div>
+
+    <div *ngIf="!isDoctor()" class="patient-menu">
+      <div class="profile-circle">
+        <span>👤</span> 
+      </div>
+      
+      <div class="settings-container">
+        <button class="btn-rounded" (click)="toggleSettings()">Settings</button>
+
+        <div class="dropdown-menu" *ngIf="isDropdownMenuOpen">
+          <button>Configuration</button>
+          <button>Logout</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>

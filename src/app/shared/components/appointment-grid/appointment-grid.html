@@ -1,0 +1,31 @@
+<div class="appointment-grid-container">
+  <section id="appointment-grid" #appointmentGrid>
+    @for(appointment of appointments; track appointment.id) {
+      <div class="appointment-container">
+        <app-appointment
+          [id]="appointment.id"
+          [tittle]="appointment.tittle"
+          [doctorName]="appointment.doctorName"
+          [patientName]="appointment.doctorName"
+          [doctorIcon]="appointment.doctorIcon"
+          [patientIcon]="appointment.patientIcon"
+          [description]="appointment.description"
+          [date]="appointment.date"
+          [department]="appointment.department"
+          [active]="appointment.active"
+        ></app-appointment>
+      </div>
+    }
+  </section>
+  <nav class="pagination container">
+    <button (click)="horizontalScroll(-1)" class="scroll-button container">
+      <img src="svg/left_arrow.svg" alt="Previous">
+      Previous
+    </button>
+    <button (click)="horizontalScroll(1)" class="scroll-button container">
+      Next
+      <img src="svg/right_arrow.svg" alt="Next">
+    </button>
+  </nav>
+</div>
+
