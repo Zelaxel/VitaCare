@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppointmentData } from '../appointment/appointmentData';
 import { Appointment } from '../appointment/appointment';
 import { Input, ViewChild, ElementRef } from '@angular/core';
 
@@ -9,8 +10,10 @@ import { Input, ViewChild, ElementRef } from '@angular/core';
   styleUrl: './appointment-grid.css',
 })
 export class AppointmentGrid {
-  @Input() appointments: Appointment[] = [];
+  @Input() appointments: AppointmentData[] = [];
   buttonDisabled: boolean = false;
+
+  @Input() isPatient!: boolean;
 
   @ViewChild("appointmentGrid") grid!: ElementRef;
 

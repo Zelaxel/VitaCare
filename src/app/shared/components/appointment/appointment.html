@@ -1,25 +1,33 @@
 <article [style.background-color]="active? '#63B995' : '#9C9C9C'" ] class="appointment-container">
   <section class="appointment-buttons">
-    <button [style.display]="active? 'flex' : 'none'" class="edit-buton">
-      <img src="svg/edit_pen.svg" alt="edit">
-    </button>
-    <button [style.display]="active? 'flex' : 'none'" class="delete-buton">
-      <img src="svg/trash_can.svg" alt="delete">
-    </button>
-    <button [style.display]="active? 'none' : 'flex'" class="report-button">
-      <img class="report-button" src="svg/info.svg" alt="delete">
-    </button>
+    @if(active) {
+      <button class="edit-buton">
+        <img src="svg/edit_pen.svg" alt="edit">
+      </button>
+      @if(!patientLayaut) {
+        <button class="seal-button">
+          <img src="svg/seal.svg" alt="seal">
+        </button>
+      }
+      <button class="delete-buton">
+        <img src="svg/trash_can.svg" alt="delete">
+      </button>
+    } @else {
+      <button class="report-button">
+        <img class="report-button" src="svg/info.svg" alt="delete">
+      </button>
+    }
   </section>
-  <h1>{{tittle}}</h1>
-  @if(isPatient()) {
-    <button class="doctor-button">
-        <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="doctor icon">
-        {{doctorName}}
-    </button>
-  } else {
+  <h1>{{title}}</h1>
+  @if(patientLayaut) {
     <button class="patient-button">
         <img [src]=patientIcon (error)="patientIcon='svg/missing_user.svg'" alt="user icon">
         {{patientName}}
+    </button>
+  } @else {
+    <button class="doctor-button">
+        <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="doctor icon">
+        {{doctorName}}
     </button>
   }
   <p class="description">{{description}}</p>
@@ -28,4 +36,3 @@
     <label class="date-label">{{date}}</label>
   </footer>
 </article>
-

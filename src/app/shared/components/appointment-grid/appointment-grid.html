@@ -1,18 +1,19 @@
 <div class="appointment-grid-container">
   <section id="appointment-grid" #appointmentGrid>
-    @for(appointment of appointments; track appointment.id) {
+    @for(appointmentData of appointments; track appointmentData.id) {
       <div class="appointment-container">
         <app-appointment
-          [id]="appointment.id"
-          [tittle]="appointment.tittle"
-          [doctorName]="appointment.doctorName"
-          [patientName]="appointment.doctorName"
-          [doctorIcon]="appointment.doctorIcon"
-          [patientIcon]="appointment.patientIcon"
-          [description]="appointment.description"
-          [date]="appointment.date"
-          [department]="appointment.department"
-          [active]="appointment.active"
+          [id]="appointmentData.id"
+          [title]="appointmentData.title"
+          [doctorName]="appointmentData.doctorName"
+          [patientName]="appointmentData.patientName"
+          [doctorIcon]="appointmentData.doctorIcon"
+          [patientIcon]="appointmentData.patientIcon"
+          [description]="appointmentData.description"
+          [date]="appointmentData.date"
+          [department]="appointmentData.department"
+          [active]="appointmentData.active"
+          [patientLayaut]="isPatient"
         ></app-appointment>
       </div>
     }

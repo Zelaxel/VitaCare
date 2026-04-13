@@ -52,7 +52,7 @@ h1 {
   font-size: 1rem;
 }
 
-.doctor-button img {
+.patient-button img, .doctor-button img {
   border-radius: 100%;
   background-color: #EADDFF;
 }
