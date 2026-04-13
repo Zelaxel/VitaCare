@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   templateUrl: './header.html',
   styleUrl: './header.css',
-  imports: [NgIf]
+  imports: [CommonModule, RouterLink]
 })
 export class Header {
   
@@ -31,9 +31,5 @@ export class Header {
     } else {
       this.router.navigate(['/patient']);
     }
-  }
-
-  logout() {
-    this.router.navigate(['/patient/patient-login']);
   }
 }

@@ -1,0 +1,150 @@
+:host {
+  --green-card: #6abf98;
+  --input-bg: #e2e2e2;
+  --dark-header: #3b6572;
+}
+
+.page-buttons {
+  max-width: 970px;
+  width: 100%;
+}
+
+.back-button{
+  border: none;
+  background: none;
+  height: 3rem;
+}
+
+.back-button img {
+  height: 100%;
+  width: 100%;
+}
+
+.profile-container {
+  padding: 40px 20px;
+  background-color: #d8d8d8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-card {
+  background-color: var(--green-card);
+  width: 100%;
+  max-width: 950px;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.avatar-container {
+  width: 130px;
+  height: 130px;
+  background-color: #d8d8d8;
+  border-radius: 50%;
+  border: 5px solid var(--dark-header);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatar-img { width: 60%; height: auto; }
+
+.profile-name-section h1 {
+  font-size: 40px;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.header-divider {
+  border: none;
+  border-top: 3px solid var(--dark-header);
+  margin-top: 10px;
+}
+
+/* Form Layout */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.col-1 { flex: 1; }
+.col-3 { flex: 3; }
+.col-4 { flex: 4; }
+.col-6 { flex: 6; }
+.col-8 { flex: 8; }
+
+label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #1a1a1a;
+}
+
+input {
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+/* Date e Telefono */
+.date-row {
+  display: flex;
+  gap: 5px;
+}
+
+.date-row input { text-align: center; width: 100%; }
+
+.phone-row {
+  display: flex;
+  gap: 5px;
+}
+
+.prefix-label {
+  background-color: var(--input-bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+/* Bottone Salva */
+.save-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.save-btn {
+  background-color: var(--dark-header);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 50px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.save-btn:hover { opacity: 0.9; }

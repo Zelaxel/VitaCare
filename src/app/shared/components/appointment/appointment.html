@@ -2,10 +2,10 @@
   <section class="appointment-buttons">
     @if(active) {
       <button class="edit-buton">
-        <img src="svg/edit_pen.svg" alt="edit">
+        <img [routerLink]="['../create-appointment']" src="svg/edit_pen.svg" alt="edit">
       </button>
       @if(!patientLayaut) {
-        <button class="seal-button">
+        <button [routerLink]="['/doctor/fill-report']" class="seal-button">
           <img src="svg/seal.svg" alt="seal">
         </button>
       }
@@ -13,21 +13,21 @@
         <img src="svg/trash_can.svg" alt="delete">
       </button>
     } @else {
-      <button class="report-button">
+      <button [routerLink]="['../report']" class="report-button">
         <img class="report-button" src="svg/info.svg" alt="delete">
       </button>
     }
   </section>
   <h1>{{title}}</h1>
   @if(patientLayaut) {
-    <button class="patient-button">
-        <img [src]=patientIcon (error)="patientIcon='svg/missing_user.svg'" alt="user icon">
-        {{patientName}}
-    </button>
-  } @else {
-    <button class="doctor-button">
+    <button [routerLink]="['/patient/doctor-info']" class="doctor-button">
         <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="doctor icon">
         {{doctorName}}
+    </button>
+  } @else {
+    <button [routerLink]="['/doctor/patient-history']" class="patient-button">
+        <img [src]=patientIcon (error)="patientIcon='svg/missing_user.svg'" alt="user icon">
+        {{patientName}}
     </button>
   }
   <p class="description">{{description}}</p>

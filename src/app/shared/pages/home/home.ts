@@ -3,12 +3,12 @@ import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
 import { Header } from '../../components/header/header';
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [SearchBar, AppointmentGrid, Header],
+  imports: [SearchBar, AppointmentGrid, Header, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

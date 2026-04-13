@@ -1,0 +1,135 @@
+<app-header></app-header>
+<div class="profile-container">
+  
+  <section class="page-buttons">
+    <button onclick="window.history.back()" class="back-button">
+      <img src="/svg/left_arrow.svg" alt="Back">
+    </button>
+  </section>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar-container">
+        <img src="assets/svg/user_placeholder.svg" alt="Profile Picture" class="avatar-img">
+      </div>
+      <div class="profile-name-section">
+        <h1>{{ userData.name }} {{ userData.surname }} - PATIENT</h1>
+        <hr class="header-divider">
+      </div>
+    </div>
+
+    <form class="edit-form">
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label>Name</label>
+          <input type="text" [(ngModel)]="userData.name" name="name">
+        </div>
+        <div class="form-group col-6">
+          <label>Surname</label>
+          <input type="text" [(ngModel)]="userData.surname" name="surname">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-4">
+          <label>Birth date</label>
+          <div class="date-row">
+            <input type="text" placeholder="DD" [(ngModel)]="userData.birthDate.dd" name="b-dd">
+            <input type="text" placeholder="MM" [(ngModel)]="userData.birthDate.mm" name="b-mm">
+            <input type="text" placeholder="YYYY" [(ngModel)]="userData.birthDate.yyyy" name="b-yyyy">
+          </div>
+        </div>
+        <div class="form-group col-4">
+          <label>Birth place</label>
+          <input type="text" [(ngModel)]="userData.birthPlace" name="b-place">
+        </div>
+        <div class="form-group col-4">
+          <label>Nationality</label>
+          <input type="text" [(ngModel)]="userData.nationality" name="nat">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-8">
+          <label>Address</label>
+          <input type="text" [(ngModel)]="userData.address" name="addr">
+        </div>
+        <div class="form-group col-1">
+          <label>Nº</label>
+          <input type="text" [(ngModel)]="userData.addressNo" name="addr-no">
+        </div>
+        <div class="form-group col-3">
+          <label>Postal Code</label>
+          <input type="text" [(ngModel)]="userData.postalCode" name="pc">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label>City</label>
+          <input type="text" [(ngModel)]="userData.city" name="city">
+        </div>
+        <div class="form-group col-6">
+          <label>Country</label>
+          <input type="text" [(ngModel)]="userData.country" name="country">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-4">
+          <label>Identity Document</label>
+          <input type="text" [(ngModel)]="userData.idDocument" name="id-doc">
+        </div>
+        <div class="form-group col-4">
+          <label>Issuing Country</label>
+          <input type="text" [(ngModel)]="userData.idIssuingCountry" name="id-iss">
+        </div>
+        <div class="form-group col-4">
+          <label>Expiry date</label>
+          <div class="date-row">
+            <input type="text" placeholder="DD" [(ngModel)]="userData.idExpiry.dd" name="id-dd">
+            <input type="text" placeholder="MM" [(ngModel)]="userData.idExpiry.mm" name="id-mm">
+            <input type="text" placeholder="YYYY" [(ngModel)]="userData.idExpiry.yyyy" name="id-yyyy">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-4">
+          <label>Sanitary Document</label>
+          <input type="text" [(ngModel)]="userData.sanitaryDocument" name="san-doc">
+        </div>
+        <div class="form-group col-4">
+          <label>Issuing Country</label>
+          <input type="text" [(ngModel)]="userData.sanitaryIssuingCountry" name="san-iss">
+        </div>
+        <div class="form-group col-4">
+          <label>Expiry date</label>
+          <div class="date-row">
+            <input type="text" placeholder="DD" [(ngModel)]="userData.sanitaryExpiry.dd" name="san-dd">
+            <input type="text" placeholder="MM" [(ngModel)]="userData.sanitaryExpiry.mm" name="san-mm">
+            <input type="text" placeholder="YYYY" [(ngModel)]="userData.sanitaryExpiry.yyyy" name="san-yyyy">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-4">
+          <label>Telephone number</label>
+          <div class="phone-row">
+            <span class="prefix-label">{{ userData.phonePrefix }}</span>
+            <input type="text" [(ngModel)]="userData.phoneNumber" name="phone">
+          </div>
+        </div>
+        <div class="form-group col-8">
+          <label>Email Address</label>
+          <input type="email" [(ngModel)]="userData.email" name="email">
+        </div>
+      </div>
+
+      <div class="save-container">
+        <button onclick="window.history.back()" type="button" class="save-btn" (click)="saveProfile()">Save changes</button>
+      </div>
+    </form>
+  </div>
+</div>

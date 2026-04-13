@@ -1,0 +1,83 @@
+<div class="register-container">
+    <img src="svg\Vital Care (logo).svg"> 
+    <hr class="separator">
+
+    <div class="register-forms">
+        <label>ID / Passport</label>
+        <input type="text" id="passport">
+    </div>
+
+    <div class="registration-row">
+        <div class="expiration-group">
+            <label>Expiration date</label>
+            <div class="date-inputs">
+                <input type="text" placeholder="DD" maxlength="2">
+                <input type="text" placeholder="MM" maxlength="2">
+                <input type="text" placeholder="YYYY" maxlength="4">
+            </div>
+        </div>
+
+        <div class="gender-group">
+            <label class="custom-checkbox">
+            <input type="radio" name="gender" value="men">
+            <span class="checkmark"></span>Men</label>
+            <label class="custom-checkbox">
+            <input type="radio" name="gender" value="woman">
+            <span class="checkmark"></span>Woman</label>
+        </div>
+    </div>
+
+    <div class="register-forms">
+        <label>Email</label>
+        <input type="email" id="email">
+    </div>
+
+    <div class="register-forms">
+        <label>Telephone number</label>
+        <input type="text" id="telephone" placeholder="+34">
+    </div>
+
+    <div class="register-forms">
+        <label for="email">Email</label>
+        <input type="email" id="email">
+    </div>
+
+    <div class="register-forms">
+        <label >Health card number</label>
+        <input type="text" id="card-number">
+    </div>
+
+    <div class="register-forms">
+        <label for="password">Password</label>
+        <div class="input-group">
+            <input type="password" id="password" #pass1>
+            
+            <img 
+                [src]="pass1.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
+                (click)="pass1.type = pass1.type === 'password' ? 'text' : 'password'"
+                class="toggle-icon"
+            >
+        </div>
+    </div>
+
+    <div class="register-forms">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-group">
+            <input type="password" id="confirmPassword" #pass2>
+            
+            <img 
+                [src]="pass2.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
+                (click)="pass2.type = pass2.type === 'password' ? 'text' : 'password'"
+                class="toggle-icon"
+            >
+        </div>
+    </div>
+
+    <button [routerLink]="['/login/log-in']" aria-label="Close">Register</button>
+    
+    <hr class="separator">
+
+    <a href="...">Request technical support</a>
+    <a [routerLink]= "['/login/log-in']">Sign-in</a>
+</div>
+

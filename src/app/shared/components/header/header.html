@@ -12,7 +12,7 @@
       <div class="profile-circle">
         <span>👤</span> 
       </div>
-      <button class="btn-rounded">Logout</button>
+      <button [routerLink]="['/']" class="btn-rounded">Logout</button>
     </div>
 
     <div *ngIf="!isDoctor()" class="patient-menu">
@@ -24,8 +24,8 @@
         <button class="btn-rounded" (click)="toggleSettings()">Settings</button>
 
         <div class="dropdown-menu" *ngIf="isDropdownMenuOpen">
-          <button>Configuration</button>
-          <button>Logout</button>
+          <button [routerLink]="['/patient/user-profile']">Configuration</button>
+          <button [routerLink]="['/']">Logout</button>
         </div>
       </div>
     </div>

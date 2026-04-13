@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-appointment',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './appointment.html',
   styleUrl: './appointment.css',
 })
