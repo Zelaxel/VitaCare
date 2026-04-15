@@ -1,7 +1,2 @@
-from fastapi import FastAPI
+from sqlmodel import create_engine, SQLModel, Session
 
-app = FastAPI()
-
-@app.get("/")
-async def root():
-    return [{'message': 'hello word!'}, {'message': 'hello word!'}]
