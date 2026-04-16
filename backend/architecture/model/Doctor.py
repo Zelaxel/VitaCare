@@ -1,7 +1,8 @@
-from dataclasses import dataclass, Field
+from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Doctor:
-    credentials: str = Field(default=None, primary_key=True)
+    credentials: str
     name: str
     surname: str
+    department: str
