@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from architecture.model.Doctor import Doctor
+from architecture.model.doctor import Doctor
 
-class DoctorStorer(ABC):
+class Doctor_storer(ABC):
     @abstractmethod
     def store(self, doctor: Doctor) -> None:
         """Store doctor."""

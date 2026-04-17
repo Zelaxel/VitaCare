@@ -6,3 +6,4 @@ class Doctor:
     name: str
     surname: str
     department: str
+    password: str
