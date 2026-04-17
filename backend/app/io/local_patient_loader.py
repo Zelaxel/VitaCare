@@ -10,7 +10,7 @@ class Local_patient_loader(Patient_loader):
         self.__engine = engine
     
     @staticmethod
-    def __to_patient(patient_data: Patient_data):
+    def __to_patient(patient_data: Patient_data) -> Patient:
         return Patient(
             identity_document = patient_data.identity_document,
             identity_document_country = patient_data.identity_document_country,
@@ -32,3 +32,9 @@ class Local_patient_loader(Patient_loader):
             password = patient_data.password,
             is_man = patient_data.is_man
         )
+
+    def load(self, identity_document: str) -> Patient:
+        with Session(self.__engine) as session:
+            statement = select(Patient_data).where(Patient_data.identity_document == identity_document)
+            patient_data = session.exec(statement).first()
+            return self.__to_patient(patient_data) if patient_data else None

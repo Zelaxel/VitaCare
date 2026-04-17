@@ -13,16 +13,15 @@ class Local_doctor_storer(Doctor_storer):
     def __toDoctorData(doctor: Doctor) -> Doctor_data:
         """Maps doctor to DoctorData."""
         return Doctor_data(
-                credentials=doctor.credentials,
-                name=doctor.name,
-                surname=doctor.surname,
-                department=doctor.department,
-                password=doctor.password
-                )
+            credentials=doctor.credentials,
+            name=doctor.name,
+            surname=doctor.surname,
+            department=doctor.department,
+            password=doctor.password
+        )
     
-    def store(self, doctor):
+    def store(self, doctor) -> None:
         """Store doctor."""
         with Session(self.__engine) as session:
-            doctorData = self.__toDoctorData(doctor)
-            session.add(doctorData)
+            session.add(self.__toDoctorData(doctor))
             session.commit()
