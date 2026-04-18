@@ -30,7 +30,6 @@ class Local_patient_loader(Patient_loader):
             phone_number = patient_data.phone_number,
             mail = patient_data.mail,
             password = patient_data.password,
-            is_man = patient_data.is_man
         )
 
     def load(self, identity_document: str) -> Patient:

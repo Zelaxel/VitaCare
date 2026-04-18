@@ -4,15 +4,14 @@ from typing import Optional
 
 class Patient_data(SQLModel, table=True):
     identity_document: str = Field(primary_key=True)
+    identity_document_expire: date
     sanitary_document: str
+    sanitary_document_expire: date
     phone_number: int
     mail: str
     password: str
-    is_man: bool
     identity_document_country: Optional[str] = Field(default=None)
-    identity_document_expire: Optional[date] = Field(default=None)
     sanitary_document_country: Optional[str] = Field(default=None)
-    sanitary_document_expire: Optional[date] = Field(default=None)
     name: Optional[str] = Field(default=None)
     surname: Optional[str] = Field(default=None)
     birth_date: Optional[date] = Field(default=None)

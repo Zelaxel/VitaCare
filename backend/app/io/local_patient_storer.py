@@ -30,7 +30,6 @@ class Local_patient_storer(Patient_storer):
             phone_number = patient_data.phone_number,
             mail = patient_data.mail,
             password = patient_data.password,
-            is_man = patient_data.is_man
         )
     
     def store(self, patient: Patient) -> None:
