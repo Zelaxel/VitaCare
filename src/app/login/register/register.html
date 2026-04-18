@@ -3,77 +3,114 @@
     <hr class="separator">
 
     <div class="register-forms">
-        <label>ID / Passport</label>
-        <input type="text" id="passport">
+        <label for="passport">ID / Passport</label>
+        <div class="input-wrapper">
+            <input type="text" id="passport" [(ngModel)]="id" (blur)="markAsTouched('id')">
+            @if (isIdInvalid) {
+                <span class="error-icon">!</span>
+                <small class="error-text">The format must be 8 numbers and one valid letter.</small>
+            }
+        </div>
     </div>
 
-    <div class="registration-row">
-        <div class="expiration-group">
-            <label>Expiration date</label>
-            <div class="date-inputs">
-                <input type="text" placeholder="DD" maxlength="2">
-                <input type="text" placeholder="MM" maxlength="2">
-                <input type="text" placeholder="YYYY" maxlength="4">
+    @if (touchedFields['id'] && !isIdInvalid && id !== "") {
+        <div class="registration-row fade-in">
+            <div class="date-forms">
+                <label>Expiration Date</label>
+                <div class="input-wrapper">
+                    <input type="date" 
+                        class="single-date-input" 
+                        [(ngModel)]="calendarValue" 
+                        (blur)="markAsTouched('date')">
+                    
+                    @if (isDateInvalid) {
+                        <small class="error-text">Please specify a valid expiration date.</small>
+                    }
+                </div>
             </div>
         </div>
-
-        <div class="gender-group">
-            <label class="custom-checkbox">
-            <input type="radio" name="gender" value="men">
-            <span class="checkmark"></span>Men</label>
-            <label class="custom-checkbox">
-            <input type="radio" name="gender" value="woman">
-            <span class="checkmark"></span>Woman</label>
-        </div>
-    </div>
-
-    <div class="register-forms">
-        <label>Email</label>
-        <input type="email" id="email">
-    </div>
-
-    <div class="register-forms">
-        <label>Telephone number</label>
-        <input type="text" id="telephone" placeholder="+34">
-    </div>
+    }
+    
+    
 
     <div class="register-forms">
         <label for="email">Email</label>
-        <input type="email" id="email">
+        <div class="input-wrapper">
+            <input type="email" id="email" [(ngModel)]="email" (blur)="markAsTouched('email')">
+            @if (isEmailInvalid) {
+                <span class="error-icon">!</span>
+                <small class="error-text">Invalid email format. (e.g.: usuario@gmail.com / usuario@hotmail.com)</small>
+            }
+        </div>
     </div>
 
     <div class="register-forms">
-        <label >Health card number</label>
-        <input type="text" id="card-number">
+        <label for="telephone">Telephone number</label>
+        <div class="input-wrapper">
+            <input type="text" id="telephone" placeholder="+34" [(ngModel)]="telephoneNumber" (input)="formatTelephone($event)" 
+            (keypress)="onlyNumbers($event)" (blur)="markAsTouched('telephone')">
+            @if (isTelephoneInvalid) {
+                <span class="error-icon">!</span>
+                <small class="error-text">The number should only have 9 digits.</small>
+            }
+        </div>
+    </div>
+
+    <div class="register-forms">
+        <label for="card-number">Health card number</label>
+        <div class="input-wrapper">
+            <input type="text" id="card-number" [(ngModel)]="healthCardNumber" (blur)="markAsTouched('card')">
+            @if (isCardInvalid) {
+                <span class="error-icon">!</span>
+                <small class="error-text">Incorrect format (e.g.: AA 12345678).</small>
+            }
+        </div>
     </div>
 
     <div class="register-forms">
         <label for="password">Password</label>
         <div class="input-group">
-            <input type="password" id="password" #pass1>
-            
+            <input type="password" id="password" [(ngModel)]="password" (blur)="markAsTouched('password')" #pass1>
             <img 
                 [src]="pass1.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
                 (click)="pass1.type = pass1.type === 'password' ? 'text' : 'password'"
-                class="toggle-icon"
-            >
+                class="toggle-icon">
+            <div class="input-wrapper_v2">
+                @if (isPasswordInvalid) {
+                    <span class="error-icon" style="right: 40px;">!</span>
+                    <small class="error-text">The password cannot be less than 8 characters.</small>
+                }
+            </div>
         </div>
     </div>
 
-    <div class="register-forms">
-        <label for="confirmPassword">Confirm Password</label>
-        <div class="input-group">
-            <input type="password" id="confirmPassword" #pass2>
-            
-            <img 
-                [src]="pass2.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
-                (click)="pass2.type = pass2.type === 'password' ? 'text' : 'password'"
-                class="toggle-icon"
-            >
+    @if (touchedFields['password'] && !isPasswordInvalid && password !== ""){
+        <div class="register-forms fade-in">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" (blur)="markAsTouched('confirmPassword')" #pass2>
+                <img 
+                    [src]="pass2.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
+                    (click)="pass2.type = pass2.type === 'password' ? 'text' : 'password'"
+                    class="toggle-icon">
+                <div class="input-wrapper_v2">
+                    @if (isConfirmPasswordInvalid) {
+                        <span class="error-icon" style="right: 40px;">!</span>
+                        <small class="error-text">The passwords do not match.</small>
+                    }
+                </div>
+            </div>
         </div>
-    </div>
+    }
+    
 
-    <button [routerLink]="['/login/log-in']" aria-label="Close">Register</button>
+    <button aria-label="Close" (click)="onRegister()">Register</button>
+
+    @if (loginErrorMessage) {
+        <div class="global-error-banner">
+            {{ loginErrorMessage }}
+        </div>
+    }
     
     <hr class="separator">
 

@@ -39,15 +39,19 @@
 .register-forms input {
     width: 100%;
     padding: 12px;
+    padding-right: 45px;
     border-radius: 10px;
     border: none;
     background-color: #d9d9d9;
     font-size: 14px;
+    box-sizing: border-box;
 }
+
+
 
 .registration-row {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 20px;
   font-family: sans-serif;
 }
@@ -59,7 +63,6 @@
 .registration-row label {
   display: block;
   font-weight: bold;
-  margin-bottom: 8px;
 }
 
 /* Inputs de fecha */
@@ -133,6 +136,14 @@
     width: 100%; /* O el ancho que desees para el input */
 }
 
+.input-wrapper, .input-group {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; /* Permite que el error baje a la siguiente línea */
+    align-items: center;
+}
+
 #password {
     width: 100%;
     padding-right: 40px;
@@ -147,14 +158,36 @@
     background: none;
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 22px;
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.2s;
-    z-index: 2;
+    z-index: 10;
+}
+
+.input-wrapper .error-icon {
+    position: absolute;
+    right: 15px;
+    top: 25%;
+    transform: translateY(-50%);
+    color: #701616;
+    font-weight: bold;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.input-wrapper_v2 .error-icon {
+    position: absolute;
+    right: 40px;
+    top: 25%;
+    transform: translateY(-50%);
+    color: #701616;
+    font-weight: bold;
+    z-index: 5;
+    pointer-events: none;
 }
 
 button {
@@ -184,6 +217,74 @@ button:hover {
 .register-container a:hover {
     text-decoration: underline;
 }
+
+.error-text {
+    display: block;      /* Asegura que ocupe su propia línea debajo del input */
+    width: 100%;         /* Se ajusta al ancho del contenedor */
+    margin-top: 8px;     /* Espacio entre el input y el mensaje */
+    padding: 8px 12px;   /* Espacio interno para que el texto no toque los bordes */
+    
+    /* Estilos de recuadro */
+    background-color: rgba(255, 77, 77, 0.4); /* Color rojo con 0.4 de opacidad */
+    color: #ffffff;      /* Blanco para mejor contraste sobre el fondo semi-transparente */
+    border: 1px solid #ff4d4d;
+    border-radius: 6px;
+    
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+}
+
+.global-error-banner {
+    background-color: rgba(112, 22, 22, 0.4); /* Rojo oscuro con opacidad */
+    color: #ffffff;
+    border: 2px solid #701616;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease-in-out; /* Una pequeña animación para que no aparezca de golpe */
+}
+
+.date-forms {
+    margin-bottom: 20px;
+}
+
+.date-forms label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #1f1f1f;
+    font-size: 18px;
+}
+
+.date-forms input {
+    width: auto;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: #d9d9d9;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.fade-in {
+    animation: slideDown 0.4s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 @media (max-width: 768px) {
     .register-container {

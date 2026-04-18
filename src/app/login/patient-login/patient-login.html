@@ -9,14 +9,30 @@
     </div>
 
     <div class="login-forms">
-        <label for="passport">ID / Passport</label>
-        <input type="text" id="passport">
+        <label for="id">ID / Passport</label>
+        <div class="input-wrapper"> 
+            <input type="text" [(ngModel)]="id" id="id">
+            @if (isIdInvalid) {
+                <span class="error-icon">!</span>
+                <small class="error-text">
+                    The format must be 8 numbers and one valid letter.
+                </small>
+            }
+        </div>
     </div>
 
     <div class="login-forms">
         <label for="password">Password</label>
         <div class="input-group">
-            <input type="password" id="password" #passwordInput>
+            <input type="password" [(ngModel)]="password" id="password" #passwordInput>
+            <div class="input-wrapper_v2">
+                @if (isPasswordInvalid) {
+                    <span class="error-icon">!</span>
+                    <small class="error-text">
+                        Minimum 8 characters, one uppercase letter, one number and one symbol.
+                    </small>
+                }
+            </div>
             
             <img 
             [src]="passwordInput.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
@@ -26,9 +42,13 @@
         </div>
     </div>
 
-    <a [routerLink]="['/patient']">
-        <button aria-label="Close">Sign in</button>
-    </a>
+    @if (loginErrorMessage) {
+    <div class="global-error-banner">
+        {{ loginErrorMessage }}
+    </div>
+}
+
+    <button aria-label="Close" (click)="onLogin()">Sign in</button>
     
     <hr class="separator">
 
