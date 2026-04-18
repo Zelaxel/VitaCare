@@ -10,13 +10,13 @@
 
     <div class="login-forms">
         <label for="credentials">Credentials</label>
-        <input type="text" id="credentials">
+        <input type="text" [(ngModel)]="loginData.credentials" id="credentials">
     </div>
 
     <div class="login-forms">
         <label for="password">Password</label>
         <div class="input-group">
-            <input type="password" id="password" #passwordInput>
+            <input type="password" [(ngModel)]="loginData.password" id="password" #passwordInput>
             
             <img 
             [src]="passwordInput.type === 'password' ? 'svg/eye-closed.svg' : 'svg/eye.svg'" 
@@ -26,9 +26,13 @@
         </div>
     </div>
 
-    <a [routerLink]="['/doctor/home']">
-        <button aria-label="Close">Sign in</button>
-    </a>
+    @if (loginErrorMessage) {
+        <div class="global-error-banner">
+            {{ loginErrorMessage }}
+        </div>
+    }
+
+    <button type="button" (click)="onLogin()" aria-label="Close">Sign in</button>
     
     <hr class="separator">
 
