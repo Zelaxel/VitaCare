@@ -1,5 +1,7 @@
 import os
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException as HttpException
 from dataclasses import asdict
 from sqlmodel import create_engine, SQLModel
 from architecture.model.doctor import Doctor
@@ -26,6 +28,13 @@ doctor_loader: Doctor_loader = Local_doctor_loader(engine)
 patient_loader: Patient_loader = Local_patient_loader(engine)
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"], # El puerto de tu Angular
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialization -------------------------------------------------------
 
@@ -51,7 +60,8 @@ print("Database initialized with doctors")
 @app.get("/patient/{identity_document}")
 def get_patient(identity_document: str) -> dict:
     patient = patient_loader.load(identity_document)
-    return asdict(patient) if patient else {"message": "Patient not found"}
+    if not patient: raise HttpException(status_code=404, detail="Patient not found")
+    return asdict(patient)
 
 @app.post("/patient/")
 def create_patient(patient: Patient) -> dict:
@@ -59,11 +69,11 @@ def create_patient(patient: Patient) -> dict:
         patient_storer.store(patient)
         return {"message": "Patient created successfully", "patient": asdict(patient)}
     except IntegrityError:
-        return {"message": "Patient with this identity document already exists"}
+        raise HttpException(status_code=409, detail="Patient already exists")
 
 # Doctors
 @app.get("/doctor/{credentials}")
 def get_doctor(credentials: str) -> dict:
-    print(doctor_loader.load('0'))
     doctor = doctor_loader.load(credentials)
-    return asdict(doctor) if doctor else {"message": "Doctor not found"}
+    if not doctor: raise HttpException(status_code=404, detail="Doctor not found")
+    return asdict(doctor)
