@@ -45,3 +45,9 @@ Thumbs.db
 
 # Local database file
 *.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
