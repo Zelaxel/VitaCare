@@ -13,8 +13,13 @@ import { CommonModule } from '@angular/common';
 export class Header {
   
   isDropdownMenuOpen: boolean = false;
+  doctorName: string | null = '';
   
   constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.doctorName = localStorage.getItem('doctor_surname');
+  }
 
   isDoctor(): boolean {
     return this.router.url.includes('/doctor');
@@ -24,7 +29,11 @@ export class Header {
     this.isDropdownMenuOpen = !this.isDropdownMenuOpen;
   }
 
-  // volver a la home en base al usuario
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/']);
+  }
+
   goHome() {
     if (!this.isDoctor()) {
       this.router.navigate(['/doctor']);

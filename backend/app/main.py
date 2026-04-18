@@ -13,6 +13,7 @@ from app.io.local_patient_loader import Local_patient_loader
 from architecture.io.patient_storer import Patient_storer
 from architecture.io.patient_loader import Patient_loader
 from sqlalchemy.exc import IntegrityError
+from fastapi.middleware.cors import CORSMiddleware
 
 # Variables -------------------------------------------------------
 
@@ -46,6 +47,23 @@ for doctor in doctors:
 print("Database initialized with doctors")
 
 # API -------------------------------------------------------
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Doctors verification 
+@app.post("/login/doctor-log-in")
+def login_doctor(data: dict) -> dict:
+    doctor = doctor_loader.load(data.get("credentials"))
+    
+    if doctor and str(doctor.password) == str(data.get("password")):
+        return {"status": "success", "message": "Login correcto", "doctor": asdict(doctor)}
+    else:
+        return {"status": "error", "message": "Credenciales inválidas"}
 
 # Patients
 @app.get("/patient/{identity_document}")

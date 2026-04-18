@@ -103,16 +103,15 @@ export class Register {
   }
 
   onRegister() {
-    // Importante: Al dar click en registrar, marcamos TODO como tocado
     Object.keys(this.touchedFields).forEach(key => this.touchedFields[key] = true);
 
     const isFormValid = 
       !this.isIdInvalid && 
       !this.isPasswordInvalid && 
       !this.isConfirmPasswordInvalid && 
-      this.password !== "" &&           // Que no esté vacío
-      this.confirmPassword !== "" &&    // Que la confirmación tampoco esté vacía
-      this.password === this.confirmPassword; // Doble check de seguridad
+      this.password !== "" &&
+      this.confirmPassword !== "" &&
+      this.password === this.confirmPassword;
 
     if (isFormValid) {
       this.router.navigate(['/login/log-in']);

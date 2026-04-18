@@ -124,6 +124,19 @@ button:hover {
     margin-top: 0;
 }
 
+.global-error-banner {
+    background-color: rgba(112, 22, 22, 0.4);
+    color: #ffffff;
+    border: 2px solid #701616;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
 @media (max-width: 768px) {
     .login-container {
         width: 80%;

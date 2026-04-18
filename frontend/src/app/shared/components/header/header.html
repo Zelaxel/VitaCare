@@ -1,9 +1,14 @@
 <header class="main-header">
   
-  <div class="header-left"style="cursor: pointer;">
+  <div class="header-left" style="cursor: pointer;">
     <div class="logo-box">
       <img src="svg\Vital Care (logo).svg"> 
     </div>
+    @if (isDoctor() && doctorName) {
+      <span class="welcome-msg">
+        Bienvenido, Dr. {{ doctorName }}
+      </span>
+    }
   </div>
 
   <div class="header-right">
