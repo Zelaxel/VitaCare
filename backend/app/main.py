@@ -1,4 +1,3 @@
-import os
 from datetime import date
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,17 +5,20 @@ from fastapi import HTTPException as HttpException
 from dataclasses import asdict
 from sqlmodel import create_engine, SQLModel
 from architecture.model.doctor import Doctor
-from app.io.local_doctor_storer import Local_doctor_storer
-from app.io.local_doctor_loader import Local_doctor_loader
+from architecture.model.patient import Patient
 from architecture.io.doctor_storer import Doctor_storer
 from architecture.io.doctor_loader import Doctor_loader
-from architecture.model.patient import Patient
-from app.io.local_patient_storer import Local_patient_storer
-from app.io.local_patient_loader import Local_patient_loader
 from architecture.io.patient_storer import Patient_storer
 from architecture.io.patient_loader import Patient_loader
+from architecture.io.patient_updater import Patient_updater
+from app.io.local_doctor_storer import Local_doctor_storer
+from app.io.local_doctor_loader import Local_doctor_loader
+from app.io.local_patient_storer import Local_patient_storer
+from app.io.local_patient_loader import Local_patient_loader
+from app.io.local_patient_updater import Local_patient_updater
 from sqlalchemy.exc import IntegrityError
 from fastapi.middleware.cors import CORSMiddleware
+
 
 # Variables -------------------------------------------------------
 
@@ -28,6 +30,7 @@ doctor_storer: Doctor_storer = Local_doctor_storer(engine)
 patient_storer: Patient_storer = Local_patient_storer(engine)
 doctor_loader: Doctor_loader = Local_doctor_loader(engine)
 patient_loader: Patient_loader = Local_patient_loader(engine)
+patient_updater: Patient_updater = Local_patient_updater(engine)
 
 app = FastAPI()
 app.add_middleware(
@@ -104,6 +107,18 @@ def create_patient(patient: Patient) -> dict:
         return {"message": "Patient created successfully", "patient": asdict(patient)}
     except IntegrityError:
         raise HttpException(status_code=409, detail="Patient already exists")
+    
+@app.put("/patient/{identity_document}")
+def update_patient(identity_document: str, updated_patient: Patient) -> dict:
+    existing_patient = patient_loader.load(identity_document)
+    if not existing_patient:
+        raise HttpException(status_code=404, detail="Patient not found")
+    
+    try:
+        patient_storer.update(updated_patient)
+        return {"message": "Patient updated successfully", "patient": asdict(updated_patient)}
+    except IntegrityError:
+        raise HttpException(status_code=409, detail="Conflict while updating patient")
 
 # Doctors
 @app.get("/doctor/{credentials}")
