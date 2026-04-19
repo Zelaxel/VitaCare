@@ -23,7 +23,7 @@ class Local_patient_loader(Patient_loader):
             birth_date = patient_data.birth_date,
             birth_country = patient_data.birth_country,
             nationality = patient_data.nationality,
-            adress = patient_data.adress,
+            address = patient_data.address,
             postal_code = patient_data.postal_code,
             city = patient_data.city,
             country = patient_data.country,

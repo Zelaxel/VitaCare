@@ -17,7 +17,7 @@ class Patient_data(SQLModel, table=True):
     birth_date: Optional[date] = Field(default=None)
     birth_country: Optional[str] = Field(default=None)
     nationality: Optional[str] = Field(default=None)
-    adress: Optional[str] = Field(default=None)
+    address: Optional[str] = Field(default=None)
     postal_code: Optional[int] = Field(default=None)
     city: Optional[str] = Field(default=None)
     country: Optional[str] = Field(default=None)

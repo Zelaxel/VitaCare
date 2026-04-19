@@ -18,7 +18,7 @@ class Patient:
     birth_date: Optional[date] = None
     birth_country: Optional[str] = None
     nationality: Optional[str] = None
-    adress: Optional[str] = None
+    address: Optional[str] = None
     postal_code: Optional[int] = None
     city: Optional[str] = None
     country: Optional[str] = None
