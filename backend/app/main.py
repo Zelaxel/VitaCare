@@ -1,5 +1,8 @@
 import os
+from datetime import date
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException as HttpException
 from dataclasses import asdict
 from sqlmodel import create_engine, SQLModel
 from architecture.model.doctor import Doctor
@@ -21,12 +24,19 @@ db_name = "vitacare"
 engine = create_engine(f"sqlite:///./{db_name}.db")
 SQLModel.metadata.create_all(engine)
 
-doctorStorer: Doctor_storer = Local_doctor_storer(engine)
+doctor_storer: Doctor_storer = Local_doctor_storer(engine)
 patient_storer: Patient_storer = Local_patient_storer(engine)
 doctor_loader: Doctor_loader = Local_doctor_loader(engine)
 patient_loader: Patient_loader = Local_patient_loader(engine)
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"], # El puerto de tu Angular
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialization -------------------------------------------------------
 
@@ -39,12 +49,27 @@ doctors = [
     Doctor(credentials="5", name="Ruben", surname="Grizón", department="dentistry", password=1234),
     Doctor(credentials="6", name="Laura", surname="Domínguez", department="dermatology", password=1234),
 ]
+
+patients = [
+    Patient(identity_document="0", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345678", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567890, mail="hola0@gmail.com", password="1234"),
+    Patient(identity_document="1", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345679", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567891, mail="hola1@gmail.com", password="1234"),
+    Patient(identity_document="2", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345680", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567892, mail="hola2@gmail.com", password="1234"),
+    Patient(identity_document="3", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345681", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567893, mail="hola3@gmail.com", password="1234"),
+]
+
 for doctor in doctors:
     try:
-        doctorStorer.store(doctor)
+        doctor_storer.store(doctor)
     except IntegrityError:
         continue
-print("Database initialized with doctors")
+
+for patient in patients:
+    try:
+        patient_storer.store(patient)
+    except IntegrityError:
+        continue
+
+print("Database initialized")
 
 # API -------------------------------------------------------
 
@@ -69,19 +94,20 @@ def login_doctor(data: dict) -> dict:
 @app.get("/patient/{identity_document}")
 def get_patient(identity_document: str) -> dict:
     patient = patient_loader.load(identity_document)
-    return asdict(patient) if patient else {"message": "Patient not found"}
+    if not patient: raise HttpException(status_code=404, detail="Patient not found")
+    return asdict(patient)
 
-@app.post("/patient/")
+@app.post("/patient")
 def create_patient(patient: Patient) -> dict:
     try:
         patient_storer.store(patient)
         return {"message": "Patient created successfully", "patient": asdict(patient)}
     except IntegrityError:
-        return {"message": "Patient with this identity document already exists"}
+        raise HttpException(status_code=409, detail="Patient already exists")
 
 # Doctors
 @app.get("/doctor/{credentials}")
 def get_doctor(credentials: str) -> dict:
-    print(doctor_loader.load('0'))
     doctor = doctor_loader.load(credentials)
-    return asdict(doctor) if doctor else {"message": "Doctor not found"}
+    if not doctor: raise HttpException(status_code=404, detail="Doctor not found")
+    return asdict(doctor)
