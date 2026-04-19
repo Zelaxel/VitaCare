@@ -110,19 +110,18 @@ def create_patient(patient: Patient) -> dict:
     
 @app.put("/patient/{identity_document}")
 def update_patient(identity_document: str, updated_patient: Patient) -> dict:
-    existing_patient = patient_loader.load(identity_document)
-    if not existing_patient:
-        raise HttpException(status_code=404, detail="Patient not found")
+    patient = patient_loader.load(identity_document)
     
-    try:
-        patient_storer.update(updated_patient)
-        return {"message": "Patient updated successfully", "patient": asdict(updated_patient)}
-    except IntegrityError:
-        raise HttpException(status_code=409, detail="Conflict while updating patient")
+    if not patient: raise HttpException(status_code=404, detail="Patient not found")
+    
+    patient_updater.update(updated_patient)
+    return {"message": "Patient updated successfully", "patient": asdict(updated_patient)}
 
 # Doctors
 @app.get("/doctor/{credentials}")
 def get_doctor(credentials: str) -> dict:
     doctor = doctor_loader.load(credentials)
+    
     if not doctor: raise HttpException(status_code=404, detail="Doctor not found")
+    
     return asdict(doctor)

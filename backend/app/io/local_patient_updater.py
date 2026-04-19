@@ -38,10 +38,12 @@ class Local_patient_updater(Patient_updater):
         patient_data = self.__to_patient_data(patient)
         with Session(self.__engine) as session:
             result = session.exec(select(Patient_data).where(Patient_data.identity_document == patient.identity_document)).first()
-            if result:
-                """Convert patient_data to dict and update result."""
-                update = patient_data.model_dump(exclude={"identity_document"})
-                for key, value in update.items():
-                    setattr(result, key, value)
-                session.add(result)
-                session.commit()
+            
+            if not result: return # No patient found with the given identity document, do nothing.
+        
+            # Convert patient_data to dict and update result.
+            update = patient_data.model_dump(exclude={"identity_document"})
+            for key, value in update.items():
+                setattr(result, key, value)
+            session.add(result)
+            session.commit()
