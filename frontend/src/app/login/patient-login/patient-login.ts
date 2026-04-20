@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -17,23 +18,29 @@ export class PatientLogin {
   private passwordRegex: RegExp = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
   public loginErrorMessage: string = "";
 
-  constructor(private router: Router){}
+  loginData = {
+    identity_document: '',
+    password: ''
+  };
 
-  get isIdInvalid(): boolean {
-    return this.id.length > 0 && !this.idRegex.test(this.id.toUpperCase());
-  }
+  constructor(private http: HttpClient, private router: Router){}
 
-  get isPasswordInvalid(): boolean {
-    return this.password.length > 0 && !this.passwordRegex.test(this.password);
-  }
+  onLogin() {
+    const url = 'http://localhost:8000/login/log-in'; 
 
-  onLogin(){
-    this.loginErrorMessage = "";
-    if (this.idRegex.test(this.id) && this.passwordRegex.test(this.password)) {
-      this.router.navigate(['/patient']);
-    } else {
-      this.loginErrorMessage = "The data provided is invalid. Please check the fields in red.";
-      setTimeout(() => this.loginErrorMessage = "", 5000);
-    }
+    this.http.post(url, this.loginData).subscribe({
+      next: (response: any) => {
+        if (response.status === 'success') {
+          localStorage.setItem('identity_document', response.patient.identity_document);
+          this.router.navigate(['/patient/home']); 
+        } else {
+          this.loginErrorMessage = "The data provided is invalid.";
+        }
+      },
+      error: (err) => {
+        console.error('Connection error', err);
+        alert('Unable to connect to the server');
+      }
+    });
   }
 } 

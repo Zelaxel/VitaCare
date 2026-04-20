@@ -92,6 +92,16 @@ def login_doctor(data: dict) -> dict:
         return {"status": "success", "message": "Login correcto", "doctor": asdict(doctor)}
     else:
         return {"status": "error", "message": "Credenciales inválidas"}
+    
+# Patients verification 
+@app.post("/login/log-in")
+def login_patient(data: dict) -> dict:
+    patient = patient_loader.load(data.get("identity_document"))
+    
+    if patient and str(patient.password) == str(data.get("password")):
+        return {"status": "success", "message": "Login correcto", "patient": asdict(patient)}
+    else:
+        return {"status": "error", "message": "Acceso inválido"}
 
 # Patients
 @app.get("/patient/{identity_document}")

@@ -9,6 +9,11 @@
         Bienvenido, Dr. {{ doctorName }}
       </span>
     }
+    @if (isPatient() && patientName) {
+      <span class="welcome-msg">
+        Patient ID - {{ patientName }}
+      </span>
+    }
   </div>
 
   <div class="header-right">

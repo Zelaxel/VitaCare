@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PatientService } from '../../services/patient-service';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,7 @@ export class Register {
   private healthCardRegex: RegExp = /^[A-Z]{2,4}[0-9]{8,12}$/;
   public loginErrorMessage: string = "";
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private patientService: PatientService){}
 
   public touchedFields: { [key: string]: boolean } = {
     id: false,
@@ -103,18 +104,43 @@ export class Register {
   }
 
   onRegister() {
-    Object.keys(this.touchedFields).forEach(key => this.touchedFields[key] = true);
+  // Marcar todo como tocado para mostrar errores si los hay
+  Object.keys(this.touchedFields).forEach(key => this.touchedFields[key] = true);
 
-    const isFormValid = 
-      !this.isIdInvalid && 
-      !this.isPasswordInvalid && 
-      !this.isConfirmPasswordInvalid && 
-      this.password !== "" &&
-      this.confirmPassword !== "" &&
-      this.password === this.confirmPassword;
+  const isFormValid = 
+    !this.isIdInvalid && 
+    !this.isDateInvalid &&
+    !this.isEmailInvalid &&
+    !this.isTelephoneInvalid &&
+    !this.isCardInvalid &&
+    !this.isPasswordInvalid && 
+    !this.isConfirmPasswordInvalid && 
+    this.password !== "";
 
-    if (isFormValid) {
-      this.router.navigate(['/login/log-in']);
+  if (isFormValid) {
+    const cleanPhone = parseInt(this.telephoneNumber.replace('+34', '').replace(/\s/g, ''));
+
+    const newPatient = {
+      identity_document: this.id.toUpperCase(),
+      identity_document_expire: this.calendarValue,
+      sanitary_document: this.healthCardNumber.toUpperCase(),
+      sanitary_document_expire: "2045-01-01",
+      phone_number: cleanPhone,
+      mail: this.email,
+      password: this.password
+    };
+
+    this.patientService.createPatient(newPatient as any).subscribe({
+      next: (response) => {
+        this.router.navigate(['/login/log-in']);
+      },
+      error: (err) => {
+        console.error('Server error', err);
+        this.loginErrorMessage = err.error?.detail || "Error connecting to the server.";
+        setTimeout(() => this.loginErrorMessage = "", 5000);
+      }
+    });
+
     } else {
       this.loginErrorMessage = "Please complete all fields correctly.";
       setTimeout(() => this.loginErrorMessage = "", 5000);
