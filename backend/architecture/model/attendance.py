@@ -4,7 +4,7 @@ from typing import Optional
 
 @dataclass(frozen=False)
 class Attendance:
-    id: int
+    id: Optional[int]
     id_patient: str
     id_doctor: str
     title: str

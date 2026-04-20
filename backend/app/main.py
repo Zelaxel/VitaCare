@@ -6,16 +6,19 @@ from dataclasses import asdict
 from sqlmodel import create_engine, SQLModel
 from architecture.model.doctor import Doctor
 from architecture.model.patient import Patient
+from architecture.model.attendance import Attendance
 from architecture.io.doctor_storer import Doctor_storer
 from architecture.io.doctor_loader import Doctor_loader
 from architecture.io.patient_storer import Patient_storer
 from architecture.io.patient_loader import Patient_loader
 from architecture.io.patient_updater import Patient_updater
+from architecture.io.attendance_storer import Attendance_storer
 from app.io.local_doctor_storer import Local_doctor_storer
 from app.io.local_doctor_loader import Local_doctor_loader
 from app.io.local_patient_storer import Local_patient_storer
 from app.io.local_patient_loader import Local_patient_loader
 from app.io.local_patient_updater import Local_patient_updater
+from app.io.local_attendance_storer import Local_attendance_storer
 from sqlalchemy.exc import IntegrityError
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -31,11 +34,11 @@ patient_storer: Patient_storer = Local_patient_storer(engine)
 doctor_loader: Doctor_loader = Local_doctor_loader(engine)
 patient_loader: Patient_loader = Local_patient_loader(engine)
 patient_updater: Patient_updater = Local_patient_updater(engine)
+attendance_storer: Attendance_storer = Local_attendance_storer(engine)
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"], # El puerto de tu Angular
     allow_credentials=True,
     allow_origins=["*"],
     allow_methods=["*"],
@@ -61,6 +64,10 @@ patients = [
     Patient(identity_document="3", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345681", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567893, mail="hola3@gmail.com", password="1234"),
 ]
 
+attendances = [
+    Attendance(id_patient='0', id_doctor='0', title='Heart checkout', department='Cardiology', attendance_date= date(2045,5,1), reason="follow-up")
+]
+
 for doctor in doctors:
     try:
         doctor_storer.store(doctor)
@@ -71,6 +78,12 @@ for patient in patients:
     try:
         patient_storer.store(patient)
     except IntegrityError:
+        continue
+
+for attendance in attendances:
+    try:
+        attendance_storer.store(attendance)
+    except IndentationError:
         continue
 
 print("Database initialized")

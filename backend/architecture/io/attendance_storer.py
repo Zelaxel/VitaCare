@@ -4,5 +4,5 @@ from architecture.model.attendance import Attendance
 class Attendance_storer(ABC):
 
     @abstractmethod
-    def store(attendance: Attendance) -> None:
+    def store(self, sattendance: Attendance) -> None:
         pass
