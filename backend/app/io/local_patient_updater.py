@@ -37,7 +37,8 @@ class Local_patient_updater(Patient_updater):
         """Update patient."""
         patient_data = self.__to_patient_data(patient)
         with Session(self.__engine) as session:
-            result = session.exec(select(Patient_data).where(Patient_data.identity_document == patient.identity_document)).first()
+            statement = select(Patient_data).where(Patient_data.identity_document == patient.identity_document)
+            result = session.exec(statement).first()
             
             if not result: return # No patient found with the given identity document, do nothing.
         
@@ -45,5 +46,12 @@ class Local_patient_updater(Patient_updater):
             update = patient_data.model_dump(exclude={"identity_document"})
             for key, value in update.items():
                 setattr(result, key, value)
-            session.add(result)
-            session.commit()
+            
+            try:
+                session.add(result)
+                session.commit()
+                session.refresh(result)
+                print(f"Patient {patient.identity_document} updated successfully in SQLite.")
+            except Exception as e:
+                session.rollback()
+                print(f"Error during commit: {e}")
