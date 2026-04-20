@@ -4,11 +4,11 @@ from typing import Optional
 
 @dataclass(frozen=False)
 class Attendance:
-    id: Optional[int]
     id_patient: str
     id_doctor: str
     title: str
     department: str
     attendance_date: date
     reason: str
-    conclusion: Optional[str]
+    id: Optional[int] = None
+    conclusion: Optional[str] = None
