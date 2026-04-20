@@ -14,11 +14,17 @@ export class Header {
   
   isDropdownMenuOpen: boolean = false;
   doctorName: string | null = '';
+  patientName: string | null = '';
   
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.doctorName = localStorage.getItem('doctor_surname');
+    this.patientName = localStorage.getItem('identity_document');
+  }
+
+  isPatient(): boolean {
+    return this.router.url.includes('/patient');
   }
 
   isDoctor(): boolean {
