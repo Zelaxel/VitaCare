@@ -42,13 +42,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # Initialization -------------------------------------------------------
 
 doctors = [
@@ -83,7 +76,6 @@ for patient in patients:
 print("Database initialized")
 
 # API -------------------------------------------------------
-
 
 # Doctors verification 
 @app.post("/login/doctor-log-in")
