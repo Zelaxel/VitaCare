@@ -10,3 +10,7 @@ class Appointment_loader(ABC):
     @abstractmethod
     def load_by_doctor(self, credentials: str) -> Appointment:
         pass
+    
+    @abstractmethod
+    def load_by_id(self, id: int) -> Appointment:
+        pass
