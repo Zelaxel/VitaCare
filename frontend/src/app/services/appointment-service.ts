@@ -23,12 +23,12 @@ export class AppointmentService {
   }
 
   /** Create an appointment */
-  createAppointment(appointment: AppointmentData): void {
-    this.http.post<AppointmentData>(this.apiUrl, appointment)
+  createAppointment(appointment: AppointmentData): Observable<AppointmentData> {
+    return this.http.post<AppointmentData>(this.apiUrl, appointment)
   }
 
   /** Update an existing appointment */
-  updateAppointment(appointment: AppointmentData): void {
-    this.http.put<AppointmentData>(`${this.apiUrl}/${appointment.id}`, appointment)
+  updateAppointment(appointment: AppointmentData): Observable<AppointmentData> {
+    return this.http.put<AppointmentData>(`${this.apiUrl}/${appointment.id}`, appointment)
   }
 }
