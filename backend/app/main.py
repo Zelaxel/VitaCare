@@ -104,6 +104,10 @@ def get_doctor(credentials: str) -> dict:
     
     return asdict(doctor)
 
+@app.get("/doctor/by_department/{department}")
+def get_doctor(department: str) -> dict:
+    return [asdict(doctor) for doctor in doctor_loader.load_by_department(department)]
+
 # Appointments
 @app.get("/appointment/by_patient/{identity_document}")
 def get_appointments_by_patient(identity_document: str) -> list[dict]:
