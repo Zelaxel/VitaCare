@@ -47,11 +47,5 @@ class Local_patient_updater(Patient_updater):
             for key, value in update.items():
                 setattr(result, key, value)
             
-            try:
-                session.add(result)
-                session.commit()
-                session.refresh(result)
-                print(f"Patient {patient.identity_document} updated successfully in SQLite.")
-            except Exception as e:
-                session.rollback()
-                print(f"Error during commit: {e}")
+            session.add(result)
+            session.commit()

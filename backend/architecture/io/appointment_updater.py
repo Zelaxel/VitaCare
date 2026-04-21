@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from architecture.model.appointment import Appointment
 
-class Appointment_storer(ABC):
-
+class Appointment_updater(ABC):
     @abstractmethod
-    def store(self, sattendance: Appointment) -> None:
+    def update(self, appointment: Appointment) -> None:
         pass

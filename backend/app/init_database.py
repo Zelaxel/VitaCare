@@ -4,7 +4,7 @@ from sqlalchemy import Engine
 from sqlalchemy.exc import IntegrityError
 from architecture.model.doctor import Doctor
 from architecture.model.patient import Patient
-from architecture.model.attendance import Appointment
+from architecture.model.appointment import Appointment
 from architecture.io.doctor_storer import Doctor_storer
 from architecture.io.patient_storer import Patient_storer
 from architecture.io.appointment_storer import Appointment_storer

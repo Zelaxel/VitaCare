@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from architecture.model.attendance import Appointment
+from architecture.model.appointment import Appointment
 
 class Appointment_loader(ABC):
 
@@ -9,8 +9,4 @@ class Appointment_loader(ABC):
 
     @abstractmethod
     def load_by_doctor(self, credentials: str) -> Appointment:
-        pass
-
-    @abstractmethod
-    def load(self, credentials:str, identity_docuemnt:str) -> Appointment:
         pass
