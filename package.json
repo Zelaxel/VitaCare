@@ -4,6 +4,6 @@
   },
     "scripts": {
     "dev": "concurrently -n \"API,WEB\" -c \"blue,green\" --kill-others --success first \"cd backend && uv run uvicorn app.main:app --reload\" \"cd frontend && ng serve\"",
-    "sync": "concurrently -n \"API_SYNC,WEB_INSTALL\" -c \"blue,green\" \"cd backend && uv sync\" \"cd frontend && npm install\""
+    "sync": "concurrently -n \"API_SYNC,WEB_INSTALL\" -c \"blue,green\" \"cd backend && uv sync && uv run app/init_database.py\" \"cd frontend && npm install\""
   }
 }

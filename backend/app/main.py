@@ -1,40 +1,38 @@
-from datetime import date
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException as HttpException
 from dataclasses import asdict
-from sqlmodel import create_engine, SQLModel
-from architecture.model.doctor import Doctor
+from sqlmodel import create_engine
+from sqlalchemy import Engine
+from sqlalchemy.exc import IntegrityError
+from fastapi.middleware.cors import CORSMiddleware
 from architecture.model.patient import Patient
-from architecture.model.attendance import Attendance
+from architecture.model.attendance import Appointment
 from architecture.io.doctor_storer import Doctor_storer
 from architecture.io.doctor_loader import Doctor_loader
 from architecture.io.patient_storer import Patient_storer
 from architecture.io.patient_loader import Patient_loader
 from architecture.io.patient_updater import Patient_updater
-from architecture.io.attendance_storer import Attendance_storer
+from architecture.io.appointment_storer import Appointment_storer
 from app.io.local_doctor_storer import Local_doctor_storer
 from app.io.local_doctor_loader import Local_doctor_loader
 from app.io.local_patient_storer import Local_patient_storer
 from app.io.local_patient_loader import Local_patient_loader
 from app.io.local_patient_updater import Local_patient_updater
-from app.io.local_attendance_storer import Local_attendance_storer
-from sqlalchemy.exc import IntegrityError
-from fastapi.middleware.cors import CORSMiddleware
+from app.io.local_appointment_storer import Local_appointment_storer
 
 
 # Variables -------------------------------------------------------
 
 db_name = "vitacare"
-engine = create_engine(f"sqlite:///./{db_name}.db")
-SQLModel.metadata.create_all(engine)
+engine: Engine = create_engine(f"sqlite:///./{db_name}.db")
 
 doctor_storer: Doctor_storer = Local_doctor_storer(engine)
 patient_storer: Patient_storer = Local_patient_storer(engine)
 doctor_loader: Doctor_loader = Local_doctor_loader(engine)
 patient_loader: Patient_loader = Local_patient_loader(engine)
 patient_updater: Patient_updater = Local_patient_updater(engine)
-attendance_storer: Attendance_storer = Local_attendance_storer(engine)
+attendance_storer: Appointment_storer = Local_appointment_storer(engine)
 
 app = FastAPI()
 app.add_middleware(
@@ -44,49 +42,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Initialization -------------------------------------------------------
-
-doctors = [
-    Doctor(credentials="0", name="John", surname="Ramírez", department="cardiology", password=1234),
-    Doctor(credentials="1", name="Lina", surname="García", department="laboratory", password=1234),
-    Doctor(credentials="2", name="Pedro", surname="López", department="cardiology", password=1234),
-    Doctor(credentials="3", name="Juan", surname="Pérez", department="radiology", password=1234),
-    Doctor(credentials="4", name="Mariana", surname="González", department="ophthalmology", password=1234),
-    Doctor(credentials="5", name="Ruben", surname="Grizón", department="dentistry", password=1234),
-    Doctor(credentials="6", name="Laura", surname="Domínguez", department="dermatology", password=1234),
-]
-
-patients = [
-    Patient(identity_document="0", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345678", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567890, mail="hola0@gmail.com", password="1234"),
-    Patient(identity_document="1", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345679", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567891, mail="hola1@gmail.com", password="1234"),
-    Patient(identity_document="2", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345680", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567892, mail="hola2@gmail.com", password="1234"),
-    Patient(identity_document="3", identity_document_expire=date(2030, 1, 1), sanitary_document="A12345681", sanitary_document_expire=date(2045, 1, 1), phone_number=1234567893, mail="hola3@gmail.com", password="1234"),
-]
-
-attendances = [
-    Attendance(id_patient='0', id_doctor='0', title='Heart checkout', department='Cardiology', attendance_date= date(2045,5,1), reason="follow-up")
-]
-
-for doctor in doctors:
-    try:
-        doctor_storer.store(doctor)
-    except IntegrityError:
-        continue
-
-for patient in patients:
-    try:
-        patient_storer.store(patient)
-    except IntegrityError:
-        continue
-
-for attendance in attendances:
-    try:
-        attendance_storer.store(attendance)
-    except IndentationError:
-        continue
-
-print("Database initialized")
 
 # API -------------------------------------------------------
 

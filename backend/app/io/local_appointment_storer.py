@@ -1,17 +1,17 @@
-from app.io.attendance_data import Attendance_data
-from architecture.model.attendance import Attendance
-from architecture.io.attendance_storer import Attendance_storer
+from app.io.appointment_data import Appointment_data
+from architecture.model.attendance import Appointment
+from architecture.io.appointment_storer import Appointment_storer
 from sqlmodel import Session
 from sqlalchemy import Engine
 
-class Local_attendance_storer(Attendance_storer):
+class Local_appointment_storer(Appointment_storer):
 
     def __init__(self, engine:Engine):
         self.__engine = engine
 
     @staticmethod
-    def __to_attendance_data(attendance: Attendance):
-        return Attendance_data(
+    def __to_attendance_data(attendance: Appointment):
+        return Appointment_data(
             id=attendance.id,
             id_patient=attendance.id_patient,
             id_doctor=attendance.id_doctor,
@@ -22,7 +22,7 @@ class Local_attendance_storer(Attendance_storer):
             conclusion=attendance.conclusion
         )
     
-    def store(self, attendance: Attendance) -> None:
+    def store(self, attendance: Appointment) -> None:
         with Session(self.__engine) as session:
             session.add(self.__to_attendance_data(attendance))
             session.commit()

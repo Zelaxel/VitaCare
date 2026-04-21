@@ -3,7 +3,7 @@ from datetime import date
 from typing import Optional
 
 @dataclass(frozen=False)
-class Attendance:
+class Appointment:
     id_patient: str
     id_doctor: str
     title: str
