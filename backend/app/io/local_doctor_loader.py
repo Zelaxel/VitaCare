@@ -20,10 +20,17 @@ class Local_doctor_loader(Doctor_loader):
             password=doctor_data.password
         )
     
-    def load(self, credentials: str) -> Doctor:
+    def load_by_credentials(self, credentials: str) -> Doctor:
         """Returns doctor from local sqlite file by credentials."""
         with Session(self.__engine) as session:
             query = select(Doctor_data).where(Doctor_data.credentials == credentials)
             doctor_data: Doctor_data = session.exec(query).first()
             return self.__toDoctor(doctor_data) if doctor_data else None
+    
+    def load_by_department(self, department: str):
+        """Returns doctor list by department."""
+        with Session(self.__engine) as session:
+            query = select(Doctor_data).where(Doctor_data.department == department)
+            doctor_datas: list[Doctor_data] = session.exec(query).all()
+            return [self.__toDoctor(doctor_datas) for doctor_data in doctor_datas]
 

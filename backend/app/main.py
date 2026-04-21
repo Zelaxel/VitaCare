@@ -54,7 +54,7 @@ app.add_middleware(
 # Doctors verification 
 @app.post("/login/doctor-log-in")
 def login_doctor(data: dict) -> dict:
-    doctor = doctor_loader.load(data.get("credentials"))
+    doctor = doctor_loader.load_by_credentials(data.get("credentials"))
     
     if doctor and str(doctor.password) == str(data.get("password")):
         return {"status": "success", "message": "Login correcto", "doctor": asdict(doctor)}
@@ -98,7 +98,7 @@ def update_patient(identity_document: str, updated_patient: Patient) -> dict:
 # Doctors
 @app.get("/doctor/{credentials}")
 def get_doctor(credentials: str) -> dict:
-    doctor = doctor_loader.load(credentials)
+    doctor = doctor_loader.load_by_credentials(credentials)
     
     if not doctor: raise HttpException(status_code=404, detail="Doctor not found")
     
