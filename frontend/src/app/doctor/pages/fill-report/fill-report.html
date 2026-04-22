@@ -2,12 +2,8 @@
 
 <div class="report">
   <section class="report-buttons">
-    <button onclick="window.history.back()" class="back-button">
-      <img src="svg/left_arrow.svg" alt="Back">
-=======
     <button (click)="goBack()" class="back-button">
       <img src="svg/left_arrow.svg" alt="Back" />
->>>>>>> Stashed changes:frontend/src/app/doctor/pages/fill-report/fill-report.html
     </button>
     <button class="download-button" (click)="downloadReport()">
       <img src="svg/download.svg" alt="Download" />
@@ -58,10 +54,10 @@
     </section>
 
     <section class="submit-section">
-      <button [routerLink]="['/doctor/home']" class="submit-button" (click)="submitReport()">
+      <button class="submit-button" (click)="submitReport()">
         Submit report
       </button>
     </section>
 
   </section> 
-</div> 
+</div>
