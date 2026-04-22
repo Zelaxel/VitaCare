@@ -10,6 +10,8 @@ import { RouterLink } from '@angular/router';
 })
 export class Appointment {
   @Input() id!: number;
+  @Input() id_patient!: string;
+  @Input() id_doctor!: string; 
   @Input() title!: string;
   @Input() doctorName!: string;
   @Input() doctorIcon!: String;

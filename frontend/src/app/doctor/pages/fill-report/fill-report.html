@@ -4,52 +4,64 @@
   <section class="report-buttons">
     <button onclick="window.history.back()" class="back-button">
       <img src="svg/left_arrow.svg" alt="Back">
+=======
+    <button (click)="goBack()" class="back-button">
+      <img src="svg/left_arrow.svg" alt="Back" />
+>>>>>>> Stashed changes:frontend/src/app/doctor/pages/fill-report/fill-report.html
     </button>
     <button class="download-button" (click)="downloadReport()">
-      <img src="svg/download.svg" alt="Download">
+      <img src="svg/download.svg" alt="Download" />
     </button>
   </section>
 
   <section class="appointment-info">
+    
     <section class="appointment-details">
       <section class="appointment-patient">
         <label>Patient name:</label>
         <label class="patient-name-label">{{patientName}}</label>
       </section>
+
       <section>
         <label>Doctor:</label>
         <label class="doctor-name-label">{{doctorName}}</label>
       </section>
+
       <section>
-        <label>Date: </label>
-        <label class="date-label">{{date}}</label> </section>
+        <label>Date:</label>
+        <label class="date-label">{{date | date:'dd/MM/yyyy'}}</label>
+      </section>
+
       <section>
-        <label>Department: </label>
+        <label>Department:</label>
         <label class="department-label">{{department}}</label>
       </section>
     </section>
 
-    <hr class="divider">
+    <hr class="divider" />
 
     <section class="appointment-reason">
       <label>Appointment reason:</label>
-      <label class="appointment-reason-label">{{reason}}</label> </section>
+      <label class="appointment-reason-label">{{reason}}</label>
+    </section>
 
-    <hr class="divider">
+    <hr class="divider" />
 
     <section class="appointment-conclusion-edit">
       <label for="conclusion-input">Doctor's conclusion:</label>
       <textarea 
         id="conclusion-input"
         class="conclusion-textarea" 
-        [(ngModel)]="conclusion" placeholder="Type the conclusion here...">
+        [(ngModel)]="conclusion" 
+        placeholder="Type the conclusion here...">
       </textarea>
     </section>
 
     <section class="submit-section">
-      <button onclick="window.history.back()" class="submit-button" (click)="submitReport()">
+      <button [routerLink]="['/doctor/home']" class="submit-button" (click)="submitReport()">
         Submit report
       </button>
     </section>
-  </section>
-</div>
+
+  </section> 
+</div> 

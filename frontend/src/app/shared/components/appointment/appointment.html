@@ -5,7 +5,19 @@
         <img [routerLink]="['../create-appointment']" src="svg/edit_pen.svg" alt="edit">
       </button>
       @if(!patientLayaut) {
-        <button [routerLink]="['/doctor/fill-report']" class="seal-button">
+        <button [routerLink]="['/doctor/fill-report', id]" 
+        [state]="{ 
+          id: id,
+          id_patient: id_patient,
+          id_doctor: id_doctor,
+          title: title, 
+          patientName: patientName, 
+          doctorName: doctorName, 
+          date: date, 
+          department: department, 
+          description: description
+        }"
+        class="seal-button">
           <img src="svg/seal.svg" alt="seal">
         </button>
       }
