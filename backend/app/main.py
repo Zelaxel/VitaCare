@@ -126,10 +126,23 @@ def create_appointment(appointment: Appointment):
         raise HttpException(status_code=409, detail="Appointment already exists")
 
 @app.put("/appointment/{id}")
-def update_patient(id: int, updated_appointment: Appointment) -> dict:
+def update_appointment(id: int, updated_appointment: Appointment) -> dict:
     appointment = appointment_loader.load_by_id(id)
+    if not appointment: 
+        raise HttpException(status_code=404, detail="Appointment not found")
     
-    if not appointment: raise HttpException(status_code=404, detail="Appointment not found")
+    # Qui aggiorniamo la visita (conclusione del dottore), non il paziente!
+    appointment_updater.update(updated_appointment)
     
-    patient_updater.update(appointment)
-    return {"message": "Patient updated successfully", "patient": asdict(updated_appointment)}
+    return {
+        "message": "Appointment updated successfully", 
+        "appointment": asdict(updated_appointment)
+    }
+    
+@app.get("/appointment/{id}")
+def get_appointment_by_id(id: int) -> dict:
+    appointment = appointment_loader.load_by_id(id)
+    if not appointment: 
+        raise HttpException(status_code=404, detail="Appointment not found")
+    return asdict(appointment)
+    

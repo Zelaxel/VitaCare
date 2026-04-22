@@ -33,8 +33,8 @@ export class AppointmentService {
   }
 
   /** Get appointment by ID */
-  getAppointmentById(id: string ): Observable<AppointmentData> {
-    return this.http.get<AppointmentData>(`${this.apiUrl}/${id}`);
+  getAppointmentById(id: string | number): Observable<AppointmentData> {
+    return this.http.get<AppointmentData>(`${this.apiUrl}/appointment/${id}`);
   }
 
 

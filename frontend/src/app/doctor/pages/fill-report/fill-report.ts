@@ -65,18 +65,16 @@ import { AppointmentData } from '../../../model/appointment';
         department: state.department,
         attendance_date: this.date as Date,
         reason: state.description,
-        conclusion: ''
+        conclusion: state.conclusion || ''
       };
     }
   }
 
   ngOnInit(): void {
-    // Se l'utente preme F5, lo state è vuoto. Carichiamo dal DB come backup.
-    if (!this.id) {
-      const appointmentId = this.route.snapshot.paramMap.get('id');
-      if (appointmentId) {
-        this.loadAppointmentData(appointmentId);
-      }
+    const appointmentId = this.route.snapshot.paramMap.get('id');
+    if (appointmentId) {
+      // Chiamiamo il servizio ogni volta che entriamo nella pagina
+      this.loadAppointmentData(appointmentId);
     }
   }
 

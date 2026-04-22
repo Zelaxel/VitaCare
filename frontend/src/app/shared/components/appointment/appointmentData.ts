@@ -1,5 +1,7 @@
 export interface AppointmentData {
     id: number;
+    id_patient: string;
+    id_doctor: string;
     title: string;
     doctorName: string;
     doctorIcon: string;

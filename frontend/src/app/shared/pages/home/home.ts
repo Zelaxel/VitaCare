@@ -22,6 +22,8 @@ export class Home {
   appointments: AppointmentData[] = [
     {
       id: 0,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -34,6 +36,8 @@ export class Home {
     },
     {
       id: 1,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -46,6 +50,8 @@ export class Home {
     },
     {
       id: 2,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -58,6 +64,8 @@ export class Home {
     },
     {
       id: 3,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -70,6 +78,8 @@ export class Home {
     },
     {
       id: 4,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -82,6 +92,8 @@ export class Home {
     },
     {
       id: 5,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -94,6 +106,8 @@ export class Home {
     },
     {
       id: 6,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -106,6 +120,8 @@ export class Home {
     },
     {
       id: 7,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -118,6 +134,8 @@ export class Home {
     },
     {
       id: 8,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -130,6 +148,8 @@ export class Home {
     },
     {
       id: 9,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -142,6 +162,8 @@ export class Home {
     },
     {
       id: 10,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -154,6 +176,8 @@ export class Home {
     },
     {
       id: 11,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -166,6 +190,8 @@ export class Home {
     },
     {
       id: 12,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -178,6 +204,8 @@ export class Home {
     },
     {
       id: 13,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
@@ -190,6 +218,8 @@ export class Home {
     },
     {
       id: 14,
+      id_patient: '1',
+      id_doctor: '1',
       title: 'Blood analisys',
       doctorName: 'David',
       doctorIcon: '',
