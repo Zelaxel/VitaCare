@@ -57,7 +57,4 @@ export class AttendanceCreator implements OnInit{
       this.cdr.detectChanges();
     });
   }
-  ensureSpaceBelow(event: MouseEvent) {
-    setTimeout(() => {window.scrollBy({top: 150, left: 0});}, 100);
-  }
 }

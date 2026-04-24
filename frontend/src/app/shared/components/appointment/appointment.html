@@ -1,4 +1,4 @@
-<article [style.background-color]="active? '#63B995' : '#9C9C9C'" ] class="appointment-container">
+<article class="appointment-container"  [class.active-card]="active"  [class.inactive-card]="!active" [class.doctor-theme]="!isPatient()"  [class.patient-theme]="isPatient()">
   <section class="appointment-buttons">
     @if(active) {
       <button class="edit-buton">

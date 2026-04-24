@@ -15,6 +15,9 @@ button img{
 }
 
 .homepage {
+  /* --- DEFAULT COLORS (PATIENT) --- */
+  --primary-bg: #326273;
+
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -23,12 +26,16 @@ button img{
   gap: 2rem;
 }
 
+.doctor-theme {
+  --primary-bg: #733b3b;
+}
+
 .homepage-form {
   flex-direction: column;
   align-items: start;
   padding: 2rem;
   gap: 2rem;
-  background-color: #326273;
+  background-color: var(--primary-bg);
   border-radius: 1rem;
   width: 100%;
 }
