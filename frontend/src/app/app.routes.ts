@@ -1,34 +1,44 @@
 import { Routes } from '@angular/router';
+import { PatientLogin } from './login/patient-login/patient-login';
+import { DoctorLogin } from './login/doctor-login/doctor-login';
+import { Register } from './login/register/register';
+import { AttendanceCreator } from './shared/pages/attendance-creator/attendance-creator';
+import { DoctorInfo } from './patient/pages/doctor-info/doctor-info';
+import { PatientHistory } from './doctor/pages/patient-history/patient-history';
+import { Home } from './shared/pages/home/home';
+import { UserProfile } from './patient/pages/user-profile/user-profile';
+import { FillReport } from './doctor/pages/fill-report/fill-report';
+import { Report } from './shared/pages/report/report';
 
 export const routes: Routes = [
     {
         path: 'login',
         children: [
-            { path: 'log-in', loadComponent: () => import('./login/patient-login/patient-login').then(m => m.PatientLogin) },
-            { path: 'doctor-log-in', loadComponent: () => import('./login/doctor-login/doctor-login').then(m => m.DoctorLogin) },
-            { path: 'register', loadComponent: () => import('./login/register/register').then(m => m.Register) },
+            { path: 'log-in', component: PatientLogin },
+            { path: 'doctor-log-in', component: DoctorLogin },
+            { path: 'register', component: Register },
             { path: '', redirectTo: "log-in", pathMatch: 'full'}
         ]
     },
     {
         path: 'patient',
         children: [
-            { path: 'home', loadComponent: () => import('./shared/pages/home/home').then(m => m.Home) },
-            { path: 'report', loadComponent: () => import('./shared/pages/report/report').then(m => m.Report)},
-            { path: 'create-appointment', loadComponent: () => import('./shared/pages/attendance-creator/attendance-creator').then(m => m.AttendanceCreator)},
-            { path: 'doctor-info', loadComponent: () => import('./patient/pages/doctor-info/doctor-info').then(m => m.DoctorInfo)},
-            { path: 'user-profile', loadComponent: () => import('./patient/pages/user-profile/user-profile').then(m => m.UserProfile)},
+            { path: 'home', component: Home },
+            { path: 'report', component: Report },
+            { path: 'create-appointment', component: AttendanceCreator },
+            { path: 'doctor-info', component: DoctorInfo },
+            { path: 'user-profile', component: UserProfile },
             { path: '', redirectTo: 'home', pathMatch: 'full'}
         ]
     },
     {
         path: 'doctor',
         children: [
-            { path: 'home', loadComponent: () => import('./shared/pages/home/home').then(m => m.Home) },
-            { path: 'report', loadComponent: () => import('./shared/pages/report/report').then(m => m.Report)},
-            { path: 'create-appointment', loadComponent: () => import('./shared/pages/attendance-creator/attendance-creator').then(m => m.AttendanceCreator)},
-            { path: 'fill-report/:id', loadComponent: () => import('./doctor/pages/fill-report/fill-report').then(m => m.FillReport)},
-            { path: 'patient-history', loadComponent: () => import('./doctor/pages/patient-history/patient-history').then(m => m.PatientHistory)},
+            { path: 'home', component: Home },
+            { path: 'report', component: Report },
+            { path: 'create-appointment', component: AttendanceCreator},
+            { path: 'fill-report/:id', component: FillReport },
+            { path: 'patient-history', component: PatientHistory },
             { path: '', redirectTo: 'home', pathMatch: 'full'}
         ]
     },
