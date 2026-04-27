@@ -32,7 +32,7 @@
   </section>
   <h1>{{title}}</h1>
   @if(patientLayaut) {
-    <button [routerLink]="['/patient/doctor-info']" class="doctor-button">
+    <button [routerLink]="['/patient/doctor-info',id_doctor]" class="doctor-button">
         <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="doctor icon">
         {{doctorName}}
     </button>

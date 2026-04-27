@@ -31,19 +31,13 @@ export class AppointmentService {
   updateAppointment(appointment: AppointmentData): Observable<AppointmentData> {
     return this.http.put<AppointmentData>(`${this.apiUrl}/${appointment.id}`, appointment)
   }
-
-  /** Get appointment by ID */
-  getAppointmentById(id: string | number): Observable<AppointmentData> {
-    return this.http.get<AppointmentData>(`${this.apiUrl}/appointment/${id}`);
+  getAppointmentById(id: string | number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-
-  /** Download of the report (blob) */
-  downloadReport(appointmentId: number) {
-    // L'URL dipenderà da come il tuo compagno ha chiamato la rotta (es. /appointment/2/download)
-    const url = `${this.apiUrl}/${appointmentId}/download`; 
+  /**    added method */
+  downloadReport(id: string | number): Observable<any> {
     
-    // Il trucco è dire ad Angular che la risposta è un 'blob' (un file binario)
-    return this.http.get(url, { responseType: 'blob' });
+    return this.http.get(`${this.apiUrl}/${id}/report`, { responseType: 'blob' });
   }
 }

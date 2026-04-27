@@ -8,35 +8,30 @@
     </button>
 
     <div class="avatar-circle">
-      <img src="svg\avatar.svg"> 
+      <img src="svg/avatar.svg"> 
     </div>
 
     <div class="name-container">
-      <h1>{{ doctor.name }} {{ doctor.surname }} - {{ doctor.department }}</h1>
+      <h1 *ngIf="currentDoctor">{{ currentDoctor.name }} {{ currentDoctor.surname }} - {{ currentDoctor.department }}</h1>
+      <h1 *ngIf="!currentDoctor">In attesa dei dati...</h1>
       <hr class="blue-line">
     </div>
-  </div>
-
-  <div class="hours-section">
-    <h2>Visiting hours</h2>
-    <p><strong>{{ doctor.visitingHours }}</strong></p>
   </div>
 
   <div class="appointments-section">
     <h2>Curriculum</h2>
 
-    <div class="green-card" *ngFor="let app of appointments">
-      
+    <div class="green-card" *ngFor="let visit of pastVisits">
       <div class="card-top-row">
-        <span>📅 {{ app.date }}</span>
-        <span>🏥 {{ app.hospital }}</span>
-        <span>⭐ {{ app.category }}</span>
+        <span>📅 {{ visit.attendance_date }}</span>
+        <span>🏥 VitaCare</span> 
+        <span>⭐ {{ visit.department }}</span>
       </div>
 
       <p class="card-description">
-        {{ app.description }}
+        <strong>Reason:</strong> {{ visit.title }} <br>
+        <strong>Details:</strong> {{ visit.reason }}
       </p>
-
     </div>
   </div>
 
