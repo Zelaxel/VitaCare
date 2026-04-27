@@ -15,5 +15,11 @@ export class DoctorService {
   /** Get doctor information by credentials */
   getDoctor(credentials: string): Observable<Doctor> {
     return this.http.get<Doctor>(`${this.apiUrl}/${credentials}`);
+  }/** Get doctor information by credentials */
+  
+  getDoctorByDepartment(department: string): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(
+      `${this.apiUrl}/by_department/${department}`
+    );
   }
 }

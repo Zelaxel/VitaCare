@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -10,6 +10,8 @@ import { RouterLink } from '@angular/router';
 })
 export class Appointment {
   @Input() id!: number;
+  @Input() id_patient!: string;
+  @Input() id_doctor!: string; 
   @Input() title!: string;
   @Input() doctorName!: string;
   @Input() doctorIcon!: String;
@@ -20,4 +22,9 @@ export class Appointment {
   @Input() department!: String;
   @Input() active!: boolean;
   @Input() patientLayaut!: boolean;
+
+  constructor(private router: Router) {}
+  isPatient(): boolean {
+    return this.router.url.includes('/patient/home');
+  }
 }

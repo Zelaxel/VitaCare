@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="homepage">
+<div class="homepage" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
   <form class="homepage-form container">
     <div class="search-bar">
       <app-search-bar></app-search-bar>
@@ -21,14 +21,14 @@
         </label>
       </div>
       <select class="department-select">
-        <option value="" disabled selected>--departament--</option>
+        <option value="" disabled selected>○○ Departament ○○</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
       </select>
       <div class="form-buttons container">
-        <button class="filter-button">filter</button>
-        <button class="clear-filter-button">clear filter</button>
+        <button class="filter-button">Filter</button>
+        <button class="clear-filter-button">Clear filter</button>
         @if(isPatient()){
           <button type="button" [routerLink]="['/patient/create-appointment']" class="create-button">Create appointment</button>
         }

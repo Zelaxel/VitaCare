@@ -54,7 +54,7 @@ app.add_middleware(
 # Doctors verification 
 @app.post("/login/doctor-log-in")
 def login_doctor(data: dict) -> dict:
-    doctor = doctor_loader.load(data.get("credentials"))
+    doctor = doctor_loader.load_by_credentials(data.get("credentials"))
     
     if doctor and str(doctor.password) == str(data.get("password")):
         return {"status": "success", "message": "Login correcto", "doctor": asdict(doctor)}
@@ -98,11 +98,21 @@ def update_patient(identity_document: str, updated_patient: Patient) -> dict:
 # Doctors
 @app.get("/doctor/{credentials}")
 def get_doctor(credentials: str) -> dict:
-    doctor = doctor_loader.load(credentials)
+    doctor = doctor_loader.load_by_credentials(credentials)
     
     if not doctor: raise HttpException(status_code=404, detail="Doctor not found")
     
     return asdict(doctor)
+
+@app.get("/doctor/by_department/{department}")
+def get_doctor(department: str) -> list[dict]:
+    return [asdict(doctor) for doctor in doctor_loader.load_by_department(department)]
+
+@app.get("/departments")
+def get_departments() -> list[str]:
+    doctors = doctor_loader.load_all()
+    departments = list(set([doctor.department for doctor in doctors]))
+    return departments
 
 # Appointments
 @app.get("/appointment/by_patient/{identity_document}")
@@ -122,10 +132,23 @@ def create_appointment(appointment: Appointment):
         raise HttpException(status_code=409, detail="Appointment already exists")
 
 @app.put("/appointment/{id}")
-def update_patient(id: int, updated_appointment: Appointment) -> dict:
+def update_appointment(id: int, updated_appointment: Appointment) -> dict:
     appointment = appointment_loader.load_by_id(id)
+    if not appointment: 
+        raise HttpException(status_code=404, detail="Appointment not found")
     
-    if not appointment: raise HttpException(status_code=404, detail="Appointment not found")
+    # Qui aggiorniamo la visita (conclusione del dottore), non il paziente!
+    appointment_updater.update(updated_appointment)
     
-    patient_updater.update(appointment)
-    return {"message": "Patient updated successfully", "patient": asdict(updated_appointment)}
+    return {
+        "message": "Appointment updated successfully", 
+        "appointment": asdict(updated_appointment)
+    }
+    
+@app.get("/appointment/{id}")
+def get_appointment_by_id(id: int) -> dict:
+    appointment = appointment_loader.load_by_id(id)
+    if not appointment: 
+        raise HttpException(status_code=404, detail="Appointment not found")
+    return asdict(appointment)
+    

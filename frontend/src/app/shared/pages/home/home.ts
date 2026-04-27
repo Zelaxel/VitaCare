@@ -15,7 +15,6 @@ import { AppointmentData as BackendAppointmentData } from '../../../model/appoin
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-
   appointments: AppointmentData[] = [];
 
   constructor(
@@ -35,6 +34,7 @@ export class Home implements OnInit {
     if (this.isDoctor()) {
       this.loadDoctorAppointments();
     }
+
     if (this.isPatient()) {
       this.loadPatientAppointments();
     }
@@ -50,25 +50,53 @@ export class Home implements OnInit {
 
     this.appointmentService.getAppointmentByDoctor(doctorSurname).subscribe({
       next: (data: BackendAppointmentData[]) => {
-        this.appointments = data.map((appointment) => ({
-          id: appointment.id ?? 0,
-          title: appointment.title,
-          doctorName: appointment.id_doctor,
-          doctorIcon: '🩺',
-          patientName: appointment.id_patient,
-          patientIcon: '👤',
-          description: appointment.reason,
-          date: new Date(appointment.attendance_date).toLocaleDateString(),
-          department: appointment.department,
-          active: true,
-          patientLayout: false
-        }));
-
-        console.log('Doctor appointments:', this.appointments);
+        this.appointments = data.map((appointment) =>
+          this.mapAppointmentToCard(appointment, false)
+        );
       },
       error: (err) => {
         console.error('Error loading doctor appointments', err);
       }
     });
+  }
+
+  loadPatientAppointments(): void {
+    const patientId = localStorage.getItem('identity_document');
+
+    if (!patientId) {
+      console.error('Patient identity document not found');
+      return;
+    }
+
+    this.appointmentService.getAppointmentByPatient(patientId).subscribe({
+      next: (data: BackendAppointmentData[]) => {
+        this.appointments = data.map((appointment) =>
+          this.mapAppointmentToCard(appointment, true)
+        );
+      },
+      error: (err) => {
+        console.error('Error loading patient appointments', err);
+      }
+    });
+  }
+
+  private mapAppointmentToCard(
+    appointment: BackendAppointmentData,
+    patientLayout: boolean
+  ): AppointmentData {
+    return {
+      id: appointment.id ?? 0,
+      id_patient: appointment.id_patient,
+      id_doctor: appointment.id_doctor,
+      title: appointment.title,
+      doctorName: appointment.id_doctor,
+      doctorIcon: '🩺',
+      patientName: appointment.id_patient,
+      patientIcon: '👤',
+      description: appointment.reason,
+      date: new Date(appointment.attendance_date).toLocaleDateString(),
+      department: appointment.department,
+      active: true,
+    };
   }
 }
