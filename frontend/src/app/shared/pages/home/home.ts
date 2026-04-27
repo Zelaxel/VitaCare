@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
 import { Header } from '../../components/header/header';
-import { Router, RouterLink } from "@angular/router";
+import { Router, RouterLink } from '@angular/router';
+import { AppointmentService } from '../../../services/appointment-service';
+import { AppointmentData as BackendAppointmentData } from '../../../model/appointment';
 
 @Component({
   standalone: true,
@@ -12,193 +14,61 @@ import { Router, RouterLink } from "@angular/router";
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit {
 
-  constructor(private router: Router) {}
+  appointments: AppointmentData[] = [];
+
+  constructor(
+    private router: Router,
+    private appointmentService: AppointmentService
+  ) {}
+
   isPatient(): boolean {
     return this.router.url.includes('/patient/home');
   }
 
-  appointments: AppointmentData[] = [
-    {
-      id: 0,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 1,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 2,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 3,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 4,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 5,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 6,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 7,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 8,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 9,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 10,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 11,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 12,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 13,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 14,
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
+  isDoctor(): boolean {
+    return this.router.url.includes('/doctor/home');
+  }
+
+  ngOnInit(): void {
+    if (this.isDoctor()) {
+      this.loadDoctorAppointments();
     }
-  ]
+    if (this.isPatient()) {
+      this.loadPatientAppointments();
+    }
+  }
+
+  loadDoctorAppointments(): void {
+    const doctorSurname = localStorage.getItem('doctor_surname');
+
+    if (!doctorSurname) {
+      console.error('Doctor surname not found');
+      return;
+    }
+
+    this.appointmentService.getAppointmentByDoctor(doctorSurname).subscribe({
+      next: (data: BackendAppointmentData[]) => {
+        this.appointments = data.map((appointment) => ({
+          id: appointment.id ?? 0,
+          title: appointment.title,
+          doctorName: appointment.id_doctor,
+          doctorIcon: '🩺',
+          patientName: appointment.id_patient,
+          patientIcon: '👤',
+          description: appointment.reason,
+          date: new Date(appointment.attendance_date).toLocaleDateString(),
+          department: appointment.department,
+          active: true,
+          patientLayout: false
+        }));
+
+        console.log('Doctor appointments:', this.appointments);
+      },
+      error: (err) => {
+        console.error('Error loading doctor appointments', err);
+      }
+    });
+  }
 }

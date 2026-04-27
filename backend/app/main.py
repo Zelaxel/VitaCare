@@ -116,7 +116,7 @@ def get_appointments_by_doctor(credentials: str) -> list[dict]:
 @app.post("/appointment")
 def create_appointment(appointment: Appointment):
     try:
-        patient_storer.store(appointment)
+        appointment_storer.store(appointment)
         return {"message": "Appointment created successfully", "patient": asdict(appointment)}
     except IntegrityError:
         raise HttpException(status_code=409, detail="Appointment already exists")
