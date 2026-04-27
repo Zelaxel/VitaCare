@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Header } from '../../../shared/components/header/header';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-patient-history',
-  imports: [Header, CommonModule],
+  imports: [Header, CommonModule, RouterLink],
   templateUrl: './patient-history.html',
   styleUrl: './patient-history.css',
 })
