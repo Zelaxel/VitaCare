@@ -5,7 +5,6 @@
   <main class="content-wrapper">
 
     <section class="patient-header">
-
       <button onclick="window.history.back()" class="back-button">
         <img src="/svg/left_arrow.svg" alt="Back">
       </button>
@@ -14,9 +13,14 @@
         <span>🖼️</span>
       </div>
 
-      <div class="patient-info">
-        <h1>{{ patient.name }} {{ patient.surname }} - {{ patient.department }}</h1>
+      <div class="patient-info" *ngIf="currentPatient">
+        <h1>{{ currentPatient.name }} {{ currentPatient.surname }}</h1>
+        <!--<p style="color: red; font-family: monospace;">DATI: {{ currentPatient | json }}</p>-->
         <div class="underline"></div>
+      </div>
+      
+      <div class="patient-info" *ngIf="!currentPatient">
+        <h1>Loading...</h1>
       </div>
     </section>
 
@@ -26,19 +30,19 @@
       <div class="history-scroll">
         <div
           class="history-card"
-          *ngFor="let appointment of appointments; let i = index"
-          [class.inactive]="i === appointments.length - 1"
+          *ngFor="let appointment of history; let i = index" 
+          [class.inactive]="i === history.length - 1"
         >
-          <h3>&lt;{{ appointment.title }}&gt;</h3>
+          <h3>{{ appointment.title }}</h3>
 
           <div class="doctor-row">
             <span class="doctor-icon">👤</span>
-            <span>&lt;{{ appointment.doctor }}&gt;</span>
+            <span>ID Dottore: {{ appointment.id_doctor }}</span>
           </div>
 
-          <p>{{ appointment.description }}</p>
+          <p>{{ appointment.reason }}</p>
 
-          <h4>&lt;{{ appointment.date }}&gt;</h4>
+          <h4>📅 {{ appointment.attendance_date }}</h4>
         </div>
       </div>
 

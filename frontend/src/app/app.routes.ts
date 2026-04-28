@@ -28,7 +28,7 @@ export const routes: Routes = [
             { path: 'report', loadComponent: () => import('./shared/pages/report/report').then(m => m.Report)},
             { path: 'create-appointment', loadComponent: () => import('./shared/pages/attendance-creator/attendance-creator').then(m => m.AttendanceCreator)},
             { path: 'fill-report/:id', loadComponent: () => import('./doctor/pages/fill-report/fill-report').then(m => m.FillReport)},
-            { path: 'patient-history', loadComponent: () => import('./doctor/pages/patient-history/patient-history').then(m => m.PatientHistory)},
+            { path: 'patient-history/:id', loadComponent: () => import('./doctor/pages/patient-history/patient-history').then(m => m.PatientHistory)},
             { path: '', redirectTo: 'home', pathMatch: 'full'}
         ]
     },

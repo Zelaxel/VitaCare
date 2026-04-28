@@ -25,25 +25,25 @@ export class DoctorInfo implements OnInit {
 
   ngOnInit() {
     const doctorId = this.route.snapshot.paramMap.get('id');
-    console.log("Sto cercando il dottore con ID:", doctorId); // <-- NUOVO LOG
+    console.log("Searching for doctor with ID:", doctorId); 
 
     if (doctorId) {
       this.doctorService.getDoctor(doctorId).subscribe({
         next: (doc) => {
           this.currentDoctor = Array.isArray(doc) ? doc[0] : doc;
-          console.log("DATI DOTTORE RICEVUTI:", this.currentDoctor); // <-- LOG RIMESSO
+          console.log("Doctor data received:", this.currentDoctor); 
           this.cdr.detectChanges(); 
         },
-        error: (err) => console.error("Errore dottore", err)
+        error: (err) => console.error("doctor error", err)
       });
 
       this.appointmentService.getAppointmentByDoctor(doctorId).subscribe({
         next: (visits: any[]) => {
           this.pastVisits = Array.isArray(visits) ? visits : [visits];
-          console.log("VISITE RICEVUTE:", this.pastVisits); // <-- LOG RIMESSO
+          console.log("received visit:", this.pastVisits); 
           this.cdr.detectChanges();
         },
-        error: (err) => console.error("Errore visite", err)
+        error: (err) => console.error("visit error", err)
       });
     }
   }

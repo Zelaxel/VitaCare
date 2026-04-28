@@ -37,7 +37,7 @@
         {{doctorName}}
     </button>
   } @else {
-    <button [routerLink]="['/doctor/patient-history']" class="patient-button">
+    <button [routerLink]="['/doctor/patient-history', id_patient]" class="patient-button">
         <img [src]=patientIcon (error)="patientIcon='svg/missing_user.svg'" alt="user icon">
         {{patientName}}
     </button>
