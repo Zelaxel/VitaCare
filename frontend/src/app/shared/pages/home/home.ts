@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
 import { Header } from '../../components/header/header';
-import { Router, RouterLink } from "@angular/router";
+import { Router, RouterLink } from '@angular/router';
+import { AppointmentService } from '../../../services/appointment-service';
+import { AppointmentData as BackendAppointmentData } from '../../../model/appointment';
 
 @Component({
   standalone: true,
@@ -12,223 +14,89 @@ import { Router, RouterLink } from "@angular/router";
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit {
+  appointments: AppointmentData[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private appointmentService: AppointmentService
+  ) {}
+
   isPatient(): boolean {
     return this.router.url.includes('/patient/home');
   }
 
-  appointments: AppointmentData[] = [
-    {
-      id: 0,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 1,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 2,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 3,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 4,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 5,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 6,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: true,
-      date: '02-04-2026'
-    },
-    {
-      id: 7,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 8,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 9,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 10,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 11,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 12,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 13,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
-    },
-    {
-      id: 14,
-      id_patient: '1',
-      id_doctor: '1',
-      title: 'Blood analisys',
-      doctorName: 'David',
-      doctorIcon: '',
-      patientName: 'Juan',
-      patientIcon: '',
-      department: 'Laboratory',
-      description: 'Lorem itsum',
-      active: false,
-      date: '02-04-2026'
+  isDoctor(): boolean {
+    return this.router.url.includes('/doctor/home');
+  }
+
+  ngOnInit(): void {
+    if (this.isDoctor()) {
+      this.loadDoctorAppointments();
     }
-  ]
+
+    if (this.isPatient()) {
+      this.loadPatientAppointments();
+    }
+  }
+
+  loadDoctorAppointments(): void {
+    const doctorSurname = localStorage.getItem('doctor_surname');
+
+    if (!doctorSurname) {
+      console.error('Doctor surname not found');
+      return;
+    }
+
+    this.appointmentService.getAppointmentByDoctor(doctorSurname).subscribe({
+      next: (data: BackendAppointmentData[]) => {
+        this.appointments = data.map((appointment) =>
+          this.mapAppointmentToCard(appointment, false)
+        );
+      },
+      error: (err) => {
+        console.error('Error loading doctor appointments', err);
+      }
+    });
+  }
+
+  loadPatientAppointments(): void {
+    const patientId = localStorage.getItem('identity_document');
+
+    if (!patientId) {
+      console.error('Patient identity document not found');
+      return;
+    }
+
+    this.appointmentService.getAppointmentByPatient(patientId).subscribe({
+      next: (data: BackendAppointmentData[]) => {
+        this.appointments = data.map((appointment) =>
+          this.mapAppointmentToCard(appointment, true)
+        );
+      },
+      error: (err) => {
+        console.error('Error loading patient appointments', err);
+      }
+    });
+  }
+
+  private mapAppointmentToCard(
+    appointment: BackendAppointmentData,
+    patientLayout: boolean
+  ): AppointmentData {
+    return {
+      id: appointment.id ?? 0,
+      id_patient: appointment.id_patient,
+      id_doctor: appointment.id_doctor,
+      title: appointment.title,
+      doctorName: appointment.id_doctor,
+      doctorIcon: '🩺',
+      patientName: appointment.id_patient,
+      patientIcon: '👤',
+      description: appointment.reason,
+      date: new Date(appointment.attendance_date).toLocaleDateString(),
+      department: appointment.department,
+      active: true,
+    };
+  }
 }
