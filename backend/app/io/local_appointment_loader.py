@@ -37,5 +37,5 @@ class Local_appointment_loader(Appointment_loader):
     def load_by_id(self, id):
         with Session(self.__engine) as session:
             query = select(Appointment_data).where(Appointment_data.id == id)
-            attendance_data_list: Appointment_data = session.exec(query).all()
-            return [self.__to_appointment(attendance_data) for attendance_data in attendance_data_list]
+            attendance_data: Appointment_data = session.exec(query).first()
+            return self.__to_appointment(attendance_data) if attendance_data else None

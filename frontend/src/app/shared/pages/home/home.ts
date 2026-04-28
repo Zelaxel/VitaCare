@@ -42,13 +42,20 @@ export class Home implements OnInit {
 
   loadDoctorAppointments(): void {
     const doctorSurname = localStorage.getItem('doctor_surname');
+    const doctorId = localStorage.getItem('credentials');
 
     if (!doctorSurname) {
       console.error('Doctor surname not found');
       return;
     }
 
-    this.appointmentService.getAppointmentByDoctor(doctorSurname).subscribe({
+    if(!doctorId){
+      console.error("doctor id not found");
+      return;
+    }
+
+    console.log(doctorId);
+    this.appointmentService.getAppointmentByDoctor(doctorId).subscribe({
       next: (data: BackendAppointmentData[]) => {
         this.appointments = data.map((appointment) =>
           this.mapAppointmentToCard(appointment, false)

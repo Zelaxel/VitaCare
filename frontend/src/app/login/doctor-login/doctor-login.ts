@@ -27,6 +27,7 @@ export class DoctorLogin {
       next: (response: any) => {
         if (response.status === 'success') {
           localStorage.setItem('doctor_surname', response.doctor.surname);
+          localStorage.setItem('credentials', response.doctor.credentials);
           this.router.navigate(['/doctor/home']); 
         } else {
           this.loginErrorMessage = "The data provided is invalid.";
