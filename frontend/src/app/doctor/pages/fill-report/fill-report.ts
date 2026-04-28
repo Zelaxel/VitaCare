@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Location, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,7 +35,8 @@ import { AppointmentData } from '../../../model/appointment';
     private appointmentService: AppointmentService,
     private location: Location,
     private patientService: PatientService, // Serviranno se ricarichi la pagina (F5)
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
+    private cdr: ChangeDetectorRef
   ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as any;
@@ -88,6 +89,7 @@ import { AppointmentData } from '../../../model/appointment';
         this.date = new Date(appointment.attendance_date); 
         this.reason = appointment.reason;
         this.conclusion = appointment.conclusion || '';
+        this.cdr.detectChanges();
 
         // 2. Carichiamo le info del paziente associate a questa visita
         this.patientService.getPatient(appointment.id_patient).subscribe({
