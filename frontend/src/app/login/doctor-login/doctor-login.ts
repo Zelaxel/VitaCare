@@ -21,7 +21,7 @@ export class DoctorLogin {
   constructor(private http: HttpClient, private router: Router) {}
 
   onLogin() {
-    const url = 'http://localhost:8000/login/doctor-log-in'; 
+    const url = 'http://127.0.0.1:8000/login/doctor-log-in'; 
 
     this.http.post(url, this.loginData).subscribe({
       next: (response: any) => {
