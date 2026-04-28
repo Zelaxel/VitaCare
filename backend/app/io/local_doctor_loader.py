@@ -32,5 +32,11 @@ class Local_doctor_loader(Doctor_loader):
         with Session(self.__engine) as session:
             query = select(Doctor_data).where(Doctor_data.department == department)
             doctor_datas: list[Doctor_data] = session.exec(query).all()
-            return [self.__toDoctor(doctor_datas) for doctor_data in doctor_datas]
+            return [self.__toDoctor(doctor_data) for doctor_data in doctor_datas]
+        
+    def load_all(self) -> list[Doctor]:
+        with Session(self.__engine) as session:
+            query = select(Doctor_data)
+            doctor_datas = session.exec(query).all()
+            return [self.__toDoctor(doctor_data) for doctor_data in doctor_datas]
 

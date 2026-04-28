@@ -11,3 +11,7 @@ class Doctor_loader(ABC):
     def load_by_department(self, department: str) -> list[Doctor]:
         """Returns doctor by his department."""
         pass
+
+    @abstractmethod
+    def load_all(self) -> list[Doctor]:
+        pass

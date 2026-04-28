@@ -20,6 +20,22 @@ button img {
   gap: 1rem;
 }
 
+.patient-theme {
+  --appointment-bg: #63B995;
+}
+
+.doctor-theme {
+  --appointment-bg: #ad8666;
+}
+
+.active-card {
+  background-color: var(--appointment-bg);
+}
+
+.inactive-card {
+  background-color: #9C9C9C;
+}
+
 h1 {
   margin: 0;
   font-size: 1.2rem;

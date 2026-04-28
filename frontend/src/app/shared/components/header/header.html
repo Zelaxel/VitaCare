@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
   
   <div class="header-left" style="cursor: pointer;">
     <div class="logo-box">
