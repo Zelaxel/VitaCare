@@ -103,7 +103,7 @@ export class Home implements OnInit {
       description: appointment.reason,
       date: new Date(appointment.attendance_date).toLocaleDateString(),
       department: appointment.department,
-      active: true,
+      active: appointment.active,
     };
   }
 }

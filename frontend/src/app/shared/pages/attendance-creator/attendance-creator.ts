@@ -80,6 +80,7 @@ export class AttendanceCreator implements OnInit{
       department: this.department,
       attendance_date: this.formatDate(this.date) as any,
       reason: this.explanation,
+      active: true,
     };
 
     this.appointmentService.createAppointment(appointment).subscribe({

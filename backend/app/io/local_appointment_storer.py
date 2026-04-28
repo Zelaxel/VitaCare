@@ -19,7 +19,8 @@ class Local_appointment_storer(Appointment_storer):
             department=attendance.department,
             attendance_date=attendance.attendance_date,
             reason=attendance.reason,
-            conclusion=attendance.conclusion
+            conclusion=attendance.conclusion,
+            active=attendance.active
         )
     
     def store(self, attendance: Appointment) -> None:

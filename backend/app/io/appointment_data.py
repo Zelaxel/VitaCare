@@ -10,4 +10,5 @@ class Appointment_data(SQLModel, table=True):
     department: str
     attendance_date: date
     reason: str
+    active: bool
     conclusion: Optional[str]

@@ -34,13 +34,13 @@ patients = [
 ]
 
 appointments = [
-    Appointment(id=0, id_patient='0', id_doctor='0', title='Heart checkout', department='cardiology', attendance_date= date(2045,5,1), reason="follow-up"),
-    Appointment(id=1, id_patient='0', id_doctor='5', title='Tooth extraction', department='dentistry', attendance_date= date(2045,5,1), reason="toothache"),
-    Appointment(id=2, id_patient='0', id_doctor='6', title='Skin examination', department='dermatology', attendance_date= date(2045,5,1), reason="itchy skin"),
-    Appointment(id=3, id_patient='1', id_doctor='3', title='Arm scan', department='radiology', attendance_date= date(2045,5,1), reason="sharp pain"),
-    Appointment(id=4, id_patient='4', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change"),
-    Appointment(id=5, id_patient='3', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change"),
-    Appointment(id=6, id_patient='5', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change"),
+    Appointment(id=0, id_patient='0', id_doctor='0', title='Heart checkout', department='cardiology', attendance_date= date(2045,5,1), reason="follow-up", active=True),
+    Appointment(id=1, id_patient='0', id_doctor='5', title='Tooth extraction', department='dentistry', attendance_date= date(2045,5,1), reason="toothache", active=True),
+    Appointment(id=2, id_patient='0', id_doctor='6', title='Skin examination', department='dermatology', attendance_date= date(2045,5,1), reason="itchy skin", active=True),
+    Appointment(id=3, id_patient='1', id_doctor='3', title='Arm scan', department='radiology', attendance_date= date(2045,5,1), reason="sharp pain", active=True),
+    Appointment(id=4, id_patient='4', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change", active=True),
+    Appointment(id=5, id_patient='3', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change", active=True),
+    Appointment(id=6, id_patient='5', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change", active=True),
 ]
 
 doctor_storer: Doctor_storer = Local_doctor_storer(engine)

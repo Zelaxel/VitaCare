@@ -10,5 +10,6 @@ class Appointment:
     department: str
     attendance_date: date
     reason: str
+    active: bool
     id: Optional[int] = None
     conclusion: Optional[str] = None

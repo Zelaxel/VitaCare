@@ -7,4 +7,5 @@ export interface AppointmentData {
     attendance_date: Date
     reason: string
     conclusion?: string
+    active: boolean
 }

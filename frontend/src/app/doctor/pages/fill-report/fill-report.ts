@@ -66,7 +66,8 @@ import { AppointmentData } from '../../../model/appointment';
         department: state.department,
         attendance_date: this.date as Date,
         reason: state.description,
-        conclusion: state.conclusion || ''
+        conclusion: state.conclusion || '',
+        active: state.active
       };
     }
   }
