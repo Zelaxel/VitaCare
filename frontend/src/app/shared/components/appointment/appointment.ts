@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { DoctorService } from '../../../services/doctor-service';
@@ -29,7 +29,8 @@ export class Appointment implements OnInit { // Implementamos OnInit
 
   constructor(
     private router: Router,
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +43,7 @@ export class Appointment implements OnInit { // Implementamos OnInit
         next: (doctor: Doctor) => {
           const surname = doctor.surname.split(' ').pop();
           this.displayDoctorName = `Dr. ${surname}`;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error fetching doctor:', err);

@@ -20,12 +20,14 @@
           <input class="date-input" type="date">
         </label>
       </div>
-      <select class="department-select" (change)="loadDepartments()">
-        <option value="" disabled selected>○○ Departament ○○</option>
-        <option *ngFor="let dep of departments" [value]="dep">
-            {{ dep | titlecase}}
-          </option>
-      </select>
+      @if(isPatient()){
+        <select class="department-select" (change)="loadDepartments()">
+          <option value="" disabled selected>○○ Departament ○○</option>
+          <option *ngFor="let dep of departments" [value]="dep">
+              {{ dep | titlecase}}
+            </option>
+        </select>
+      }
       <div class="form-buttons container">
         <button class="filter-button">Filter</button>
         <button class="clear-filter-button">Clear filter</button>
