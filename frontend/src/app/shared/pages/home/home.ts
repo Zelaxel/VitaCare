@@ -71,9 +71,11 @@ export class Home implements OnInit {
     console.log(doctorId);
     this.appointmentService.getAppointmentByDoctor(doctorId).subscribe({
       next: (data: BackendAppointmentData[]) => {
+        const sortedData = this.sortAppointments(data);
         this.appointments = data.map((appointment) =>
           this.mapAppointmentToCard(appointment, false)
         );
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading doctor appointments', err);
@@ -94,6 +96,7 @@ export class Home implements OnInit {
         this.appointments = data.map((appointment) =>
           this.mapAppointmentToCard(appointment, true)
         );
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading patient appointments', err);
@@ -119,5 +122,40 @@ export class Home implements OnInit {
       department: appointment.department,
       active: appointment.active,
     };
+  }
+
+
+
+
+  private sortAppointments(data: BackendAppointmentData[]): BackendAppointmentData[] {
+    return data.sort((a, b) => {
+      const timeA = new Date(a.attendance_date).getTime();
+      const timeB = new Date(b.attendance_date).getTime();
+
+      const isAActive = a.active;
+      const isBActive = b.active;
+
+      // SCENARIO 1: 'a' is active (to do), 'b' is inactive (done) -> 'a' comes first
+      if (isAActive && !isBActive) {
+        return -1; 
+      }
+      
+      // SCENARIO 2: 'b' is active (to do), 'a' is inactive (done) -> 'b' comes first
+      if (!isAActive && isBActive) {
+        return 1; 
+      }
+
+      // SCENARIO 3: Both appointments are active (To do)
+      if (isAActive && isBActive) {
+        // ASCENDING ORDER: From the closest upcoming date to the furthest in the future
+        return timeA - timeB; 
+      } 
+      
+      // SCENARIO 4: Both appointments are inactive (Done)
+      else {
+        // DESCENDING ORDER: From the most recently completed to the oldest one
+        return timeB - timeA; 
+      }
+    });
   }
 }

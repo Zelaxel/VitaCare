@@ -162,6 +162,7 @@ import { AppointmentData } from '../../../model/appointment';
 
     // Aggiorniamo l'oggetto con la nuova conclusione
     this.currentAppointment.conclusion = this.conclusion;
+    this.currentAppointment.active = false;
 
     // Chiamata al backend per salvare l'aggiornamento
     this.appointmentService.updateAppointment(this.currentAppointment).subscribe({
