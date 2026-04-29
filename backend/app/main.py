@@ -16,6 +16,7 @@ from architecture.io.patient_updater import Patient_updater
 from architecture.io.appointment_loader import Appointment_loader
 from architecture.io.appointment_updater import Appointment_updater
 from architecture.io.appointment_storer import Appointment_storer
+from architecture.io.appointment_deleter import Appointment_deleter
 from app.io.local_doctor_storer import Local_doctor_storer
 from app.io.local_doctor_loader import Local_doctor_loader
 from app.io.local_patient_storer import Local_patient_storer
@@ -24,6 +25,7 @@ from app.io.local_patient_updater import Local_patient_updater
 from app.io.local_appointment_storer import Local_appointment_storer
 from app.io.local_appointment_loader import Local_appointment_loader
 from app.io.local_appointment_updater import Local_appointment_updater
+from app.io.local_appointment_deleter import Local_appointment_deleter
 
 # Variables -------------------------------------------------------
 
@@ -38,6 +40,7 @@ patient_updater: Patient_updater = Local_patient_updater(engine)
 appointment_storer: Appointment_storer = Local_appointment_storer(engine)
 appointment_loader: Appointment_loader = Local_appointment_loader(engine)
 appointment_updater: Appointment_updater = Local_appointment_updater(engine) 
+appointment_deleter: Appointment_deleter = Local_appointment_deleter(engine)
 
 
 app = FastAPI()
@@ -123,6 +126,13 @@ def get_appointments_by_patient(identity_document: str) -> list[dict]:
 def get_appointments_by_doctor(credentials: str) -> list[dict]:
     return [asdict(appointment) for appointment in appointment_loader.load_by_doctor(credentials)]
 
+@app.get("/appointment/{id}")
+def get_appointment_by_id(id: int) -> dict:
+    appointment = appointment_loader.load_by_id(id)
+    if not appointment: 
+        raise HttpException(status_code=404, detail="Appointment not found")
+    return asdict(appointment)
+    
 @app.post("/appointment")
 def create_appointment(appointment: Appointment):
     try:
@@ -144,11 +154,7 @@ def update_appointment(id: int, updated_appointment: Appointment) -> dict:
         "message": "Appointment updated successfully", 
         "appointment": asdict(updated_appointment)
     }
-    
-@app.get("/appointment/{id}")
-def get_appointment_by_id(id: int) -> dict:
-    appointment = appointment_loader.load_by_id(id)
-    if not appointment: 
-        raise HttpException(status_code=404, detail="Appointment not found")
-    return asdict(appointment)
-    
+
+@app.delete("/appointment/{id}")
+def delete_appointment(id: int) -> None:
+    appointment_deleter.delete(id)
