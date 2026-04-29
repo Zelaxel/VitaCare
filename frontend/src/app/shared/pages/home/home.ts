@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
@@ -10,16 +11,18 @@ import { AppointmentData as BackendAppointmentData } from '../../../model/appoin
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [SearchBar, AppointmentGrid, Header, RouterLink],
+  imports: [SearchBar, AppointmentGrid, Header, RouterLink, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
   appointments: AppointmentData[] = [];
+  departments: string[] = [];
 
   constructor(
     private router: Router,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   isPatient(): boolean {
@@ -37,7 +40,18 @@ export class Home implements OnInit {
 
     if (this.isPatient()) {
       this.loadPatientAppointments();
+      this.loadDepartments();
     }
+  }
+
+  loadDepartments() {
+    fetch('http://localhost:8000/departments')
+      .then(res => res.json())
+      .then(data => {
+        console.log("Departments:", data);
+        this.departments = data;
+        this.cdr.detectChanges();
+      });
   }
 
   loadDoctorAppointments(): void {

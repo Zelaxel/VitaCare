@@ -12,7 +12,7 @@
           id_doctor: id_doctor,
           title: title, 
           patientName: patientName, 
-          doctorName: doctorName, 
+          doctorName: displayDoctorName, 
           date: date, 
           department: department, 
           description: description
@@ -34,7 +34,7 @@
   @if(patientLayaut) {
     <button [routerLink]="['/patient/doctor-info',id_doctor]" class="doctor-button">
         <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="doctor icon">
-        {{doctorName}}
+        {{displayDoctorName}}
     </button>
   } @else {
     <button [routerLink]="['/doctor/patient-history', id_patient]" class="patient-button">
@@ -44,7 +44,7 @@
   }
   <p class="description">{{description}}</p>
   <footer>
-    <label class="department-label-appointment">{{department}}</label>
+    <label class="department-label-appointment">{{department | titlecase}}</label>
     <label class="date-label">{{date}}</label>
   </footer>
 </article>

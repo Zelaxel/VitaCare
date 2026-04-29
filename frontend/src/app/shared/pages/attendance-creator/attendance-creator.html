@@ -25,7 +25,7 @@
         <select id="doctor" [(ngModel)]="doctor" [disabled]="!department || doctors.length === 0">
           <option value="" selected disabled>Select a doctor</option>
           <option *ngFor="let doc of doctors" [value]="doc.credentials">
-            {{ doc.name }}
+            Dr. {{ doc.surname }}
           </option>
         </select>
 
