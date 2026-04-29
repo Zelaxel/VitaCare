@@ -75,7 +75,7 @@ export class AttendanceCreator implements OnInit{
 
     const appointment: AppointmentData = {
       id_patient: patientId,
-      id_doctor: this.cleanDoctorName(this.doctor),
+      id_doctor: this.doctor,
       title: this.medicalMatter,
       department: this.department,
       attendance_date: this.formatDate(this.date) as any,
@@ -92,10 +92,6 @@ export class AttendanceCreator implements OnInit{
         alert('Unable to create appointment.');
       }
     });
-  }
-
-  private cleanDoctorName(doctor: string): string {
-    return doctor.replace('Dr. ', '').replace('Dra. ', '');
   }
 
   private formatDate(date: string): string {
