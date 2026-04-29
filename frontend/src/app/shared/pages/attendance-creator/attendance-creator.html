@@ -29,9 +29,16 @@
           </option>
         </select>
 
-        <div class="date-input">
-          <label for="doctor"><strong>Calendar</strong></label>
-          <input id="date" type="date" [(ngModel)]="date">
+        <div class="date-container">
+          <div class="date-group">
+            <label for="date"><strong>Calendar</strong></label>
+            <input id="date" type="date" [(ngModel)]="date">
+          </div>
+
+          <div class="date-group">
+            <label for="time"><strong>Time</strong></label>
+            <input id="time" type="time">
+          </div>
         </div>
       </div>
 
@@ -48,6 +55,12 @@
           <input type="checkbox" [(ngModel)]="notifications">
           <span><em>Activate automatic notifications</em></span>
         </label>
+
+        @if (loginErrorMessage) {
+            <div class="global-error-banner">
+                {{ loginErrorMessage }}
+            </div>
+        }
 
         <div class="buttons">
           <button class="update-btn" type="button">Update</button>
