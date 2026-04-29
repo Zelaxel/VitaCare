@@ -21,8 +21,10 @@ export class AttendanceCreator implements OnInit{
   department = '';
   doctor = '';
   date = '';
+  time = '';
   medicalMatter = '';
   explanation = '';
+  loginErrorMessage = '';
   notifications = true;
 
   constructor(private appointmentService: AppointmentService, private doctorService: DoctorService, private cdr: ChangeDetectorRef) {}
@@ -68,11 +70,12 @@ export class AttendanceCreator implements OnInit{
       return;
     }
 
-    if (!this.department || !this.doctor || !this.date || !this.medicalMatter) {
-      alert('Please fill all required fields.');
+    if (!this.department || !this.doctor || !this.date || !this.time || !this.medicalMatter || this.explanation) {
+      this.loginErrorMessage = "Some fields are missing."
       return;
     }
 
+    // Falta implementar el parametro "time" en la base de datos para poder actualizar la constante
     const appointment: AppointmentData = {
       id_patient: patientId,
       id_doctor: this.doctor,

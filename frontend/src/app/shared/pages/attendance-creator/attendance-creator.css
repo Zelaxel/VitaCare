@@ -135,27 +135,35 @@ select {
   margin-bottom: 18px;
 }
 
-.date-input-wrapper {
-  position: relative;
-  width: 100%;
-  margin-top: 24px;
-  margin-bottom: 22px;
+.date-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-end;
+    margin-top: 20px;
 }
 
-.date-input input{
-    width: auto;
+.date-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.date-group label {
+    margin-bottom: 8px;
+    color: #1f1f1f;
+    font-size: 16px;
+}
+
+.date-group input {
+    width: 100%;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 15px;
     border: none;
     background-color: #ececec;
     font-size: 14px;
     box-sizing: border-box;
-}
-
-.date-input label{
-    display: block;
-    margin-bottom: 8px;
-    color: #1f1f1f;
+    cursor: pointer;
 }
 
 .calendar-icon {
@@ -301,6 +309,19 @@ textarea {
 .create-btn {
   background: #242424;
   color: white;
+}
+
+.global-error-banner {
+    background-color: rgba(112, 22, 22, 0.4);
+    color: #ffffff;
+    border: 2px solid #701616;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 @media (max-width: 1100px) {
