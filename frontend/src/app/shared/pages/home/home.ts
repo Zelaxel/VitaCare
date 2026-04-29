@@ -6,22 +6,26 @@ import { AppointmentGrid } from '../../components/appointment-grid/appointment-g
 import { Header } from '../../components/header/header';
 import { Router, RouterLink } from '@angular/router';
 import { AppointmentService } from '../../../services/appointment-service';
+import { PatientService } from '../../../services/patient-service';
 import { AppointmentData as BackendAppointmentData } from '../../../model/appointment';
+import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [SearchBar, AppointmentGrid, Header, RouterLink, CommonModule],
+  imports: [SearchBar, AppointmentGrid, Header, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
   appointments: AppointmentData[] = [];
   departments: string[] = [];
+  patientData: any = null;
 
   constructor(
     private router: Router,
     private appointmentService: AppointmentService,
+    private patientService: PatientService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -41,6 +45,7 @@ export class Home implements OnInit {
     if (this.isPatient()) {
       this.loadPatientAppointments();
       this.loadDepartments();
+      this.checkPatientProfile();
     }
   }
 
@@ -102,6 +107,38 @@ export class Home implements OnInit {
         console.error('Error loading patient appointments', err);
       }
     });
+  }
+
+  checkPatientProfile(): void {
+    const patientId = localStorage.getItem('identity_document');
+    if (patientId) {
+      this.patientService.getPatient(patientId).subscribe({
+        next: (data) => {
+          this.patientData = data;
+        }
+      });
+    }
+  }
+
+  handleCreateAppointment(): void {
+    if (!this.patientData || !this.patientData.name || !this.patientData.surname) {
+      Swal.fire({
+        title: 'Profile Incomplete',
+        text: 'Please complete your name and surname in your profile before requesting an appointment.',
+        icon: 'warning',
+        confirmButtonText: 'Go to Profile',
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Solo redirige cuando el usuario hace clic en el botón
+          this.router.navigate(['/patient/user-profile']);
+        }
+      });
+    } else {
+      // Si todo está bien, navegar a la creación de cita
+      this.router.navigate(['/patient/create-appointment']);
+    }
   }
 
   private mapAppointmentToCard(

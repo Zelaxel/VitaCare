@@ -32,7 +32,7 @@
 
       <div class="form-row">
         <div class="form-group col-4">
-          <label>Birth date *</label>
+          <label>Birth date</label>
           <div class="date-row">
             <input type="text" placeholder="DD" [(ngModel)]="userData.birthDate.dd" name="b-dd">
             <input type="text" placeholder="MM" [(ngModel)]="userData.birthDate.mm" name="b-mm">
@@ -40,11 +40,11 @@
           </div>
         </div>
         <div class="form-group col-4">
-          <label>Birth place *</label>
+          <label>Birth place</label>
           <input type="text" [(ngModel)]="userData.birthPlace" name="b-place">
         </div>
         <div class="form-group col-4">
-          <label>Nationality *</label>
+          <label>Nationality</label>
           <input type="text" [(ngModel)]="userData.nationality" name="nat">
         </div>
       </div>
@@ -55,33 +55,33 @@
           <input type="text" [(ngModel)]="userData.address" name="addr">
         </div>
         <div class="form-group col-3">
-          <label>Postal Code *</label>
+          <label>Postal Code</label>
           <input type="text" [(ngModel)]="userData.postalCode" name="pc">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-6">
-          <label>City *</label>
+          <label>City</label>
           <input type="text" [(ngModel)]="userData.city" name="city">
         </div>
         <div class="form-group col-6">
-          <label>Country *</label>
+          <label>Country</label>
           <input type="text" [(ngModel)]="userData.country" name="country">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-4">
-          <label>Identity Document</label>
+          <label>Identity Document *</label>
           <input type="text" [(ngModel)]="userData.idDocument" name="id-doc">
         </div>
         <div class="form-group col-4">
-          <label>Issuing Country *</label>
+          <label>Issuing Country</label>
           <input type="text" [(ngModel)]="userData.idIssuingCountry" name="id-iss">
         </div>
         <div class="form-group col-4">
-          <label>Expiry date</label>
+          <label>Expiry date *</label>
           <div class="date-row">
             <input type="text" placeholder="DD" [(ngModel)]="userData.idExpiry.dd" name="id-dd">
             <input type="text" placeholder="MM" [(ngModel)]="userData.idExpiry.mm" name="id-mm">
@@ -92,15 +92,15 @@
 
       <div class="form-row">
         <div class="form-group col-4">
-          <label>Sanitary Document</label>
+          <label>Sanitary Document *</label>
           <input type="text" [(ngModel)]="userData.sanitaryDocument" name="san-doc">
         </div>
         <div class="form-group col-4">
-          <label>Issuing Country *</label>
+          <label>Issuing Country</label>
           <input type="text" [(ngModel)]="userData.sanitaryIssuingCountry" name="san-iss">
         </div>
         <div class="form-group col-4">
-          <label>Expiry date</label>
+          <label>Expiry date *</label>
           <div class="date-row">
             <input type="text" placeholder="DD" [(ngModel)]="userData.sanitaryExpiry.dd" name="san-dd">
             <input type="text" placeholder="MM" [(ngModel)]="userData.sanitaryExpiry.mm" name="san-mm">
@@ -111,7 +111,7 @@
 
       <div class="form-row">
         <div class="form-group col-4">
-          <label>Telephone number</label>
+          <label>Telephone number *</label>
           <div class="phone-row">
             <span class="prefix-label">{{ userData.phonePrefix }}</span>
             <input type="text" [(ngModel)]="userData.phoneNumber" name="phone">

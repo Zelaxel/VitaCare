@@ -32,7 +32,7 @@
         <button class="filter-button">Filter</button>
         <button class="clear-filter-button">Clear filter</button>
         @if(isPatient()){
-          <button type="button" [routerLink]="['/patient/create-appointment']" class="create-button">Create appointment</button>
+          <button type="button" (click)="handleCreateAppointment()" class="create-button">Create appointment</button>
         }
       </div>
     </div>
