@@ -93,7 +93,7 @@ export class Home implements OnInit {
       next: (data: BackendAppointmentData[]) => {
         this.appointments = data.map((appointment) =>
           this.mapAppointmentToCard(appointment, true)
-        );
+      );
       },
       error: (err) => {
         console.error('Error loading patient appointments', err);
@@ -115,7 +115,7 @@ export class Home implements OnInit {
       patientName: appointment.id_patient,
       patientIcon: '👤',
       description: appointment.reason,
-      date: new Date(appointment.attendance_date).toLocaleDateString(),
+      date: appointment.attendance_date,
       department: appointment.department,
       active: appointment.active,
     };

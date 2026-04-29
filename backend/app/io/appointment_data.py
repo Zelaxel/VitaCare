@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, Field
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 class Appointment_data(SQLModel, table=True):
@@ -8,7 +8,7 @@ class Appointment_data(SQLModel, table=True):
     id_doctor: str = Field(foreign_key="doctor_data.credentials")
     title: str
     department: str
-    attendance_date: date
+    attendance_date: datetime
     reason: str
     active: bool
     conclusion: Optional[str]

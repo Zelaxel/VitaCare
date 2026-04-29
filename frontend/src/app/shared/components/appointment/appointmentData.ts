@@ -9,6 +9,6 @@ export interface AppointmentData {
     patientIcon: string;
     description: string;
     department: string;
-    date: string;
+    date: Date;
     active: boolean;
 }
