@@ -118,7 +118,7 @@ export class Home implements OnInit {
       patientName: appointment.id_patient,
       patientIcon: '👤',
       description: appointment.reason,
-      date: new Date(appointment.attendance_date).toLocaleDateString(),
+      date: appointment.attendance_date,
       department: appointment.department,
       active: appointment.active,
     };

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 @dataclass(frozen=False)
@@ -8,7 +8,7 @@ class Appointment:
     id_doctor: str
     title: str
     department: str
-    attendance_date: date
+    attendance_date: datetime
     reason: str
     active: bool
     id: Optional[int] = None

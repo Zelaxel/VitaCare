@@ -35,6 +35,10 @@ export class AppointmentService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  deleteAppointment(id: number): void {
+    this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
   /**    added method */
   downloadReport(id: string | number): Observable<any> {
     

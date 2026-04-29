@@ -1,6 +1,6 @@
+from datetime import datetime
 from datetime import date
 from sqlmodel import create_engine, SQLModel
-from sqlalchemy import Engine
 from sqlalchemy.exc import IntegrityError
 from architecture.model.doctor import Doctor
 from architecture.model.patient import Patient
@@ -34,16 +34,13 @@ patients = [
 ]
 
 appointments = [
-    Appointment(id=0, id_patient='0', id_doctor='0', title='Heart checkout', department='cardiology', attendance_date= date(2045,5,1), reason="follow-up", active=True),
-    Appointment(id=1, id_patient='0', id_doctor='5', title='Tooth extraction', department='dentistry', attendance_date= date(2045,5,1), reason="toothache", active=True),
-    Appointment(id=2, id_patient='0', id_doctor='6', title='Skin examination', department='dermatology', attendance_date= date(2045,5,1), reason="itchy skin", active=True),
-    Appointment(id=3, id_patient='1', id_doctor='3', title='Arm scan', department='radiology', attendance_date= date(2045,5,1), reason="sharp pain", active=True),
-    Appointment(id=4, id_patient='4', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2040,5,1), reason="Urine color change", active=True),
-    Appointment(id=5, id_patient='3', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change", active=True),
-    Appointment(id=6, id_patient='5', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2045,5,1), reason="Urine color change", active=False),
-    Appointment(id=7, id_patient='2', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2044,6,1), reason="Urine color change", active=False),
-    Appointment(id=8, id_patient='0', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2029,5,1), reason="Urine color change", active=True),
-    Appointment(id=9, id_patient='1', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= date(2035,5,1), reason="Urine color change", active=True),
+    Appointment(id=0, id_patient='0', id_doctor='0', title='Heart checkout', department='cardiology', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="follow-up", active=True),
+    Appointment(id=1, id_patient='0', id_doctor='5', title='Tooth extraction', department='dentistry', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="toothache", active=True),
+    Appointment(id=2, id_patient='0', id_doctor='6', title='Skin examination', department='dermatology', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="itchy skin", active=True),
+    Appointment(id=3, id_patient='1', id_doctor='3', title='Arm scan', department='radiology', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="sharp pain", active=True),
+    Appointment(id=4, id_patient='4', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="Urine color change", active=True),
+    Appointment(id=5, id_patient='3', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="Urine color change", active=True),
+    Appointment(id=6, id_patient='5', id_doctor='2', title='Ourine analisis', department='laboratory', attendance_date= datetime(2028, 9, 10, 13, 0, 0), reason="Urine color change", active=True),
 ]
 
 doctor_storer: Doctor_storer = Local_doctor_storer(engine)

@@ -3,11 +3,12 @@ import { RouterLink, Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { DoctorService } from '../../../services/doctor-service';
 import { Doctor } from '../../../model/doctor';
+import { DatePipe } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-appointment',
-  imports: [RouterLink, TitleCasePipe],
+  imports: [RouterLink, TitleCasePipe, DatePipe],
   templateUrl: './appointment.html',
   styleUrl: './appointment.css',
 })
@@ -20,7 +21,7 @@ export class Appointment implements OnInit { // Implementamos OnInit
   @Input() patientName!: string;
   @Input() patientIcon!: string;
   @Input() description!: string;
-  @Input() date!: string;
+  @Input() date!: Date;
   @Input() department!: string;
   @Input() active!: boolean;
   @Input() patientLayaut!: boolean;

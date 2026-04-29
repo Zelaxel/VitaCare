@@ -45,6 +45,6 @@
   <p class="description">{{description}}</p>
   <footer>
     <label class="department-label-appointment">{{department | titlecase}}</label>
-    <label class="date-label">{{date}}</label>
+    <label class="date-label">{{date | date:'yyyy-MM-dd : HH:mm'}}</label>
   </footer>
 </article>
