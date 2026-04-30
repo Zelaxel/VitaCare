@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectorRef } from '@angular/core';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
@@ -20,7 +20,8 @@ export class Home {
   departments: string[] = ['Cardiology', 'Neurology', 'Pediatrics', 'Laboratory', 'General']; //test
   constructor(
     private router: Router,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private cdr: ChangeDetectorRef
   ) {}
   
   isPatient(): boolean {
@@ -45,10 +46,11 @@ export class Home {
           doctorIcon: visit.doctorIcon || '👤',
           patientName: visit.patientName || 'Patient',
           patientIcon: visit.patientIcon || '👤',
-          date: visit.attendace_date
+          date: visit.attendance_date
         }));
-        this.allAppointments = data; 
-        this.appointments = data;
+        this.allAppointments = datosgrafica; 
+        this.appointments = datosgrafica;
+        this.cdr.detectChanges();
       });
     } else {
       // if doctor
@@ -60,11 +62,12 @@ export class Home {
           doctorIcon: visit.doctorIcon || '👤',
           patientName: visit.patientName || 'Patient',
           patientIcon: visit.patientIcon || '👤',
-          date: visit.attendace_date
+          date: visit.attendance_date
           
         }));
-        this.allAppointments = data; 
-        this.appointments = data;    
+        this.allAppointments = datosgrafica; 
+        this.appointments = datosgrafica;    
+        this.cdr.detectChanges();
       });
     }
   }
