@@ -39,12 +39,13 @@ export class Home {
       // if patient 
       this.appointmentService.getAppointmentByPatient(userID).subscribe((data: any[]) => {
         console.log("apoointment", data);
-        const datiPerGrafica = data.map(visit => ({
+        const datosgrafica = data.map(visit => ({
           ...visit,
           doctorName: visit.doctorName || 'Doctor', 
           doctorIcon: visit.doctorIcon || '👤',
           patientName: visit.patientName || 'Patient',
-          patientIcon: visit.patientIcon || '👤'
+          patientIcon: visit.patientIcon || '👤',
+          date: visit.attendace_date
         }));
         this.allAppointments = data; 
         this.appointments = data;
@@ -53,12 +54,14 @@ export class Home {
       // if doctor
       this.appointmentService.getAppointmentByDoctor(userID).subscribe((data: any[]) => {
         console.log("appointment", data);
-        const datiPerGrafica = data.map(visit => ({
+        const datosgrafica = data.map(visit => ({
           ...visit, 
           doctorName: visit.doctorName || 'Doctor', 
           doctorIcon: visit.doctorIcon || '👤',
           patientName: visit.patientName || 'Patient',
-          patientIcon: visit.patientIcon || '👤'
+          patientIcon: visit.patientIcon || '👤',
+          date: visit.attendace_date
+          
         }));
         this.allAppointments = data; 
         this.appointments = data;    
