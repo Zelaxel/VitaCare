@@ -3,7 +3,7 @@
 <div class="homepage" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
   <form class="homepage-form container">
     <div class="search-bar">
-      <app-search-bar></app-search-bar>
+      <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
     </div>
     <div class="wrap">
       <div class="form-dates container">
