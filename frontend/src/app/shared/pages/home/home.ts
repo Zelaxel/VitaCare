@@ -46,7 +46,8 @@ export class Home {
           doctorIcon: visit.doctorIcon || '👤',
           patientName: visit.patientName || 'Patient',
           patientIcon: visit.patientIcon || '👤',
-          date: visit.attendance_date
+          date: visit.attendance_date,
+          description: visit.reason
         }));
         this.allAppointments = datosgrafica; 
         this.appointments = datosgrafica;
@@ -62,7 +63,8 @@ export class Home {
           doctorIcon: visit.doctorIcon || '👤',
           patientName: visit.patientName || 'Patient',
           patientIcon: visit.patientIcon || '👤',
-          date: visit.attendance_date
+          date: visit.attendance_date,
+          description: visit.reason
           
         }));
         this.allAppointments = datosgrafica; 
