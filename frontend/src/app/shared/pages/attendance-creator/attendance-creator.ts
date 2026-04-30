@@ -70,18 +70,19 @@ export class AttendanceCreator implements OnInit{
       return;
     }
 
-    if (!this.department || !this.doctor || !this.date || !this.time || !this.medicalMatter || this.explanation) {
+    if (!this.department || !this.doctor || !this.date || !this.time || !this.medicalMatter || !this.explanation) {
       this.loginErrorMessage = "Some fields are missing."
       return;
     }
 
-    // Falta implementar el parametro "time" en la base de datos para poder actualizar la constante
+    const fullDateTime = `${this.date}T${this.time}:00`;
+
     const appointment: AppointmentData = {
       id_patient: patientId,
       id_doctor: this.doctor,
       title: this.medicalMatter,
       department: this.department,
-      attendance_date: this.formatDate(this.date) as any,
+      attendance_date: fullDateTime as any,
       reason: this.explanation,
       active: true,
     };
