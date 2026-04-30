@@ -24,11 +24,11 @@ export class Header {
   }
 
   isPatient(): boolean {
-    return this.router.url.includes('/patient');
+    return this.router.url.startsWith('/patient');
   }
 
   isDoctor(): boolean {
-    return this.router.url.includes('/doctor');
+    return this.router.url.startsWith('/doctor');
   }
 
   toggleSettings() {
