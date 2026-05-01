@@ -37,7 +37,12 @@
 
           <div class="date-group">
             <label for="time"><strong>Time</strong></label>
-            <input id="time" type="time" [(ngModel)]="time">
+            <select id="time" [(ngModel)]="time">
+              <option value="" disabled selected>Select hour</option>
+              <option *ngFor="let hour of availableHours" [value]="hour">
+                {{ hour }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
