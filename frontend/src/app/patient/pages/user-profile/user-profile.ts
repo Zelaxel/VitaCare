@@ -108,8 +108,9 @@ export class UserProfile implements OnInit {
       address: this.userData.address || null,
       postal_code: this.userData.postalCode || null,
       city: this.userData.city || null,
-      country: this.userData.country || null
+      country: this.userData.country || null  
     };
+    localStorage.setItem('patient_name', this.userData.name);
 
     this.patientService.updatePatient(patientToUpdate).subscribe({
       next: (response) => {

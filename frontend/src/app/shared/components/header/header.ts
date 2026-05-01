@@ -20,7 +20,7 @@ export class Header {
 
   ngOnInit() {
     this.doctorName = localStorage.getItem('doctor_surname');
-    this.patientName = localStorage.getItem('identity_document');
+    this.patientName = localStorage.getItem('patient_name');
   }
 
   isPatient(): boolean {

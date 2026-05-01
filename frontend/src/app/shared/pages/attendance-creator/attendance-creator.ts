@@ -6,6 +6,7 @@ import { DoctorService } from '../../../services/doctor-service';
 import { Doctor } from '../../../model/doctor';
 import { AppointmentService } from '../../../services/appointment-service';
 import { AppointmentData } from '../../../model/appointment';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -27,10 +28,14 @@ export class AttendanceCreator implements OnInit{
   loginErrorMessage = '';
   notifications = true;
 
-  constructor(private appointmentService: AppointmentService, private doctorService: DoctorService, private cdr: ChangeDetectorRef) {}
+  constructor(private appointmentService: AppointmentService, private doctorService: DoctorService, private cdr: ChangeDetectorRef, private router:Router) {}
 
   ngOnInit() {
     this.loadDepartments();
+  }
+
+  isPatient(): boolean {
+    return this.router.url.startsWith('/patient');
   }
 
   loadDepartments() {

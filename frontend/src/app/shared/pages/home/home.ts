@@ -9,6 +9,8 @@ import { AppointmentService } from '../../../services/appointment-service';
 import { PatientService } from '../../../services/patient-service';
 import { AppointmentData as BackendAppointmentData } from '../../../model/appointment';
 import Swal from 'sweetalert2';
+import { DoctorService } from '../../../services/doctor-service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -26,6 +28,7 @@ export class Home implements OnInit {
     private router: Router,
     private appointmentService: AppointmentService,
     private patientService: PatientService,
+    private doctorService: DoctorService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -59,7 +62,7 @@ export class Home implements OnInit {
       });
   }
 
-  loadDoctorAppointments(): void {
+  async loadDoctorAppointments(): Promise<void> {
     const doctorSurname = localStorage.getItem('doctor_surname');
     const doctorId = localStorage.getItem('credentials');
 
@@ -75,11 +78,9 @@ export class Home implements OnInit {
 
     console.log(doctorId);
     this.appointmentService.getAppointmentByDoctor(doctorId).subscribe({
-      next: (data: BackendAppointmentData[]) => {
+      next: async (data: BackendAppointmentData[]) => {
         const sortedData = this.sortAppointments(data);
-        this.appointments = data.map((appointment) =>
-          this.mapAppointmentToCard(appointment, false)
-        );
+        this.appointments = await Promise.all(sortedData.map((appointment) => this.mapAppointmentToCard(appointment, true)));
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -88,7 +89,7 @@ export class Home implements OnInit {
     });
   }
 
-  loadPatientAppointments(): void {
+  async loadPatientAppointments(): Promise<void> {
     const patientId = localStorage.getItem('identity_document');
 
     if (!patientId) {
@@ -97,10 +98,9 @@ export class Home implements OnInit {
     }
 
     this.appointmentService.getAppointmentByPatient(patientId).subscribe({
-      next: (data: BackendAppointmentData[]) => {
-        this.appointments = data.map((appointment) =>
-          this.mapAppointmentToCard(appointment, true)
-        );
+      next: async (data: BackendAppointmentData[]) => {
+        const sortedData = this.sortAppointments(data);
+        this.appointments = await Promise.all(sortedData.map((appointment) => this.mapAppointmentToCard(appointment, true)));
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -141,18 +141,17 @@ export class Home implements OnInit {
     }
   }
 
-  private mapAppointmentToCard(
-    appointment: BackendAppointmentData,
-    patientLayout: boolean
-  ): AppointmentData {
+  private async mapAppointmentToCard( appointment: BackendAppointmentData, patientLayout: boolean): Promise<AppointmentData> {
+    const doctor = await firstValueFrom(this.doctorService.getDoctor(appointment.id_doctor));
+    const patient = await firstValueFrom(this.patientService.getPatient(appointment.id_patient));
     return {
       id: appointment.id ?? 0,
       id_patient: appointment.id_patient,
       id_doctor: appointment.id_doctor,
       title: appointment.title,
-      doctorName: appointment.id_doctor,
+      doctorName: doctor.name,
       doctorIcon: '🩺',
-      patientName: appointment.id_patient,
+      patientName: patient.name || '',
       patientIcon: '👤',
       description: appointment.reason,
       date: appointment.attendance_date,
@@ -160,9 +159,6 @@ export class Home implements OnInit {
       active: appointment.active,
     };
   }
-
-
-
 
   private sortAppointments(data: BackendAppointmentData[]): BackendAppointmentData[] {
     return data.sort((a, b) => {
