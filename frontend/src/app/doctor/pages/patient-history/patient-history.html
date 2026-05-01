@@ -37,12 +37,12 @@
 
           <div class="doctor-row">
             <span class="doctor-icon">👤</span>
-            <span>Doctor ID: {{ appointment.id_doctor }}</span>
+            <span>Doctor: {{ appointment.doctorName }}</span>
           </div>
 
           <p>{{ appointment.reason }}</p>
 
-          <h4>📅 {{ appointment.attendance_date }}</h4>
+          <h4>📅 {{ appointment.attendance_date | date:'dd-MM-yyyy : HH:mm' }}</h4>
         </div>
       </div>
 
