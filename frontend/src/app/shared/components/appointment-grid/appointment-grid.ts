@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AppointmentData } from '../appointment/appointmentData';
 import { Appointment } from '../appointment/appointment';
 import { Input, ViewChild, ElementRef } from '@angular/core';
@@ -16,6 +16,8 @@ export class AppointmentGrid {
   @Input() isPatient!: boolean;
 
   @ViewChild("appointmentGrid") grid!: ElementRef;
+
+  @Output() deletedAppointment = new EventEmitter<void>();
 
   horizontalScroll(amount:number){
     if(this.buttonDisabled) return;

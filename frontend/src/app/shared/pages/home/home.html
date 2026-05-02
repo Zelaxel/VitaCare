@@ -39,6 +39,6 @@
   </form>
 
   <main class="homepage-main container">
-    <app-appointment-grid [isPatient]="isPatient()" [appointments]="appointments"></app-appointment-grid>
+    <app-appointment-grid (deletedAppointment)="refreshAppointments()" [isPatient]="isPatient()" [appointments]="appointments"></app-appointment-grid>
   </main>
 </div>

@@ -36,14 +36,18 @@ export class Home {
     return this.router.url.includes('/patient/home');
   }
   ngOnInit() {
+    this.refreshAppointments();
+  }
+  
+  refreshAppointments() {
     if (this.isPatient()) {
       this.checkPatientProfile();
       this.loadPatientAppointments();
     } else {
       this.loadDoctorAppointments();
     }
+    this.cdr.detectChanges();
   }
-  
 
   async loadDoctorAppointments(): Promise<void> {
     const doctorSurname = localStorage.getItem('doctor_surname');
@@ -187,6 +191,8 @@ export class Home {
       }
     });
   }
+
+
   loadDepartments() {
     //department logic
   }

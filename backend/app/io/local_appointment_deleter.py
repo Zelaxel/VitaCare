@@ -11,3 +11,4 @@ class Local_appointment_deleter(Appointment_deleter):
     def delete(self, id: int) -> None:
         with Session(self.__engine) as session:
             session.exec(delete(Appointment_data).where(Appointment_data.id == id))
+            session.commit()

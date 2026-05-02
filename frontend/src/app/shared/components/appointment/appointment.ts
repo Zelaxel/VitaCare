@@ -27,7 +27,7 @@ export class Appointment implements OnInit { // Implementamos OnInit
   @Input() department!: string;
   @Input() active!: boolean;
   @Input() patientLayaut!: boolean;
-  @Output() deleted = new EventEmitter<number>();
+  @Output() deleted = new EventEmitter<void>();
   
   public displayDoctorName: string = '';
 
@@ -85,7 +85,7 @@ export class Appointment implements OnInit { // Implementamos OnInit
           'La cita ha sido cancelada correctamente.',
           'success'
         );
-        this.deleted.emit(this.id);
+        this.deleted.emit();
       },
       error: (err) => {
         console.error('Error al eliminar:', err);
