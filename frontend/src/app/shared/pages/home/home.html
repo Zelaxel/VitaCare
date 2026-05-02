@@ -5,32 +5,50 @@
     <div class="search-bar">
       <app-search-bar></app-search-bar>
     </div>
+
     <div class="wrap">
       <div class="form-dates container">
         <label class="date-label container">
           START RANGE
-          <input class="date-input" type="date">
+          <input
+            class="date-input"
+            type="date"
+            [(ngModel)]="startRange"
+            [ngModelOptions]="{ standalone: true }"
+          >
         </label>
+
         <div class="separator">
           <img src="svg/simple_line.svg">
           <img src="svg/simple_line.svg">
         </div>
+
         <label class="date-label container">
           FINISH RANGE
-          <input class="date-input" type="date">
+          <input
+            class="date-input"
+            type="date"
+            [(ngModel)]="finishRange"
+            [ngModelOptions]="{ standalone: true }"
+          >
         </label>
       </div>
+
       <select class="department-select">
         <option value="" disabled selected>○○ Departament ○○</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
       </select>
+
       <div class="form-buttons container">
-        <button class="filter-button">Filter</button>
-        <button class="clear-filter-button">Clear filter</button>
+        <button type="button" class="filter-button" (click)="filterByDateRange()">Filter</button>
+        <button type="button" class="clear-filter-button" (click)="clearDateFilter()">Clear filter</button>
+
         @if(isPatient()){
-          <button type="button" [routerLink]="['/patient/create-appointment']" class="create-button">Create appointment</button>
+          <button type="button" [routerLink]="['/patient/create-appointment']" class="create-button">
+            Create appointment
+          </button>
         }
       </div>
     </div>
