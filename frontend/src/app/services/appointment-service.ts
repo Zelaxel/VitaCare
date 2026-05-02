@@ -35,8 +35,8 @@ export class AppointmentService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  deleteAppointment(id: number): void {
-    this.http.delete(`${this.apiUrl}/${id}`);
+  deleteAppointment(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   /**    added method */
