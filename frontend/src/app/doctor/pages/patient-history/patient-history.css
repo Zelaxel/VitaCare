@@ -31,7 +31,7 @@
 /* TOP BAR */
 .topbar {
   height: 84px;
-  background: #2f667a;
+  background: #733b3b;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -83,7 +83,7 @@
   width: 136px;
   height: 136px;
   border-radius: 50%;
-  border: 6px solid #2f667a;
+  border: 6px solid #733b3b;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +111,7 @@
   height: 5px;
   width: 100%;
   max-width: 720px;
-  background: #2f667a;
+  background: #733b3b;
 }
 
 /* HISTORY */
@@ -142,13 +142,13 @@
 }
 
 .history-scroll::-webkit-scrollbar-thumb {
-  background: #2f667a;
+  background: #733b3b;
   border-radius: 8px;
 }
 
 .history-card {
   width: 635px;
-  background: #69c5a1;
+  background: #ad8666;
   border-radius: 22px;
   padding: 18px 20px 16px;
   margin-bottom: 34px;
@@ -195,7 +195,7 @@
 .request-btn {
   margin-top: 18px;
   border: none;
-  background: #2f667a;
+  background: #733b3b;
   color: white;
   border-radius: 6px;
   padding: 16px 36px;

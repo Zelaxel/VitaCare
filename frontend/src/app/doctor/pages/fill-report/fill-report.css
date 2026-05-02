@@ -24,7 +24,7 @@
 
 /* La card verde del mockup */
 .appointment-info {
-  background-color: #6abf98;
+  background-color: #ad8666;
   border-radius: 15px;
   padding: 30px;
   color: #1a1a1a;
@@ -66,7 +66,7 @@ label {
 }
 
 .conclusion-textarea:focus {
-  outline: 2px solid #3b6572;
+  outline: 2px solid #733b3b;
 }
 
 /* Pulsante Submit in basso al centro */
@@ -77,7 +77,7 @@ label {
 }
 
 .submit-button {
-  background-color: #3b6572;
+  background-color: #733b3b;
   color: white;
   border: none;
   border-radius: 8px;

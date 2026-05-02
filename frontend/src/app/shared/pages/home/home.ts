@@ -6,6 +6,11 @@ import { Header } from '../../components/header/header';
 import { Router, RouterLink } from "@angular/router";
 import { AppointmentService } from '../../../services/appointment-service';
 import { CommonModule } from '@angular/common';
+import { PatientService } from '../../../services/patient-service';
+import { AppointmentData as BackendAppointmentData } from '../../../model/appointment';
+import Swal from 'sweetalert2';
+import { DoctorService } from '../../../services/doctor-service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -18,9 +23,12 @@ export class Home {
   allAppointments: AppointmentData[] = []; //real appointment grid
   appointments: AppointmentData[] = []; //list we use for the filter
   departments: string[] = ['Cardiology', 'Neurology', 'Pediatrics', 'Laboratory', 'General']; //test
+  patientData: any;
   constructor(
     private router: Router,
     private appointmentService: AppointmentService,
+    private patientService: PatientService,
+    private doctorService: DoctorService,
     private cdr: ChangeDetectorRef
   ) {}
   
@@ -28,51 +36,95 @@ export class Home {
     return this.router.url.includes('/patient/home');
   }
   ngOnInit() {
-    const userID = this.isPatient() 
-      ? localStorage.getItem('identity_document') 
-      : localStorage.getItem('credentials');
-      if (!userID) {
-      console.error("No user found!");
-      return; 
+    if (this.isPatient()) {
+      this.checkPatientProfile();
+      this.loadPatientAppointments();
+    } else {
+      this.loadDoctorAppointments();
+    }
+  }
+  
+
+  async loadDoctorAppointments(): Promise<void> {
+    const doctorSurname = localStorage.getItem('doctor_surname');
+    const doctorId = localStorage.getItem('credentials');
+
+    if (!doctorSurname) {
+      console.error('Doctor surname not found');
+      return;
     }
 
-    if (this.isPatient()) {
-      // if patient 
-      this.appointmentService.getAppointmentByPatient(userID).subscribe((data: any[]) => {
-        console.log("apoointment", data);
-        const datosgrafica = data.map(visit => ({
-          ...visit,
-          doctorName: visit.doctorName || 'Doctor', 
-          doctorIcon: visit.doctorIcon || '👤',
-          patientName: visit.patientName || 'Patient',
-          patientIcon: visit.patientIcon || '👤',
-          date: visit.attendance_date,
-          description: visit.reason
-        }));
-        this.allAppointments = datosgrafica; 
-        this.appointments = datosgrafica;
+    if(!doctorId){
+      console.error("doctor id not found");
+      return;
+    }
+
+    console.log(doctorId);
+    this.appointmentService.getAppointmentByDoctor(doctorId).subscribe({
+      next: async (data: BackendAppointmentData[]) => {
+        const sortedData = this.sortAppointments(data);
+        const mappedData = await Promise.all(sortedData.map((appointment) => this.mapAppointmentToCard(appointment, true)));
+        this.allAppointments = mappedData;
+        this.appointments = mappedData;
         this.cdr.detectChanges();
-      });
-    } else {
-      // if doctor
-      this.appointmentService.getAppointmentByDoctor(userID).subscribe((data: any[]) => {
-        console.log("appointment", data);
-        const datosgrafica = data.map(visit => ({
-          ...visit, 
-          doctorName: visit.doctorName || 'Doctor', 
-          doctorIcon: visit.doctorIcon || '👤',
-          patientName: visit.patientName || 'Patient',
-          patientIcon: visit.patientIcon || '👤',
-          date: visit.attendance_date,
-          description: visit.reason
-          
-        }));
-        this.allAppointments = datosgrafica; 
-        this.appointments = datosgrafica;    
+      },
+      error: (err) => {
+        console.error('Error loading doctor appointments', err);
+      }
+    });
+  }
+
+  async loadPatientAppointments(): Promise<void> {
+    const patientId = localStorage.getItem('identity_document');
+
+    if (!patientId) {
+      console.error('Patient identity document not found');
+      return;
+    }
+
+    this.appointmentService.getAppointmentByPatient(patientId).subscribe({
+      next: async (data: BackendAppointmentData[]) => {
+        const sortedData = this.sortAppointments(data);
+        const mappedData = await Promise.all(sortedData.map((appointment) => this.mapAppointmentToCard(appointment, true)));
+        this.allAppointments = mappedData;
+        this.appointments = mappedData;
         this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading patient appointments', err);
+      }
+    });
+  }
+
+  checkPatientProfile(): void {
+    const patientId = localStorage.getItem('identity_document');
+    if (patientId) {
+      this.patientService.getPatient(patientId).subscribe({
+        next: (data) => {
+          this.patientData = data;
+        }
       });
     }
   }
+
+  handleCreateAppointment(): void {
+    if (!this.patientData || !this.patientData.name || !this.patientData.surname) {
+      Swal.fire({
+        title: 'Profile Incomplete',
+        text: 'Please complete your name and surname in your profile before requesting an appointment.',
+        icon: 'warning',
+        confirmButtonText: 'Go to Profile',
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Solo redirige cuando el usuario hace clic en el botón
+          this.router.navigate(['/patient/user-profile']);
+        }
+      });
+    }
+  }
+    
   onSearch(SearchedText: string) {
     // empty text
     if (!SearchedText) {
@@ -83,14 +135,63 @@ export class Home {
       const titleMatch = visit.title.toLowerCase().includes(SearchedText);
       return titleMatch;
     });
+  } 
+
+  private async mapAppointmentToCard( appointment: BackendAppointmentData, patientLayout: boolean): Promise<AppointmentData> {
+    const doctor = await firstValueFrom(this.doctorService.getDoctor(appointment.id_doctor));
+    const patient = await firstValueFrom(this.patientService.getPatient(appointment.id_patient));
+    return {
+      id: appointment.id ?? 0,
+      id_patient: appointment.id_patient,
+      id_doctor: appointment.id_doctor,
+      title: appointment.title,
+      doctorName: doctor.name,
+      doctorIcon: '🩺',
+      patientName: patient.name || '',
+      patientIcon: '👤',
+      description: appointment.reason,
+      date: appointment.attendance_date,
+      department: appointment.department,
+      active: appointment.active,
+    };
+  }
+
+  private sortAppointments(data: BackendAppointmentData[]): BackendAppointmentData[] {
+    return data.sort((a, b) => {
+      const timeA = new Date(a.attendance_date).getTime();
+      const timeB = new Date(b.attendance_date).getTime();
+
+      const isAActive = a.active;
+      const isBActive = b.active;
+
+      // SCENARIO 1: 'a' is active (to do), 'b' is inactive (done) -> 'a' comes first
+      if (isAActive && !isBActive) {
+        return -1; 
+      }
+      
+      // SCENARIO 2: 'b' is active (to do), 'a' is inactive (done) -> 'b' comes first
+      if (!isAActive && isBActive) {
+        return 1; 
+      }
+
+      // SCENARIO 3: Both appointments are active (To do)
+      if (isAActive && isBActive) {
+        // ASCENDING ORDER: From the closest upcoming date to the furthest in the future
+        return timeA - timeB; 
+      } 
+      
+      // SCENARIO 4: Both appointments are inactive (Done)
+      else {
+        // DESCENDING ORDER: From the most recently completed to the oldest one
+        return timeB - timeA; 
+      }
+    });
   }
   loadDepartments() {
     //department logic
   }
-
-  handleCreateAppointment() {
-    this.router.navigate(['/patient/create-appointment']);
-  }
-}
   
-
+  
+  
+    }
+  

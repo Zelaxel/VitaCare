@@ -32,6 +32,7 @@ export class PatientLogin {
       next: (response: any) => {
         if (response.status === 'success') {
           localStorage.setItem('identity_document', response.patient.identity_document);
+          localStorage.setItem('patient_name', response.patient.name);
           this.router.navigate(['/patient/home']); 
         } else {
           this.loginErrorMessage = "The data provided is invalid.";

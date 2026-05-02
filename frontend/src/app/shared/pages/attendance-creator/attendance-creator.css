@@ -74,7 +74,7 @@
   width: 970px;
   min-height: 808px;
   margin: 0 auto;
-  background: #69c19e;
+  background-color: var(--primary-bg);
   border-radius: 14px;
   padding: 44px 66px 42px;
 }
@@ -90,8 +90,24 @@
 .title-line {
   width: 675px;
   height: 5px;
-  background: #2f667a;
   margin: 10px auto 30px;
+  background: var(--secondary-bg);
+}
+
+.patient-theme {
+  --primary-bg: #63B995;
+}
+
+.doctor-theme {
+  --primary-bg: #ad8666;
+}
+
+.patient-secondary-theme {
+  --secondary-bg: #3b6773;
+}
+
+.doctor-secondary-theme {
+  --secondary-bg: #733b3b;
 }
 
 .form-grid {
@@ -166,6 +182,18 @@ select {
     cursor: pointer;
 }
 
+.date-group select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 0;
+    border-radius: 15px;
+    border: none;
+    background-color: #ececec;
+    font-size: 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
 .calendar-icon {
   position: absolute;
   right: 10px;
@@ -184,7 +212,7 @@ textarea {
 .vertical-divider {
   width: 4px;
   height: 610px;
-  background: #2f667a;
+  background: var(--secondary-bg);
   margin-top: 12px;
 }
 
@@ -341,6 +369,7 @@ textarea {
 
   .vertical-divider {
     display: none;
+    background-color: var(--secondary-bg);
   }
 
   .fake-calendar {

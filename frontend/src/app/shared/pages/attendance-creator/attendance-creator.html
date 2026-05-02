@@ -7,9 +7,9 @@
     </button>
   </section>
 
-  <section class="form-card">
+  <section [class.patient-theme]="isPatient()" [class.doctor-theme]="!isPatient()" class="form-card">
     <h1>Medical appointment form</h1>
-    <div class="title-line"></div>
+    <div class="title-line" [class.patient-secondary-theme]="isPatient()" [class.doctor-secondary-theme]="!isPatient()"></div>
 
     <div class="form-grid">
       <div class="left-column">
@@ -37,14 +37,19 @@
 
           <div class="date-group">
             <label for="time"><strong>Time</strong></label>
-            <input id="time" type="time" [(ngModel)]="time">
+            <select id="time" [(ngModel)]="time">
+              <option value="" disabled selected>Select hour</option>
+              <option *ngFor="let hour of availableHours" [value]="hour">
+                {{ hour }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
 
-      <div class="vertical-divider"></div>
+      <div class="vertical-divider" [class.patient-secondary-theme]="isPatient()" [class.doctor-secondary-theme]="!isPatient()"></div>
 
-      <div class="right-column">
+      <div class="right-column" [class.patient-secondary-theme]="isPatient()" [class.doctor-secondary-theme]="!isPatient()">
         <label for="matter"><strong>Medical matter</strong></label>
         <input id="matter" type="text" [(ngModel)]="medicalMatter">
 
