@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <div class="homepage" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
-  <form class="homepage-form container">
+  <form class="homepage-form container" (submit)="$event.preventDefault()">
     <div class="search-bar">
       <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
     </div>
@@ -9,7 +9,11 @@
       <div class="form-dates container">
         <label class="date-label container">
           START RANGE
-          <input class="date-input" type="date">
+          <input
+            class="date-input"
+            type="date"
+            [(ngModel)]="startRange"
+            [ngModelOptions]="{ standalone: true }">
         </label>
         <div class="separator">
           <img src="svg/simple_line.svg">
@@ -17,7 +21,11 @@
         </div>
         <label class="date-label container">
           FINISH RANGE
-          <input class="date-input" type="date">
+          <input
+            class="date-input"
+            type="date"
+            [(ngModel)]="finishRange"
+            [ngModelOptions]="{ standalone: true }">
         </label>
       </div>
       @if(isPatient()){
@@ -29,8 +37,8 @@
         </select>
       }
       <div class="form-buttons container">
-        <button class="filter-button">Filter</button>
-        <button class="clear-filter-button">Clear filter</button>
+        <button type="button" class="filter-button" (click)="filterByDateRange()">Filter</button>
+        <button type="button" class="clear-filter-button" (click)="clearDateFilter()">Clear filter</button>
         @if(isPatient()){
           <button type="button" (click)="handleCreateAppointment()" class="create-button">Create appointment</button>
         }
