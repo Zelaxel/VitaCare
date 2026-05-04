@@ -3,7 +3,7 @@ import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
 import { Header } from '../../components/header/header';
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { AppointmentService } from '../../../services/appointment-service';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../../services/patient-service';
@@ -24,9 +24,10 @@ export class Home {
   allAppointments: AppointmentData[] = []; //real appointment grid
   appointments: AppointmentData[] = []; //list we use for the filter
   departments: string[] = ['Cardiology', 'Neurology', 'Pediatrics', 'Laboratory', 'General']; //test
-  patientData: any;
+  patientData: any = null;
   startRange = '';
   finishRange = '';
+  
   constructor(
     private router: Router,
     private appointmentService: AppointmentService,
@@ -36,10 +37,19 @@ export class Home {
   ) {}
   
   isPatient(): boolean {
-    return this.router.url.includes('/patient/home');
+    return this.router.url.startsWith('/patient/home');
   }
-  ngOnInit() {
-    this.refreshAppointments();
+
+  ngOnInit(): void {
+    if (!this.isPatient()) {
+      this.loadDoctorAppointments();
+    }
+
+    if (this.isPatient()) {
+      this.loadPatientAppointments();
+      this.loadDepartments();
+      this.checkPatientProfile();
+    }
   }
   
   refreshAppointments() {
@@ -129,6 +139,9 @@ export class Home {
           this.router.navigate(['/patient/user-profile']);
         }
       });
+    } else {
+      // Si todo está bien, navegar a la creación de cita
+      this.router.navigate(['/patient/create-appointment']);
     }
   }
     
@@ -223,13 +236,14 @@ export class Home {
       }
     });
   }
-
-
-  loadDepartments() {
-    //department logic
+   loadDepartments() {
+    fetch('http://localhost:8000/departments')
+      .then(res => res.json())
+      .then(data => {
+        console.log("Departments:", data);
+        this.departments = data;
+        this.cdr.detectChanges();
+      });
   }
-  
-  
-  
-    }
+}
   

@@ -29,7 +29,7 @@ button img {
 }
 
 .appointment-info {
-  background-color: #63B995;
+  background-color: var(--primary-bg);
   padding: 2rem;
   border-radius: 1rem;
   font-weight: bold;
@@ -38,6 +38,14 @@ button img {
   gap: 1rem;
   width: 100%;
   max-width: 940px;
+}
+
+.patient-theme {
+  --primary-bg: #63B995;
+}
+
+.doctor-theme {
+  --primary-bg: #ad8666;
 }
 
 .appointment-details {
