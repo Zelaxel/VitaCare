@@ -3,7 +3,7 @@ import { SearchBar } from '../../components/search-bar/search-bar';
 import { AppointmentData } from '../../components/appointment/appointmentData';
 import { AppointmentGrid } from '../../components/appointment-grid/appointment-grid';
 import { Header } from '../../components/header/header';
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { AppointmentService } from '../../../services/appointment-service';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../../services/patient-service';
@@ -11,19 +11,23 @@ import { AppointmentData as BackendAppointmentData } from '../../../model/appoin
 import Swal from 'sweetalert2';
 import { DoctorService } from '../../../services/doctor-service';
 import { firstValueFrom } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [SearchBar, AppointmentGrid, Header, CommonModule],
+  imports: [SearchBar, AppointmentGrid, Header, CommonModule, FormsModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
   allAppointments: AppointmentData[] = []; //real appointment grid
   appointments: AppointmentData[] = []; //list we use for the filter
-  departments: string[] = []; //test
+  departments: string[] = ['Cardiology', 'Neurology', 'Pediatrics', 'Laboratory', 'General']; //test
   patientData: any = null;
+  startRange = '';
+  finishRange = '';
+  
   constructor(
     private router: Router,
     private appointmentService: AppointmentService,
@@ -152,7 +156,36 @@ export class Home {
       return titleMatch;
     });
   } 
+  
+  filterByDateRange(): void {
 
+    if (!this.startRange || !this.finishRange) {
+      alert('Please select both start and finish date.');
+      return;
+    }
+
+    const start = new Date(this.startRange);
+    start.setHours(0, 0, 0, 0);
+    
+    const finish = new Date(this.finishRange);
+    finish.setHours(23, 59, 59, 999);
+
+    this.appointments = this.allAppointments.filter((appointment) => {
+      const appointmentDate = new Date(appointment.date);
+      appointmentDate.setHours(0, 0, 0, 0);
+
+      return appointmentDate >= start && appointmentDate <= finish;
+    });
+
+    this.cdr.detectChanges();
+  }
+
+  clearDateFilter(): void {
+    this.startRange = '';
+    this.finishRange = '';
+    this.appointments = [...this.allAppointments];
+    this.cdr.detectChanges();
+  }
   private async mapAppointmentToCard( appointment: BackendAppointmentData, patientLayout: boolean): Promise<AppointmentData> {
     const doctor = await firstValueFrom(this.doctorService.getDoctor(appointment.id_doctor));
     const patient = await firstValueFrom(this.patientService.getPatient(appointment.id_patient));
