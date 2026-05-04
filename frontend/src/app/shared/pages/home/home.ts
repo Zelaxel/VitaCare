@@ -22,8 +22,8 @@ import { firstValueFrom } from 'rxjs';
 export class Home {
   allAppointments: AppointmentData[] = []; //real appointment grid
   appointments: AppointmentData[] = []; //list we use for the filter
-  departments: string[] = ['Cardiology', 'Neurology', 'Pediatrics', 'Laboratory', 'General']; //test
-  patientData: any;
+  departments: string[] = []; //test
+  patientData: any = null;
   constructor(
     private router: Router,
     private appointmentService: AppointmentService,
@@ -35,8 +35,17 @@ export class Home {
   isPatient(): boolean {
     return this.router.url.includes('/patient/home');
   }
-  ngOnInit() {
-    this.refreshAppointments();
+
+  ngOnInit(): void {
+    if (!this.isPatient()) {
+      this.loadDoctorAppointments();
+    }
+
+    if (this.isPatient()) {
+      this.loadPatientAppointments();
+      this.loadDepartments();
+      this.checkPatientProfile();
+    }
   }
   
   refreshAppointments() {
@@ -126,6 +135,9 @@ export class Home {
           this.router.navigate(['/patient/user-profile']);
         }
       });
+    } else {
+      // Si todo está bien, navegar a la creación de cita
+      this.router.navigate(['/patient/create-appointment']);
     }
   }
     
@@ -191,13 +203,14 @@ export class Home {
       }
     });
   }
-
-
-  loadDepartments() {
-    //department logic
+   loadDepartments() {
+    fetch('http://localhost:8000/departments')
+      .then(res => res.json())
+      .then(data => {
+        console.log("Departments:", data);
+        this.departments = data;
+        this.cdr.detectChanges();
+      });
   }
-  
-  
-  
-    }
+}
   
