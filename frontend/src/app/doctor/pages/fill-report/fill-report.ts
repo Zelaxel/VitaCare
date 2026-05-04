@@ -9,6 +9,7 @@ import { AppointmentService } from '../../../services/appointment-service';
 import { PatientService } from '../../../services/patient-service';
 import { DoctorService } from '../../../services/doctor-service';
 import { AppointmentData } from '../../../model/appointment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-fill-report',
@@ -81,35 +82,38 @@ import { AppointmentData } from '../../../model/appointment';
   }
 
   loadAppointmentData(id: string): void {
-    // 1. Carichiamo la visita
     this.appointmentService.getAppointmentById(id).subscribe({
       next: (appointment) => {
         this.currentAppointment = appointment;
         
-        // Mappa i dati di base (Ipotizzando i nomi dei campi della tua interfaccia)
         this.date = new Date(appointment.attendance_date); 
         this.reason = appointment.reason;
         this.conclusion = appointment.conclusion || '';
         this.cdr.detectChanges();
 
-        // 2. Carichiamo le info del paziente associate a questa visita
         this.patientService.getPatient(appointment.id_patient).subscribe({
           next: (patient) => {
-            this.patientName = `${patient.name} ${patient.surname}`; // adatta con i tuoi campi
-          }
+            this.patientName = `${patient.name} ${patient.surname}`;
+          },
+          error: (err) => console.error('Error fetching patient data', err)
         });
 
-        // 3. Carichiamo le info del dottore associate a questa visita
         this.doctorService.getDoctor(appointment.id_doctor).subscribe({
           next: (doctor) => {
-            this.doctorName = `Dr. ${doctor.name} ${doctor.surname}`; // adatta con i tuoi campi
+            this.doctorName = `Dr. ${doctor.name} ${doctor.surname}`;
             this.department = doctor.department;
-          }
+          },
+          error: (err) => console.error('Error fetching doctor data', err)
         });
       },
       error: (err) => {
-        console.error('Errore nel caricamento della visita', err);
-        alert('Impossibile caricare i dati della visita.');
+        console.error('Error loading appointment details', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Data Load Failed',
+          text: 'Could not retrieve appointment details. Please try again later.',
+          confirmButtonColor: '#d33'
+        });
       }
     });
   }
@@ -119,63 +123,43 @@ import { AppointmentData } from '../../../model/appointment';
     this.location.back();
   }
 
-  downloadReport() {
-    // 1. Controlliamo di avere l'ID
-    if (!this.id) {
-      alert("Impossibile scaricare: ID visita mancante.");
-      return;
-    }
-
-    // 2. Chiamiamo il service
-    this.appointmentService.downloadReport(this.id).subscribe({
-      next: (fileBlob: Blob) => {
-        // 3. Creiamo un URL temporaneo per il file appena scaricato
-        const fileUrl = window.URL.createObjectURL(fileBlob);
-        
-        // 4. Creiamo un "link invisibile" (tag <a>)
-        const a = document.createElement('a');
-        a.href = fileUrl;
-        
-        // 5. Diamo un nome al file (qui puoi personalizzarlo, es. Report_David_2026.pdf)
-        a.download = `Report_${this.patientName}_${this.date ? this.date.toLocaleDateString() : 'visita'}.pdf`; 
-        
-        // 6. Aggiungiamo il link alla pagina, lo clicchiamo e lo rimuoviamo subito
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        
-        // 7. Puliamo la memoria
-        window.URL.revokeObjectURL(fileUrl);
-      },
-      error: (err) => {
-        console.error("Errore durante il download del file:", err);
-        alert("Il server non è riuscito a generare il referto per il download.");
-      }
-    });
-  }
-
   submitReport(): void {
     if (!this.conclusion.trim()) {
-      alert('Please enter a conclusion before submitting.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Information',
+        text: 'Please enter a conclusion before submitting the report.',
+        confirmButtonColor: '#3085d6'
+      });
       return;
     }
 
-    // Aggiorniamo l'oggetto con la nuova conclusione
     this.currentAppointment.conclusion = this.conclusion;
     this.currentAppointment.active = false;
 
-    // Chiamata al backend per salvare l'aggiornamento
     this.appointmentService.updateAppointment(this.currentAppointment).subscribe({
       next: (updatedAppointment) => {
-        console.log('Report salvato con successo:', updatedAppointment);
-        alert('Report compilato correttamente!');
+        console.log('Report successfully saved:', updatedAppointment);
         
-        // Torniamo indietro SOLO quando il salvataggio ha avuto successo
-        this.goBack();
+        Swal.fire({
+          icon: 'success',
+          title: 'Report Approved',
+          text: 'The resolution has been successfully submitted.',
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        }).then(() => {
+          this.goBack();
+        });
       },
       error: (err) => {
-        console.error('Errore durante il salvataggio', err);
-        alert('Si è verificato un errore durante il salvataggio del report.');
+        console.error('Error during saving process', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Submission Error',
+          text: 'An error occurred while saving the report. Please check your connection.',
+          confirmButtonText: 'Try Again'
+        });
       }
     });
   }
