@@ -19,7 +19,7 @@ export class Register {
   public password: string = "";
   public confirmPassword: string = "";
   private idRegex: RegExp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/;
-  private passwordRegex: RegExp = /^\d{8,}$/;
+  private passwordRegex: RegExp = /^(?=.*[a-zA-Z0-9])[\w!@#$%^&*()\-+={}\[\]|\\:;"'<>,.?\/ ]{8,}$/;
   private emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@(gmail|hotmail)\.(com)$/;
   private healthCardRegex: RegExp = /^[A-Z]{2,4}[0-9]{8,12}$/;
   public loginErrorMessage: string = "";
