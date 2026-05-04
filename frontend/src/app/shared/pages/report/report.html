@@ -9,7 +9,7 @@
       <img src="svg/download.svg">
     </button>
   </section>
-  <section class="appointment-info">
+  <section class="appointment-info" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
     <section class="appointment-details">
       <section class="appointment-patient">
         <label>Patient name:</label>

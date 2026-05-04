@@ -33,7 +33,7 @@ export class Home {
   ) {}
   
   isPatient(): boolean {
-    return this.router.url.includes('/patient/home');
+    return this.router.url.startsWith('/patient/home');
   }
 
   ngOnInit(): void {
