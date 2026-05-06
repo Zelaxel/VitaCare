@@ -89,7 +89,7 @@ export class AttendanceCreator implements OnInit{
 
     this.appointmentService.updateAppointment(updatedAppointment).subscribe({
       next: () => {
-        Swal.fire('¡Actualizado!', 'La cita se ha modificado con éxito.', 'success')
+        Swal.fire('Updated!', 'The appointment has been successfully modified.', 'success')
           .then(() => this.router.navigate(['/patient/home']));
       },
       error: (err) => console.error('Error al actualizar', err)
@@ -179,7 +179,6 @@ export class AttendanceCreator implements OnInit{
           timer: 2000,
           showConfirmButton: false
         }).then(() => {
-          // AHORA SÍ: Redirigimos cuando el servidor ya terminó y la alerta se cerró
           this.router.navigate(['/patient/home']); 
         });
         this.resetForm();
