@@ -50,6 +50,11 @@ export class AttendanceCreator implements OnInit{
     }
   }
 
+  private navigateHome(): void {
+    const targetRoute = this.isPatient() ? '/patient/home' : '/doctor/home';
+    this.router.navigate([targetRoute]);
+  }
+
   loadAppointmentData(id: string) {
     this.appointmentService.getAppointmentById(id).subscribe({
       next: (data) => {
@@ -90,7 +95,7 @@ export class AttendanceCreator implements OnInit{
     this.appointmentService.updateAppointment(updatedAppointment).subscribe({
       next: () => {
         Swal.fire('Updated!', 'The appointment has been successfully modified.', 'success')
-          .then(() => this.router.navigate(['/patient/home']));
+          .then(() => this.navigateHome());
       },
       error: (err) => console.error('Error al actualizar', err)
     });
@@ -105,7 +110,6 @@ export class AttendanceCreator implements OnInit{
   }
 
   generateHours() {
-    // Genera strings de "08:00" hasta "20:00"
     for (let h = 8; h <= 20; h++) {
       const hourLabel = h < 10 ? `0${h}:00` : `${h}:00`;
       this.availableHours.push(hourLabel);
@@ -113,7 +117,7 @@ export class AttendanceCreator implements OnInit{
   }
 
   isPatient(): boolean {
-    return this.router.url.startsWith('/patient');
+    return this.router.url.includes('/patient');
   }
 
   loadDepartments() {
@@ -179,7 +183,7 @@ export class AttendanceCreator implements OnInit{
           timer: 2000,
           showConfirmButton: false
         }).then(() => {
-          this.router.navigate(['/patient/home']); 
+          this.navigateHome(); 
         });
         this.resetForm();
       },

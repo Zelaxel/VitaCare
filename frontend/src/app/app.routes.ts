@@ -38,6 +38,7 @@ export const routes: Routes = [
             { path: 'home', component: Home },
             { path: 'report', component: Report },
             { path: 'create-appointment', component: AttendanceCreator},
+            { path: 'create-appointment/:id', component: AttendanceCreator},
             { path: 'fill-report/:id', component: FillReport },
             { path: 'patient-history/:id', component: PatientHistory },
             { path: '', redirectTo: 'home', pathMatch: 'full'}

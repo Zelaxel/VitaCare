@@ -78,7 +78,12 @@ export class Appointment implements OnInit { // Implementamos OnInit
   }
 
   onEdit(): void {
-    this.router.navigate(['/patient/create-appointment', this.id]);
+    if (this.isPatient()) {
+      this.router.navigate(['/patient/create-appointment', this.id]);
+    } else {
+      // Si no es paciente, es un doctor, mandamos a su ruta correspondiente
+      this.router.navigate(['/doctor/create-appointment', this.id]);
+    }
   }
 
   private executeDeletion(): void {
