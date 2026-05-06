@@ -320,6 +320,8 @@ textarea {
 
 .update-btn,
 .create-btn {
+  background: #242424;
+  color: white;
   border: none;
   border-radius: 8px;
   height: 42px;
@@ -327,16 +329,6 @@ textarea {
   padding: 0 18px;
   font-size: 15px;
   cursor: pointer;
-}
-
-.update-btn {
-  background: #9c9c9c;
-  color: #efefef;
-}
-
-.create-btn {
-  background: #242424;
-  color: white;
 }
 
 .global-error-banner {

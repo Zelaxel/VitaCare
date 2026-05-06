@@ -1,8 +1,8 @@
 <article class="appointment-container"  [class.active-card]="active"  [class.inactive-card]="!active" [class.doctor-theme]="!isPatient()"  [class.patient-theme]="isPatient()">
   <section class="appointment-buttons">
     @if(active) {
-      <button class="edit-buton">
-        <img [routerLink]="['../create-appointment']" src="svg/edit_pen.svg" alt="edit">
+      <button class="edit-buton" (click)="onEdit()">
+        <img src="svg/edit_pen.svg" alt="edit">
       </button>
       @if(!patientLayaut) {
         <button [routerLink]="['/doctor/fill-report', id]" 

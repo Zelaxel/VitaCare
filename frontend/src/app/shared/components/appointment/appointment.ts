@@ -77,6 +77,10 @@ export class Appointment implements OnInit { // Implementamos OnInit
     });
   }
 
+  onEdit(): void {
+    this.router.navigate(['/patient/create-appointment', this.id]);
+  }
+
   private executeDeletion(): void {
     this.appointmentService.deleteAppointment(this.id).subscribe({
       next: () => {

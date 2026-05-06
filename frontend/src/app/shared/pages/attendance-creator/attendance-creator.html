@@ -68,8 +68,12 @@
         }
 
         <div class="buttons">
-          <button class="update-btn" type="button">Update</button>
-          <button class="create-btn" type="button" (click)="createAppointment()">Create</button>
+          @if (!isEditMode) {
+            <button class="create-btn" type="button" (click)="createAppointment()">Create</button>
+          }
+          @if (isEditMode) {
+            <button class="update-btn" type="button" (click)="updateAppointment()">Update</button>
+          }
         </div>
       </div>
     </div>
