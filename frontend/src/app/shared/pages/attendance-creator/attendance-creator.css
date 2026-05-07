@@ -344,6 +344,21 @@ textarea {
     animation: fadeIn 0.3s ease-in-out;
 }
 
+input:disabled, 
+select:disabled, 
+textarea:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+    border: 1px solid #ced4da;
+    opacity: 0.8;
+}
+
+.form-grid .left-column label, 
+.form-grid .right-column label {
+    transition: color 0.3s ease;
+}
+
 @media (max-width: 1100px) {
   .form-card {
     width: 100%;

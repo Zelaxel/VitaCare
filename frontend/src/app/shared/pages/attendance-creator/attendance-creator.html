@@ -14,7 +14,7 @@
     <div class="form-grid">
       <div class="left-column">
         <label for="department"><strong>Department</strong></label>
-        <select id="department" [(ngModel)]="department" (change)="loadDoctorsByDepartment()">
+        <select id="department" [(ngModel)]="department" (change)="loadDoctorsByDepartment()" [disabled]="isEditMode">
           <option value="" selected disabled>Select a department</option>
           <option *ngFor="let dep of departments" [value]="dep">
             {{ dep | titlecase}}
@@ -22,7 +22,7 @@
         </select>
 
         <label for="doctor"><strong>Doctor</strong></label>
-        <select id="doctor" [(ngModel)]="doctor" [disabled]="!department || doctors.length === 0">
+        <select id="doctor" [(ngModel)]="doctor" [disabled]="isEditMode || !department || doctors.length === 0">
           <option value="" selected disabled>Select a doctor</option>
           <option *ngFor="let doc of doctors" [value]="doc.credentials">
             Dr. {{ doc.surname }}
@@ -51,10 +51,10 @@
 
       <div class="right-column" [class.patient-secondary-theme]="isPatient()" [class.doctor-secondary-theme]="!isPatient()">
         <label for="matter"><strong>Medical matter</strong></label>
-        <input id="matter" type="text" [(ngModel)]="medicalMatter">
+        <input id="matter" type="text" [(ngModel)]="medicalMatter" [disabled]="isEditMode">
 
         <label for="explanation"><strong>Explanation</strong></label>
-        <textarea id="explanation" [(ngModel)]="explanation"></textarea>
+        <textarea id="explanation" [(ngModel)]="explanation" [disabled]="isEditMode"></textarea>
 
         <label class="checkbox-row">
           <input type="checkbox" [(ngModel)]="notifications">
