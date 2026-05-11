@@ -3,21 +3,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 
 import { Header } from '../../components/header/header';
-// Controlla che questi percorsi siano corretti
+// Controlla che i percorsi siano corretti per il tuo progetto
 import { AppointmentService } from '../../../services/appointment-service';
 import { PatientService } from '../../../services/patient-service';
 import { DoctorService } from '../../../services/doctor-service';
 
-// Importa solo jsPDF
-import { jsPDF } from 'jspdf';
-
 @Component({
   standalone: true,
   selector: 'app-report',
-  imports: [Header, DatePipe, TitleCasePipe],
+  imports: [Header, DatePipe, TitleCasePipe], 
   templateUrl: './report.html',
   styleUrl: './report.css',
-  providers: [DatePipe] // Aggiungiamo DatePipe qui per poterlo usare nel codice TS
 })
 export class Report implements OnInit {
   patientName: string = "Caricamento...";
@@ -33,75 +29,41 @@ export class Report implements OnInit {
   private patientService = inject(PatientService);
   private doctorService = inject(DoctorService);
   private cdr = inject(ChangeDetectorRef);
-  private datePipe = inject(DatePipe); // Iniettato per formattare la data nel PDF
 
   ngOnInit(): void {
-    const appointmentId = this.route.snapshot.paramMap.get('id');
     const state = history.state;
 
-    if (appointmentId) {
-      this.loadDataFromService(appointmentId);
-    } else if (state && state.id) {
+    // 1. Popoliamo subito l'interfaccia con i dati veloci provenienti dallo state (se ci sono)
+    // Questo evita di mostrare "Caricamento..." e dà l'impressione di un caricamento istantaneo.
+    // (Attenzione: qui il patientName ha solo il nome, senza cognome).
+    if (state && state.id) {
       this.populateFromState(state);
-    } else {
-      console.warn("Nessun ID appuntamento trovato. Impossibile caricare il report.");
     }
+
+    // 2. IL FIX: Ci iscriviamo (subscribe) ai parametri dell'URL.
+    // In questo modo, ogni volta che l'ID nell'URL cambia, Angular eseguirà di nuovo questo 
+    // blocco senza bisogno di premere F5, recuperando così il COGNOME dal database!
+    this.route.paramMap.subscribe(params => {
+      const appointmentId = params.get('id');
+      
+      if (appointmentId) {
+        this.loadDataFromService(appointmentId);
+      } else if (state && state.id) {
+        // Fallback: se manca l'ID nell'URL ma c'è nello state, usa quello
+        this.loadDataFromService(state.id);
+      } else {
+        console.warn("Nessun ID appuntamento trovato. Impossibile caricare il report.");
+      }
+    });
   }
 
   isPatient(): boolean {
     return this.router.url.startsWith('/patient');
   }
 
-  public downloadPDF(): void {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-
-    // Imposta il titolo
-    pdf.setFontSize(22);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('Medical Appointment Report', 105, 20, { align: 'center' });
-
-    // Informazioni generali
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'normal');
-    
-    // Formatta la data per evitare [object Object] se è di tipo Date
-    const formattedDate = this.datePipe.transform(this.date, 'mediumDate') || String(this.date);
-
-    pdf.text(`Patient Name: ${this.patientName}`, 20, 40);
-    pdf.text(`Doctor: ${this.doctorName}`, 20, 50);
-    pdf.text(`Date: ${formattedDate}`, 20, 60); 
-    pdf.text(`Department: ${this.department}`, 20, 70);
-
-    // Linea di separazione
-    pdf.line(20, 75, 190, 75);
-
-    // Ragione dell'appuntamento (Reason)
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('Appointment Reason:', 20, 85);
-    
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'normal');
-    // splitTextToSize divide il testo in un array di righe in base alla larghezza (170mm)
-    const reasonLines = pdf.splitTextToSize(this.reason, 170);
-    pdf.text(reasonLines, 20, 95);
-
-    // Calcolo dinamico dell'altezza: parte da Y=95, calcola circa 7mm per ogni riga di "reason" e aggiunge 15mm di spazio
-    const conclusionY = 95 + (reasonLines.length * 7) + 15; 
-
-    // Conclusioni del dottore
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('Doctor\'s Conclusion:', 20, conclusionY);
-    
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'normal');
-    const conclusionLines = pdf.splitTextToSize(this.conclusion, 170);
-    pdf.text(conclusionLines, 20, conclusionY + 10);
-
-    // Salva il file PDF
-    const safeName = this.patientName.replace(/\s+/g, '_');
-    pdf.save(`Medical_Report_${safeName}.pdf`);
+  downloadPDF(): void {
+    // Inserisci qui la tua logica per scaricare il PDF
+    console.log('Download PDF cliccato');
   }
 
   private loadDataFromService(id: string): void {
@@ -114,6 +76,7 @@ export class Report implements OnInit {
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
           next: (patient) => {
+            // Qui arriva il dato VERO dal database, sovrascrivendo quello parziale dello state
             this.patientName = `${patient.name} ${patient.surname}`;
             this.cdr.detectChanges(); 
           },
@@ -134,6 +97,7 @@ export class Report implements OnInit {
   }
 
   private populateFromState(state: any): void {
+    // Popolamento temporaneo in attesa dei dati completi dal database
     this.patientName = state.patientName || "Caricamento...";
     this.doctorName = state.doctorName || "Caricamento...";
     this.date = state.date;
