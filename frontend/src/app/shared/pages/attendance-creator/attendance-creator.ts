@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from '../../components/header/header';
 import { DoctorService } from '../../../services/doctor-service';
 import { Doctor } from '../../../model/doctor';
@@ -20,6 +20,8 @@ export class AttendanceCreator implements OnInit{
   departments: string[] = [];
   doctors: any[] = [];
   availableHours: string[] = [];
+  isEditMode = false;
+  currentAppointmentId?: number;
 
   department = '';
   doctor = '';
@@ -33,16 +35,81 @@ export class AttendanceCreator implements OnInit{
   constructor(private appointmentService: AppointmentService,
       private doctorService: DoctorService,
       private cdr: ChangeDetectorRef,
-      private router: Router
+      private router: Router,
+      private route: ActivatedRoute
     ) {}
 
   ngOnInit() {
     this.loadDepartments();
     this.generateHours();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode = true;
+      this.currentAppointmentId = +id;
+      this.loadAppointmentData(id);
+    }
+  }
+
+  private navigateHome(): void {
+    const targetRoute = this.isPatient() ? '/patient/home' : '/doctor/home';
+    this.router.navigate([targetRoute]);
+  }
+
+  loadAppointmentData(id: string) {
+    this.appointmentService.getAppointmentById(id).subscribe({
+      next: (data) => {
+        this.department = data.department; 
+        const normalizedDept = this.department.toLowerCase();
+        this.doctorService.getDoctorByDepartment(normalizedDept).subscribe(doctorsList => {
+          this.doctors = doctorsList;
+          this.doctor = data.id_doctor; 
+          this.cdr.detectChanges();
+        });
+
+        this.medicalMatter = data.title;
+        this.explanation = data.reason;
+        
+        const dt = new Date(data.attendance_date);
+        this.date = dt.toISOString().split('T')[0];
+        this.time = dt.toTimeString().substring(0, 5);
+        
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  updateAppointment(): void {
+    const fullDateTime = `${this.date}T${this.time}:00`;
+    
+    const updatedAppointment: AppointmentData = {
+      id: this.currentAppointmentId,
+      id_patient: localStorage.getItem('identity_document')!,
+      id_doctor: this.doctor,
+      title: this.medicalMatter,
+      department: this.department,
+      attendance_date: fullDateTime as any,
+      reason: this.explanation,
+      active: true,
+    };
+
+    this.appointmentService.updateAppointment(updatedAppointment).subscribe({
+      next: () => {
+        Swal.fire('Updated!', 'The appointment has been successfully modified.', 'success')
+          .then(() => this.navigateHome());
+      },
+      error: (err) => console.error('Error al actualizar', err)
+    });
+  }
+
+  saveAppointment(): void {
+    if (this.isEditMode) {
+      this.updateAppointment();
+    } else {
+      this.createAppointment();
+    }
   }
 
   generateHours() {
-    // Genera strings de "08:00" hasta "20:00"
     for (let h = 8; h <= 20; h++) {
       const hourLabel = h < 10 ? `0${h}:00` : `${h}:00`;
       this.availableHours.push(hourLabel);
@@ -50,7 +117,7 @@ export class AttendanceCreator implements OnInit{
   }
 
   isPatient(): boolean {
-    return this.router.url.startsWith('/patient');
+    return this.router.url.includes('/patient');
   }
 
   loadDepartments() {
@@ -116,8 +183,7 @@ export class AttendanceCreator implements OnInit{
           timer: 2000,
           showConfirmButton: false
         }).then(() => {
-          // AHORA SÍ: Redirigimos cuando el servidor ya terminó y la alerta se cerró
-          this.router.navigate(['/patient/home']); 
+          this.navigateHome(); 
         });
         this.resetForm();
       },
