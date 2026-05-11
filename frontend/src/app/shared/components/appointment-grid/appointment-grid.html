@@ -21,6 +21,7 @@
       </div>
     }
   </section>
+  @if (showScrollButtons) {
   <nav class="pagination container">
     <button (click)="horizontalScroll(-1)" class="scroll-button container">
       <img src="svg/left_arrow.svg" alt="Previous">
@@ -31,5 +32,6 @@
       <img src="svg/right_arrow.svg" alt="Next">
     </button>
   </nav>
+  }
 </div>
 
