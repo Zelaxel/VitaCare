@@ -1,6 +1,9 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException as HttpException
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from dataclasses import asdict
 from sqlmodel import create_engine
 from sqlalchemy import Engine
@@ -42,6 +45,17 @@ appointment_loader: Appointment_loader = Local_appointment_loader(engine)
 appointment_updater: Appointment_updater = Local_appointment_updater(engine) 
 appointment_deleter: Appointment_deleter = Local_appointment_deleter(engine)
 
+load_dotenv()
+
+conf = ConnectionConfig(
+    MAIL_USERNAME = os.getenv('mail'),
+    MAIL_PASSWORD = os.getenv('password'),
+    MAIL_FROM = os.getenv('mail'),
+    MAIL_PORT = 587,
+    MAIL_SERVER = "smtp.gmail.com",
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False
+)
 
 app = FastAPI()
 app.add_middleware(
@@ -158,3 +172,16 @@ def update_appointment(id: int, updated_appointment: Appointment) -> dict:
 @app.delete("/appointment/{id}")
 def delete_appointment(id: int) -> None:
     appointment_deleter.delete(id)
+
+#Mail
+@app.post("/send-email")
+async def send_at_email(data: dict):
+    message = MessageSchema(
+        subject=data.get("subject"),
+        recipients=[data.get("email")], # Correo del destino
+        body=data.get("message"),
+        subtype="html"
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return {"message": "Email enviado"}
