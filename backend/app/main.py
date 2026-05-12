@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi import Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException as HttpException
 from dataclasses import asdict
@@ -26,8 +27,18 @@ from app.io.local_appointment_storer import Local_appointment_storer
 from app.io.local_appointment_loader import Local_appointment_loader
 from app.io.local_appointment_updater import Local_appointment_updater
 from app.io.local_appointment_deleter import Local_appointment_deleter
+from dotenv import load_dotenv
+import os
+import requests
+
+load_dotenv()
+
+CLIENT_ID = os.getenv("CRONOFY_CLIENT_ID")
+CLIENT_SECRET = os.getenv("CRONOFY_CLIENT_SECRET")
+REDIRECT_URI = os.getenv("CRONOFY_REDIRECT_URI")
 
 # Variables -------------------------------------------------------
+
 
 db_name = "vitacare"
 engine: Engine = create_engine(f"sqlite:///./{db_name}.db")
@@ -53,6 +64,107 @@ app.add_middleware(
 )
 
 # API -------------------------------------------------------
+
+# URL OAuth
+@app.get("/cronofy-auth")
+def cronofy_auth():
+
+    auth_url = (
+        "https://app-uk.cronofy.com/oauth/authorize"
+        f"?response_type=code"
+        f"&client_id={CLIENT_ID}"
+        f"&redirect_uri={REDIRECT_URI}"
+        f"&scope=read_events create_event delete_event read_free_busy"
+        f"&avoid_linking=true"
+        f"&prompt=select_account"
+    )
+
+    return {
+        "url": auth_url
+    }
+
+@app.post("/cronofy/revoke")
+def revoke_token(token: str = Body(..., embed=True)):
+    response = requests.post(
+        "https://api-uk.cronofy.com/oauth/token/revoke",
+        json={
+            "client_id": CLIENT_ID,
+            "client_secret": CLIENT_SECRET,
+            "token": token
+        }
+    )
+    return {"status": "revoked"}
+
+# Adding endpoint
+@app.post("/cronofy/create-event")
+def create_cronofy_event(data: dict = Body(...)):
+    required_keys = ["calendar_id", "token", "event_id", "title", "start", "end"]
+    for key in required_keys:
+        if key not in data:
+            print(f"ERROR: Falta la clave {key} en los datos recibidos")
+            raise HttpException(status_code=400, detail=f"Missing key: {key}")
+
+    print(f"DEBUG: Intentando crear evento en calendario: {data['calendar_id']}")
+
+    try:
+        response = requests.post(
+            f"https://api-uk.cronofy.com/v1/calendars/{data['calendar_id']}/events",
+            headers={
+                "Authorization": f"Bearer {data['token']}",
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            json={
+                "event_id": data["event_id"],
+                "summary": data["title"],
+                "description": data.get("description", ""),
+                "start": data["start"],
+                "end": data["end"]
+            },
+            timeout=10
+        )
+
+        if response.status_code not in [200, 202]:
+            print(f"CRONOFY ERROR: {response.status_code} - {response.text}")
+            raise HttpException(status_code=response.status_code, detail=response.text)
+
+        if not response.text:
+            return {"status": "success", "message": "Event created"}
+            
+        return response.json()
+
+    except Exception as e:
+        print(f"CRITICAL ERROR: {str(e)}")
+        raise HttpException(status_code=500, detail=str(e))
+
+# Obtain calendar_id
+@app.get("/cronofy/calendars")
+def get_calendars(token: str):
+    response = requests.get(
+        "https://api-uk.cronofy.com/v1/calendars",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    if response.status_code != 200:
+        raise HttpException(status_code=response.status_code, detail=response.text)
+    return response.json()
+
+# Change Tokens
+@app.post("/exchange-token")
+def exchange_token(data = Body(...)):
+
+    code = data["code"]
+
+    response = requests.post(
+        "https://api-uk.cronofy.com/oauth/token",
+        json={
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": REDIRECT_URI,
+            "client_id": CLIENT_ID,
+            "client_secret": CLIENT_SECRET
+        }
+    )
+
+    return response.json()
 
 # Doctors verification 
 @app.post("/login/doctor-log-in")
