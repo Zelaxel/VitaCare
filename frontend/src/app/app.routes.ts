@@ -10,6 +10,7 @@ import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { Report } from './shared/pages/report/report';
 
+
 export const routes: Routes = [
     {
         path: 'login',
@@ -20,7 +21,7 @@ export const routes: Routes = [
             {
                 path: 'lost-account',
                 loadComponent: () =>
-                    import('./login/lost-account/lost-account').then(m => m.LostAccount)
+                    import('./login/lost-account/lost-account').then(m => m.ForgotPasswordComponent)
             },
             {
                 path: 'email-sent',
@@ -48,7 +49,7 @@ export const routes: Routes = [
         children: [
             { path: 'home', component: Home },
             { path: 'report', component: Report },
-            { path: 'report/:id', component: Report }, // AGGIUNTO QUI per il dottore
+            { path: 'report/:id', component: Report }, 
             { path: 'create-appointment', component: AttendanceCreator},
             { path: 'create-appointment/:id', component: AttendanceCreator},
             { path: 'fill-report/:id', component: FillReport },

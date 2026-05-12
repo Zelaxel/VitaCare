@@ -8,15 +8,7 @@
 
 .recovery-page {
   min-height: 100vh;
-  padding: 18px 40px 40px;
   box-sizing: border-box;
-}
-
-.page-title {
-  margin: 0 0 14px;
-  color: #d9eeee;
-  font-size: 23px;
-  font-weight: 400;
 }
 
 .layout-window {
@@ -222,7 +214,7 @@ h1 {
   justify-content: center;
   gap: 18px;
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .arrow {
