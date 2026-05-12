@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CronofyService } from '../../../services/cronofy-service';
 import { HttpClient } from '@angular/common/http';
 
@@ -8,9 +8,23 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './cronofy-calendar.html',
   styleUrl: './cronofy-calendar.css',
 })
-export class CronofyCalendar {
+export class CronofyCalendar implements OnInit {
+
+  public isConnected = false;
+
   constructor(private cronofy: CronofyService, private http: HttpClient) {}
+
+  ngOnInit() {
+    this.checkConnection();
+  }
   
+  checkConnection() {
+    const identityDocument = localStorage.getItem('identity_document');
+    if (identityDocument) {
+      this.isConnected = !!localStorage.getItem(`cronofy_${identityDocument}`);
+    }
+  }
+
   connectCalendar() {
     const identityDocument = localStorage.getItem('identity_document');
     localStorage.removeItem(`cronofy_${identityDocument}`);
@@ -33,18 +47,14 @@ export class CronofyCalendar {
 
       this.http.post('http://localhost:8000/cronofy/revoke', { token }).subscribe({
         next: () => {
-          // 2. Limpiar el almacenamiento local
           localStorage.removeItem(`cronofy_${identityDocument}`);
           localStorage.removeItem(`cronofy_calendar_${identityDocument}`);
           
           console.log("Calendario desconectado con éxito");
-          
-          // Opcional: Recargar la página o emitir un evento para actualizar la UI
           window.location.reload(); 
         },
         error: (err) => {
           console.error("Error al revocar el token", err);
-          // Incluso si falla la red, es buena idea limpiar lo local para permitir re-conectar
           localStorage.removeItem(`cronofy_${identityDocument}`);
           localStorage.removeItem(`cronofy_calendar_${identityDocument}`);
         }

@@ -9,12 +9,11 @@ import { Doctor } from '../../../model/doctor';
 import { AppointmentService } from '../../../services/appointment-service';
 import { AppointmentData } from '../../../model/appointment';
 import Swal from 'sweetalert2';
-import { CronofyCalendar } from "../../components/cronofy-calendar/cronofy-calendar";
 
 @Component({
   standalone: true,
   selector: 'app-attendance-creator',
-  imports: [Header, FormsModule, CommonModule, CronofyCalendar],
+  imports: [Header, FormsModule, CommonModule],
   templateUrl: './attendance-creator.html',
   styleUrl: './attendance-creator.css',
 })

@@ -1,3 +1,8 @@
-<button class="buttons" (click)="connectCalendar()">Enlazar</button>
-<button class="buttons" (click)="disconnectCalendar()">Desenlazar</button>
+<div class="container">
+    <button class="buttons" (click)="connectCalendar()" [disabled]="isConnected">Connect Calendar</button>
+    @if (isConnected)  {
+        <button class="buttons" (click)="disconnectCalendar()">Disconect</button>
+    }
+</div>
+
 

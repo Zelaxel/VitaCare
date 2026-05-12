@@ -89,11 +89,11 @@ export class Callback implements OnInit {
 
     if (currentRole === 'doctor') {
       this.router.navigate([
-        '/doctor/create-appointment'
+        '/doctor/home'
       ]);
     } else {
       this.router.navigate([
-        '/patient/create-appointment'
+        '/patient/home'
       ]);
     }
   }
