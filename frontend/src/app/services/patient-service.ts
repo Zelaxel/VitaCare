@@ -16,6 +16,11 @@ export class PatientService {
     return this.http.get<Patient>(`${this.apiUrl}/${identityDocument}`);
   }
 
+  /** Get patient information by email */
+  getPatientByEmail(email: string): Observable<Patient> {
+    return this.http.get<Patient>(`${this.apiUrl}/by_email/${email}`);
+  }
+
   /** Create a new patient record */
   createPatient(patient: Patient): Observable<Patient> {
     return this.http.post<Patient>(this.apiUrl, patient);

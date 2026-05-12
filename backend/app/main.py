@@ -95,6 +95,12 @@ def get_patient(identity_document: str) -> dict:
     if not patient: raise HttpException(status_code=404, detail="Patient not found")
     return asdict(patient)
 
+@app.get("/patient/by_email/{email}")
+def get_patient(email: str) -> dict:
+    patient = patient_loader.load_by_email(email)
+    if not patient: raise HttpException(status_code=404, detail="Patient not found")
+    return asdict(patient)
+
 @app.post("/patient")
 def create_patient(patient: Patient) -> dict:
     try:

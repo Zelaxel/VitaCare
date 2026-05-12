@@ -204,6 +204,46 @@ export class Home {
       active: appointment.active,
     };
   }
+  startDate: string = '';
+  endDate: string = '';
+  applyDateFilter() {
+  
+    if (!this.startDate && !this.endDate) {
+      this.appointments = [...this.allAppointments];
+      return;
+    }
+    this.appointments = this.allAppointments.filter(visit => {
+      // Trasformiamo la data di Python in una vera Data Javascript
+      const visitDate = new Date(visit.date);
+      
+      let matchesStart = true;
+      let matchesEnd = true;
+
+      // Se hai messo una data di inizio, controlliamo che la visita sia DOPO
+      if (this.startDate) {
+        const start = new Date(this.startDate);
+        start.setHours(0, 0, 0, 0); // Mezzanotte del giorno scelto
+        matchesStart = visitDate >= start;
+      }
+
+      // Se hai messo una data di fine, controlliamo che la visita sia PRIMA
+      if (this.endDate) {
+        const end = new Date(this.endDate);
+        end.setHours(23, 59, 59, 999); // Le 23:59 del giorno scelto
+        matchesEnd = visitDate <= end;
+      }
+
+      return matchesStart && matchesEnd;
+    });
+  }
+
+  // --- METODO QUANDO CLICCHI "CLEAR FILTER" ---
+  clearFilters() {
+    this.startDate = '';
+    this.endDate = '';
+    // Riversiamo la cassaforte intera nella vetrina
+    this.appointments = [...this.allAppointments];
+  }
 
   private sortAppointments(data: BackendAppointmentData[]): BackendAppointmentData[] {
     return data.sort((a, b) => {
