@@ -37,3 +37,9 @@ class Local_patient_loader(Patient_loader):
             statement = select(Patient_data).where(Patient_data.identity_document == identity_document)
             patient_data = session.exec(statement).first()
             return self.__to_patient(patient_data) if patient_data else None
+        
+    def load_by_email(self, email):
+        with Session(self.__engine) as session:
+            statement = select(Patient_data).where(Patient_data.mail == email)
+            patient_data = session.exec(statement).first()
+            return self.__to_patient(patient_data) if patient_data else None

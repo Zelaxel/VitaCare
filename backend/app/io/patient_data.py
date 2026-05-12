@@ -8,7 +8,7 @@ class Patient_data(SQLModel, table=True):
     sanitary_document: str
     sanitary_document_expire: date
     phone_number: int
-    mail: str
+    mail: str = Field(unique=True)
     password: str
     identity_document_country: Optional[str] = Field(default=None)
     sanitary_document_country: Optional[str] = Field(default=None)

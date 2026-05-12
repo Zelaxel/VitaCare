@@ -25,6 +25,7 @@ export const routes: Routes = [
         children: [
             { path: 'home', component: Home },
             { path: 'report', component: Report },
+            { path: 'report/:id', component: Report }, // Aggiunto per il paziente
             { path: 'create-appointment', component: AttendanceCreator },
             { path: 'create-appointment/:id', component: AttendanceCreator},
             { path: 'doctor-info/:id', component: DoctorInfo },
@@ -37,6 +38,7 @@ export const routes: Routes = [
         children: [
             { path: 'home', component: Home },
             { path: 'report', component: Report },
+            { path: 'report/:id', component: Report }, // AGGIUNTO QUI per il dottore
             { path: 'create-appointment', component: AttendanceCreator},
             { path: 'create-appointment/:id', component: AttendanceCreator},
             { path: 'fill-report/:id', component: FillReport },

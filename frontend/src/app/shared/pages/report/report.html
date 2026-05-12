@@ -3,10 +3,10 @@
 <div class="report">
   <section class="report-buttons">
     <button onclick="window.history.back()" class="back-button">
-      <img src="svg/left_arrow.svg">
+      <img src="svg/left_arrow.svg" alt="back">
     </button>
-    <button class="download-button">
-      <img src="svg/download.svg">
+    <button class="download-button" (click)="downloadPDF()">
+      <img src="svg/download.svg" alt="download">
     </button>
   </section>
   <section class="appointment-info" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
@@ -21,11 +21,11 @@
       </section>
       <section>
         <label>Date: </label>
-        <label class="date-label">{{date}}</label>
+        <label class="date-label">{{date | date:'yyyy-MM-dd HH:mm'}}</label>
       </section>
       <section>
         <label>Department: </label>
-        <label class="department-label">{{department}}</label>
+        <label class="department-label">{{department | titlecase}}</label>
       </section>
     </section>
     <section class="appointment-reason">
