@@ -7,6 +7,5 @@
     "sync": "concurrently -n \"API_SYNC,WEB_INSTALL\" -c \"blue,green\" \"cd backend && uv sync && uv run app/init_database.py\" \"cd frontend && npm install\""
   },
   "dependencies": {
-    "sweetalert2": "^11.26.24"
   }
 }

@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <div class="homepage" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
-  <form class="homepage-form container">
+  <form class="homepage-form container" (submit)="$event.preventDefault()">
     <div class="search-bar">
       <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
     </div>
