@@ -1,0 +1,163 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #8fc1c1;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+}
+
+.sent-page {
+  min-height: 100vh;
+  padding: 18px 40px 40px;
+  box-sizing: border-box;
+}
+
+.page-title {
+  margin: 0 0 14px;
+  color: #d9eeee;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.layout-window {
+  background: #d9d9d9;
+  min-height: 930px;
+}
+
+.top-bar {
+  height: 94px;
+  background: #366a78;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  box-sizing: border-box;
+}
+
+.image-icon {
+  font-size: 34px;
+  color: #222;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.user-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eadcff;
+  border: 4px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #5d3797;
+  box-sizing: border-box;
+}
+
+.settings-btn {
+  border: none;
+  border-radius: 24px;
+  background: #eeeeee;
+  padding: 9px 31px;
+  font-size: 19px;
+  color: #111;
+}
+
+.main-area {
+  padding: 40px 82px;
+  box-sizing: border-box;
+}
+
+.sent-card {
+  background: #78bd99;
+  border-radius: 18px;
+  min-height: 805px;
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 54px 70px 60px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.check-circle {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  border: 7px solid #35657a;
+  background: #d9d9d9;
+  margin: 0 auto 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-svg {
+  width: 82px;
+  height: 82px;
+  fill: none;
+  stroke: #111;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mail-big {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 45px;
+}
+
+.mail-big-svg {
+  width: 95px;
+  height: 95px;
+
+  fill: none;
+  stroke: #111;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+h1 {
+  margin: 0;
+  font-size: 57px;
+  font-weight: 800;
+}
+
+.title-line {
+  height: 5px;
+  background: #000;
+  margin: 45px 0 36px;
+}
+
+.description {
+  margin: 0;
+  max-width: 900px;
+  text-align: left;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+h2 {
+  margin: 58px 0 26px;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+
+.back-btn {
+  width: 390px;
+  height: 58px;
+  background: #366a78;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 25px;
+  font-weight: 800;
+}

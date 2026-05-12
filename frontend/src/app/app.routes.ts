@@ -17,6 +17,16 @@ export const routes: Routes = [
             { path: 'log-in', component: PatientLogin },
             { path: 'doctor-log-in', component: DoctorLogin },
             { path: 'register', component: Register },
+            {
+                path: 'lost-account',
+                loadComponent: () =>
+                    import('./login/lost-account/lost-account').then(m => m.LostAccount)
+            },
+            {
+                path: 'email-sent',
+                loadComponent: () =>
+                    import('./login/lost-account/email-sent').then(m => m.EmailSent)
+            },
             { path: '', redirectTo: "log-in", pathMatch: 'full'}
         ]
     },
