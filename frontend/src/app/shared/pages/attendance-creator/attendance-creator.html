@@ -70,6 +70,7 @@
         <div class="buttons">
           @if (!isEditMode) {
             <button class="create-btn" type="button" (click)="createAppointment()">Create</button>
+            <app-cronofy-calendar></app-cronofy-calendar>
           }
           @if (isEditMode) {
             <button class="update-btn" type="button" (click)="updateAppointment()">Update</button>
