@@ -1,15 +1,8 @@
 <div class="sent-page">
-  <p class="page-title">Envio email recupero</p>
+  
 
   <div class="layout-window">
-    <header class="top-bar">
-      <div class="image-icon">▧</div>
-
-      <div class="top-actions">
-        <div class="user-circle">♡</div>
-        <button class="settings-btn" type="button">Settings</button>
-      </div>
-    </header>
+    
 
     <main class="main-area">
       <section class="sent-card">
@@ -39,8 +32,9 @@
             <circle cx="66" cy="22" r="10"></circle>
           </svg>
         </div>
-
-        <button class="back-btn" type="button">Back to login</button>
+      
+        <button class="back-btn" type="button" [routerLink]="['/login/log-in']">Back to login</button>
+        
       </section>
     </main>
   </div>
