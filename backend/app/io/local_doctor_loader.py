@@ -17,7 +17,8 @@ class Local_doctor_loader(Doctor_loader):
             name=doctor_data.name,
             surname=doctor_data.surname,
             department=doctor_data.department,
-            password=doctor_data.password
+            password=doctor_data.password,
+            mail=doctor_data.mail
         )
     
     def load_by_credentials(self, credentials: str) -> Doctor:

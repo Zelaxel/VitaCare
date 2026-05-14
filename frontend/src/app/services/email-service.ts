@@ -13,6 +13,6 @@ export class EmailService {
   constructor(private http: HttpClient) {}
 
   sendEmail(email: Email): Observable<any> {
-    return this.http.post<any>(this.apiUrl, email);
+    return this.http.post<Email>(this.apiUrl, email);
   }
 }
