@@ -108,6 +108,9 @@ export class AttendanceCreator implements OnInit{
       },
       error: (err) => console.error('Error al actualizar', err)
     });
+
+    this.notifyUpdateDoctor(updatedAppointment);
+    this.notifyUpdatePatient(updatedAppointment);
   }
 
   saveAppointment(): void {
@@ -235,6 +238,47 @@ export class AttendanceCreator implements OnInit{
                   <h1>You have an appointment</h1>
                   <p>Hello ${patient.name}👋!</p>
                   <p>An appointment has been scheduled for you. Please check de information below:</p>
+                  <ul>
+                    <li>Department: ${appointment.department}</li>
+                    <li>Specialist: Dr. ${doctor.name} ${doctor.surname}</li>
+                    <li>Date: ${formatDate(appointment.attendance_date, 'yyyy-MM-dd : HH:mm', 'en-US')}</li>
+                  </ul>
+                `
+    }
+    this.emailService.sendEmail(email).subscribe({});
+  }
+
+  async notifyUpdateDoctor(appointment: AppointmentData): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(appointment.id_doctor);
+    const patient: Patient = await this.getPatient(appointment.id_patient);
+    const email: Email = {
+      email: doctor.mail,
+      subject: "Appointment update",
+      message: `
+                  <h1>Your appointment has been updated</h1>
+                  <p>Hello Dr. ${doctor.name}👋!</p>
+                  <p>An appointment has been updated for you. Please check de information below:</p>
+                  <ul>
+                    <li>Patient: ${patient.name} ${patient.surname}</li>
+                    <li>Department: ${appointment.department}</li>
+                    <li>Date: ${formatDate(appointment.attendance_date, 'yyyy-MM-dd : HH:mm', 'en-US')}</li>
+                  </ul>
+                `
+    }
+    this.emailService.sendEmail(email).subscribe({});
+    console.log("Docor")
+  }
+
+  async notifyUpdatePatient(appointment: AppointmentData): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(appointment.id_doctor);
+    const patient: Patient = await this.getPatient(appointment.id_patient);
+    const email: Email = {
+      email: patient.mail,
+      subject: "Appointment update",
+      message: `
+                  <h1>Your appointment has been updated</h1>
+                  <p>Hello ${patient.name}👋!</p>
+                  <p>An appointment has been updated for you. Please check de information below:</p>
                   <ul>
                     <li>Department: ${appointment.department}</li>
                     <li>Specialist: Dr. ${doctor.name} ${doctor.surname}</li>
