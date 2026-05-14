@@ -8,4 +8,5 @@ export interface AppointmentData {
     reason: string
     conclusion?: string
     active: boolean
+    event_id?: string
 }

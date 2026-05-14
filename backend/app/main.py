@@ -136,6 +136,29 @@ def create_cronofy_event(data: dict = Body(...)):
         print(f"CRITICAL ERROR: {str(e)}")
         raise HttpException(status_code=500, detail=str(e))
 
+# Delete endpoint
+@app.delete("/cronofy/delete-event")
+def delete_cronofy_event(
+    token: str,
+    calendar_id: str,
+    event_id: str
+):
+
+    response = requests.delete(
+        f"https://api-uk.cronofy.com/v1/calendars/{calendar_id}/events/{event_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    print(response.status_code)
+    print(response.text)
+
+    return {
+        "status_code": response.status_code,
+        "response": response.text
+    }
+
 # Obtain calendar_id
 @app.get("/cronofy/calendars")
 def get_calendars(token: str):

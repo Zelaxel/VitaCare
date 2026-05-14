@@ -20,7 +20,8 @@ class Local_appointment_updater(Appointment_updater):
             attendance_date=attendance.attendance_date,
             reason=attendance.reason,
             conclusion=attendance.conclusion,
-            active=attendance.active
+            active=attendance.active,
+            event_id=attendance.event_id
         )
     
     def update(self, appointment: Appointment) -> None:

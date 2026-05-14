@@ -13,3 +13,4 @@ class Appointment:
     active: bool
     id: Optional[int] = None
     conclusion: Optional[str] = None
+    event_id: Optional[str] = None

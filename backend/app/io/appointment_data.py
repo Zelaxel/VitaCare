@@ -12,3 +12,4 @@ class Appointment_data(SQLModel, table=True):
     reason: str
     active: bool
     conclusion: Optional[str]
+    event_id: Optional[str]

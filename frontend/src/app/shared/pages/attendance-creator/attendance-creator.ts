@@ -33,6 +33,7 @@ export class AttendanceCreator implements OnInit{
   loginErrorMessage = '';
   notifications = true;
   isCalendarConnected = false;
+  event_id: any;
 
   constructor(private appointmentService: AppointmentService,
       private doctorService: DoctorService,
@@ -100,7 +101,6 @@ export class AttendanceCreator implements OnInit{
 
   updateAppointment(): void {
     const fullDateTime = `${this.date}T${this.time}:00`;
-    
     const updatedAppointment: AppointmentData = {
       id: this.currentAppointmentId,
       id_patient: localStorage.getItem('identity_document')!,
@@ -110,15 +110,87 @@ export class AttendanceCreator implements OnInit{
       attendance_date: fullDateTime as any,
       reason: this.explanation,
       active: true,
+      event_id: this.event_id as any,
     };
 
     this.appointmentService.updateAppointment(updatedAppointment).subscribe({
-      next: () => {
-        Swal.fire('Updated!', 'The appointment has been successfully modified.', 'success')
-          .then(() => this.navigateHome());
-      },
-      error: (err) => console.error('Error al actualizar', err)
-    });
+        next: () => {
+          const identityDocument = localStorage.getItem('identity_document');
+
+          if (!identityDocument) {
+            return;
+          }
+
+          const cronofyRaw = localStorage.getItem(`cronofy_${identityDocument}`);
+
+          if (!cronofyRaw) {
+            return;
+          }
+
+          const cronofyData = JSON.parse(cronofyRaw);
+          const token = cronofyData.access_token;
+          const calendarId = localStorage.getItem(`cronofy_calendar_${identityDocument}`);
+
+          if (token && calendarId) {
+            this.http.delete(
+              `http://localhost:8000/cronofy/delete-event`,
+              {
+                params: {
+                  token: token,
+                  calendar_id: calendarId,
+                  event_id:
+                    (updatedAppointment as any)
+                      .event_id
+                }
+              }
+            ).subscribe({
+              next: () => {
+                const snapshot = {
+                  date: this.date,
+                  time: this.time,
+                  medicalMatter: this.medicalMatter,
+                  explanation: this.explanation,
+                  department: this.department,
+                  doctor: this.doctor,
+                  eventId:
+                    (updatedAppointment as any)
+                      .event_id
+                };
+
+                this.sendEventToCronofy(
+                  token,
+                  calendarId,
+                  identityDocument,
+                  snapshot
+                );
+              },
+
+              error: (err) => {
+                console.error(
+                  "Error deleting old event",
+                  err
+                );
+              }
+            });
+          }
+
+          Swal.fire(
+            'Updated!',
+            'The appointment has been successfully modified.',
+            'success'
+          ).then(() => {
+
+            this.navigateHome();
+
+          });
+        },
+
+        error: (err) =>
+          console.error(
+            'Error al actualizar',
+            err
+          )
+      });
   }
 
   saveAppointment(): void {
@@ -286,8 +358,6 @@ export class AttendanceCreator implements OnInit{
     ).subscribe({
       next: (resp) => {
         console.log("Evento en Google Calendar OK", resp);
-
-        // 🧠 RESET SOLO CUANDO YA SE CREÓ TODO BIEN
         this.resetForm();
       },
       error: (err) => {

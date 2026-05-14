@@ -11,4 +11,5 @@ export interface AppointmentData {
     department: string;
     date: Date;
     active: boolean;
+    event_id: string;
 }
