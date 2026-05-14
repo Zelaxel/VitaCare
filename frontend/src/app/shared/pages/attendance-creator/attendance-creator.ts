@@ -225,7 +225,6 @@ export class AttendanceCreator implements OnInit{
                 `
     }
     this.emailService.sendEmail(email).subscribe({});
-    console.log("Docor")
   }
 
   async notifyPatient(appointment: AppointmentData): Promise<void> {
@@ -266,7 +265,6 @@ export class AttendanceCreator implements OnInit{
                 `
     }
     this.emailService.sendEmail(email).subscribe({});
-    console.log("Docor")
   }
 
   async notifyUpdatePatient(appointment: AppointmentData): Promise<void> {
