@@ -68,7 +68,8 @@ import Swal from 'sweetalert2';
         attendance_date: this.date as Date,
         reason: state.description,
         conclusion: state.conclusion || '',
-        active: state.active
+        active: state.active,
+        paid: false
       };
     }
   }

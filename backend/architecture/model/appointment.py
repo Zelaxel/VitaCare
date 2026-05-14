@@ -11,5 +11,7 @@ class Appointment:
     attendance_date: datetime
     reason: str
     active: bool
+    paid: bool
     id: Optional[int] = None
+    price: Optional[float] = None
     conclusion: Optional[str] = None

@@ -8,4 +8,6 @@ export interface AppointmentData {
     reason: string
     conclusion?: string
     active: boolean
+    paid: boolean
+    price?: number
 }

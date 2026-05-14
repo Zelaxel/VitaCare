@@ -20,7 +20,9 @@ class Local_appointment_loader(Appointment_loader):
             attendance_date=attendance_data.attendance_date,
             reason=attendance_data.reason,
             conclusion=attendance_data.conclusion,
-            active=attendance_data.active
+            active=attendance_data.active,
+            paid=attendance_data.paid,
+            price=attendance_data.price
         )
 
     def load_by_patient(self, identity_document: str) -> list[Appointment]:

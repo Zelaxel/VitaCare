@@ -99,6 +99,7 @@ export class AttendanceCreator implements OnInit{
       attendance_date: fullDateTime as any,
       reason: this.explanation,
       active: true,
+      paid: false
     };
 
     this.appointmentService.updateAppointment(updatedAppointment).subscribe({
@@ -182,6 +183,7 @@ export class AttendanceCreator implements OnInit{
       attendance_date: fullDateTime as any,
       reason: this.explanation,
       active: true,
+      paid: false
     };
 
     this.appointmentService.createAppointment(appointment).subscribe({

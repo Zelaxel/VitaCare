@@ -11,4 +11,6 @@ class Appointment_data(SQLModel, table=True):
     attendance_date: datetime
     reason: str
     active: bool
+    paid: bool
+    price: Optional[float]
     conclusion: Optional[str]
