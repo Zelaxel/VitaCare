@@ -17,13 +17,14 @@ engine = create_engine(f"sqlite:///./{db_name}.db")
 SQLModel.metadata.create_all(engine)
 
 doctors = [
-    Doctor(credentials="0", name="John", surname="Ramírez", department="cardiology", password=1234),
-    Doctor(credentials="1", name="Lina", surname="García", department="laboratory", password=1234),
-    Doctor(credentials="2", name="Pedro", surname="López", department="cardiology", password=1234),
-    Doctor(credentials="3", name="Juan", surname="Pérez", department="radiology", password=1234),
-    Doctor(credentials="4", name="Mariana", surname="González", department="ophthalmology", password=1234),
-    Doctor(credentials="5", name="Ruben", surname="Grizón", department="dentistry", password=1234),
-    Doctor(credentials="6", name="Laura", surname="Domínguez", department="dermatology", password=1234),
+    Doctor(credentials="0", name="John", surname="Ramírez", department="cardiology", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="1", name="Lina", surname="García", department="laboratory", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="2", name="Pedro", surname="López", department="cardiology", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="3", name="Juan", surname="Pérez", department="radiology", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="4", name="Mariana", surname="González", department="ophthalmology", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="5", name="Ruben", surname="Grizón", department="dentistry", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="6", name="Laura", surname="Domínguez", department="dermatology", password=1234, mail="hola0@gmail.com"),
+    Doctor(credentials="7", name="Alejandro", surname="Ramírez", department="dentistry", password=1234, mail="alejandroramirezlorenzo2003@gmail.com"),
 ]
 
 patients = [

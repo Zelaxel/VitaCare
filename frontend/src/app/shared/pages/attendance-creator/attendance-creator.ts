@@ -8,6 +8,13 @@ import { Doctor } from '../../../model/doctor';
 import { AppointmentService } from '../../../services/appointment-service';
 import { AppointmentData } from '../../../model/appointment';
 import Swal from 'sweetalert2';
+import { EmailService } from '../../../services/email-service';
+import { Email } from '../../../model/email';
+import { PatientService } from '../../../services/patient-service';
+import { Patient } from '../../../model/patient';
+import { email } from '@angular/forms/signals';
+import { firstValueFrom } from 'rxjs';
+import { formatDate } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -36,7 +43,9 @@ export class AttendanceCreator implements OnInit{
       private doctorService: DoctorService,
       private cdr: ChangeDetectorRef,
       private router: Router,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private emailService: EmailService,
+      private patientService: PatientService
     ) {}
 
   ngOnInit() {
@@ -124,7 +133,6 @@ export class AttendanceCreator implements OnInit{
     fetch('http://localhost:8000/departments')
       .then(res => res.json())
       .then(data => {
-        console.log("Departments:", data);
         this.departments = data;
         this.cdr.detectChanges();
       });
@@ -142,7 +150,6 @@ export class AttendanceCreator implements OnInit{
   this.doctorService
     .getDoctorByDepartment(normalizedDept)
     .subscribe(data => {
-      console.log("Doctors:", data);
       this.doctors = data;
       this.doctor = '';
       this.cdr.detectChanges();
@@ -192,21 +199,59 @@ export class AttendanceCreator implements OnInit{
         alert('Unable to create appointment.');
       }
     });
+
+    this.notifyDoctor(appointment);
+    this.notifyPatient(appointment);
   }
 
-  private formatDate(date: string): string {
-    const parts = date.split('/');
-
-    if (parts.length === 3) {
-      const month = parts[0].padStart(2, '0');
-      const day = parts[1].padStart(2, '0');
-      const year = parts[2];
-
-      return `${year}-${month}-${day}`;
+  async notifyDoctor(appointment: AppointmentData): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(appointment.id_doctor);
+    const patient: Patient = await this.getPatient(appointment.id_patient);
+    const email: Email = {
+      email: doctor.mail,
+      subject: "Appointment confirmation",
+      message: `
+                  <h1>You have an appointment</h1>
+                  <p>Hello Dr. ${doctor.name}👋!</p>
+                  <p>An appointment has been scheduled for you. Please check de information below:</p>
+                  <ul>
+                    <li>Patient: ${patient.name} ${patient.surname}</li>
+                    <li>Department: ${appointment.department}</li>
+                    <li>Date: ${formatDate(appointment.attendance_date, 'yyyy-MM-dd : HH:mm', 'en-US')}</li>
+                  </ul>
+                `
     }
+    this.emailService.sendEmail(email).subscribe({});
+    console.log("Docor")
+  }
 
-  return date;
-}
+  async notifyPatient(appointment: AppointmentData): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(appointment.id_doctor);
+    const patient: Patient = await this.getPatient(appointment.id_patient);
+    const email: Email = {
+      email: patient.mail,
+      subject: "Appointment confirmation",
+      message: `
+                  <h1>You have an appointment</h1>
+                  <p>Hello ${patient.name}👋!</p>
+                  <p>An appointment has been scheduled for you. Please check de information below:</p>
+                  <ul>
+                    <li>Department: ${appointment.department}</li>
+                    <li>Specialist: Dr. ${doctor.name} ${doctor.surname}</li>
+                    <li>Date: ${formatDate(appointment.attendance_date, 'yyyy-MM-dd : HH:mm', 'en-US')}</li>
+                  </ul>
+                `
+    }
+    this.emailService.sendEmail(email).subscribe({});
+  }
+
+  async getDoctor(id: string) {
+    return firstValueFrom(this.doctorService.getDoctor(id));
+  }
+
+  async getPatient(id: string) {
+    return firstValueFrom(this.patientService.getPatient(id));
+  }
 
   private resetForm(): void {
     this.department = '';
