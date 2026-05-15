@@ -28,6 +28,9 @@
       <button [routerLink]="['../report', id]" class="report-button">
         <img class="report-button" src="svg/info.svg" alt="delete">
       </button>
+      <button [routerLink]="['../payment', id]" class="payment-buton">
+        <img src="svg/seal.svg" alt="payment">
+      </button>
     }
   </section>
   <h1>{{title}}</h1>
@@ -36,6 +39,7 @@
         <img [src]=doctorIcon (error)="doctorIcon='svg/missing_user.svg'" alt="doctor icon">
         {{displayDoctorName}}
     </button>
+    
   } @else {
     <button [routerLink]="['/doctor/patient-history', id_patient]" class="patient-button">
         <img [src]=patientIcon (error)="patientIcon='svg/missing_user.svg'" alt="user icon">

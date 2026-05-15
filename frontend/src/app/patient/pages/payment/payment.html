@@ -1,0 +1,72 @@
+<app-header></app-header>
+
+<div class="page-background">
+
+  <main class="figma-green-box">
+    
+    <div class="title-wrapper">
+      <h1 class="main-title">Appointment Payment</h1>
+    </div>
+    
+    <div class="columns-wrapper">
+      
+      <div class="left-col">
+        <h2 class="col-title">Appointment Summary</h2>
+        
+        <div class="card payment-card">
+          <div class="card-header">
+            <span class="icon">💳</span> <strong>Credit or Debit Card</strong>
+          </div>
+          <input type="text" placeholder="Card number (1234 5678 9123)" class="input-full" [(ngModel)]="cardNumber">
+          <div class="input-row">
+             <input type="text" placeholder="Expiration Date (MM/YY)" class="input-half" [(ngModel)]="expiryDate">
+             <input type="text" placeholder="CVV (123)" class="input-half" [(ngModel)]="cvv">
+          </div>
+        </div>
+
+        <div class="card inactive-card-payment">
+           <div class="card-header">
+             <span class="icon">🏦</span> <strong>Bank Transfer</strong>
+           </div>
+        </div>
+
+        <div class="btn-wrapper">
+          <button class="btn-pay" (click)="processPayment()">Pay $60</button>
+        </div>
+      </div>
+
+      <div class="right-col">
+         <span class="subtitle-green">Informacion cita medica completada</span>
+         
+         <article class="appointment-container inactive-card">
+  <h1 class="appointment-title">{{ appointmentDetails.title }}</h1>
+  
+  <div class="doctor-static-info">
+      <div class="profile-circle-small">👤</div>
+      <span>{{ appointmentDetails.doctorName }}</span>
+  </div>
+  
+  <p class="description-text">
+    {{ appointmentDetails.description }}
+  </p>
+  
+  <strong class="date-text">{{ appointmentDetails.date }}</strong>
+</article>
+
+         <h2 class="col-title mt-4">Payment Details</h2>
+         <div class="card details-card">
+           <div class="flex-row">
+             <span>Medical consultation</span>
+             <strong>$60</strong>
+           </div>
+           <hr class="black-divider">
+           <div class="flex-row">
+             <h2>Medical consultation</h2>
+             <h2>$60</h2>
+           </div>
+         </div>
+      </div>
+
+    </div>
+  </main>
+</div>
