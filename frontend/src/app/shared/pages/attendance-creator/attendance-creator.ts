@@ -89,6 +89,7 @@ export class AttendanceCreator implements OnInit{
 
         this.medicalMatter = data.title;
         this.explanation = data.reason;
+        this.event_id = data.event_id;
         
         const dt = new Date(data.attendance_date);
         this.date = dt.toISOString().split('T')[0];
@@ -161,7 +162,8 @@ export class AttendanceCreator implements OnInit{
                   token,
                   calendarId,
                   identityDocument,
-                  snapshot
+                  snapshot,
+                  this.event_id
                 );
               },
 
@@ -242,86 +244,215 @@ export class AttendanceCreator implements OnInit{
   }
 
   createAppointment(): void {
-    const patientId = localStorage.getItem('identity_document');
+
+    const patientId = localStorage.getItem(
+      'identity_document'
+    );
 
     if (!patientId) {
-      alert('Patient not found. Please login again.');
+      alert(
+        'Patient not found. Please login again.'
+      );
       return;
     }
 
-    if (!this.department || !this.doctor || !this.date || !this.time || !this.medicalMatter || !this.explanation) {
-      this.loginErrorMessage = "Some fields are missing.";
+    if (
+      !this.department ||
+      !this.doctor ||
+      !this.date ||
+      !this.time ||
+      !this.medicalMatter ||
+      !this.explanation
+    ) {
+      this.loginErrorMessage =
+        "Some fields are missing.";
+
       return;
     }
 
-    const fullDateTime = `${this.date}T${this.time}:00`;
+    const fullDateTime =
+      `${this.date}T${this.time}:00`;
+
+    // GENERAMOS EL EVENT_ID UNA SOLA VEZ
+    const generatedEventId =
+      crypto.randomUUID();
 
     const appointment: AppointmentData = {
       id_patient: patientId,
       id_doctor: this.doctor,
       title: this.medicalMatter,
       department: this.department,
-      attendance_date: fullDateTime as any,
+      attendance_date:
+        fullDateTime as any,
       reason: this.explanation,
       active: true,
+
+      // GUARDAMOS EL EVENT_ID EN BD
+      event_id: generatedEventId
     };
 
     const snapshot = {
       date: this.date,
       time: this.time,
-      medicalMatter: this.medicalMatter,
-      explanation: this.explanation,
+      medicalMatter:
+        this.medicalMatter,
+      explanation:
+        this.explanation,
       department: this.department,
       doctor: this.doctor
     };
 
-    this.appointmentService.createAppointment(appointment).subscribe({
-      next: () => {
-        const identityDocument = localStorage.getItem('identity_document');
-        if (!identityDocument) return;
+    // 1. GUARDAMOS EN BD
+    this.appointmentService
+      .createAppointment(appointment)
+      .subscribe({
 
-        const cronofyRaw = localStorage.getItem(`cronofy_${identityDocument}`);
-        if (!cronofyRaw) return;
+        next: () => {
 
-        const cronofyData = JSON.parse(cronofyRaw);
-        const token = cronofyData.access_token;
+          const identityDocument =
+            localStorage.getItem(
+              'identity_document'
+            );
 
-        if (token) {
-          const savedCalendarId = localStorage.getItem(`cronofy_calendar_${identityDocument}`);
+          if (!identityDocument) {
 
+            Swal.fire({
+              title: '¡Created!',
+              text:
+                'The appointment has been scheduled successfully.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            }).then(() =>
+              this.navigateHome()
+            );
+
+            return;
+          }
+
+          const cronofyRaw =
+            localStorage.getItem(
+              `cronofy_${identityDocument}`
+            );
+
+          // Si el usuario NO tiene Cronofy
+          // simplemente terminamos
+          if (!cronofyRaw) {
+
+            Swal.fire({
+              title: '¡Created!',
+              text:
+                'The appointment has been scheduled successfully.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            }).then(() =>
+              this.navigateHome()
+            );
+
+            return;
+          }
+
+          const cronofyData =
+            JSON.parse(cronofyRaw);
+
+          const token =
+            cronofyData.access_token;
+
+          if (!token) {
+            return;
+          }
+
+          const savedCalendarId =
+            localStorage.getItem(
+              `cronofy_calendar_${identityDocument}`
+            );
+
+          // SI YA TENEMOS CALENDAR_ID
           if (savedCalendarId) {
-            this.sendEventToCronofy(token, savedCalendarId, patientId, snapshot);
+
+            this.sendEventToCronofy(
+              token,
+              savedCalendarId,
+              patientId,
+              snapshot,
+              generatedEventId
+            );
+
           } else {
+
+            // SI NO TENEMOS CALENDAR_ID
+            // LO PEDIMOS
             this.http.get<any>(
               `http://localhost:8000/cronofy/calendars?token=${token}`
             ).subscribe({
-              next: (res) => {
-                const calendarId = res.calendars[0].calendar_id;
-                localStorage.setItem(`cronofy_calendar_${identityDocument}`, calendarId);
 
-                this.sendEventToCronofy(token, calendarId, patientId, snapshot);
+              next: (res) => {
+
+                const calendarId =
+                  res.calendars[0]
+                    .calendar_id;
+
+                localStorage.setItem(
+                  `cronofy_calendar_${identityDocument}`,
+                  calendarId
+                );
+
+                this.sendEventToCronofy(
+                  token,
+                  calendarId,
+                  patientId,
+                  snapshot,
+                  generatedEventId
+                );
+              },
+
+              error: (err) => {
+
+                console.error(
+                  'Error obtaining calendars',
+                  err
+                );
               }
             });
           }
-        }
 
-        Swal.fire({
-          title: '¡Created!',
-          text: 'The appointment has been scheduled successfully.',
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false
-        }).then(() => this.navigateHome());
-        this.resetForm();
-      },
-      error: (err) => {
-        console.error('Error creating appointment', err);
-        alert('Unable to create appointment.');
-      }
-    });
+          Swal.fire({
+            title: '¡Created!',
+            text:
+              'The appointment has been scheduled successfully.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() =>
+            this.navigateHome()
+          );
+
+          this.resetForm();
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error creating appointment',
+            err
+          );
+
+          alert(
+            'Unable to create appointment.'
+          );
+        }
+      });
   }
 
- private sendEventToCronofy(token: string, calendarId: string, patientId: string, snapshot: any) {
+ private sendEventToCronofy(
+    token: string,
+    calendarId: string,
+    patientId: string,
+    snapshot: any,
+    event_id: string
+  ) {
+
     console.log("DATE:", snapshot.date);
     console.log("TIME:", snapshot.time);
 
@@ -330,38 +461,66 @@ export class AttendanceCreator implements OnInit{
       return;
     }
 
-    const startString = `${snapshot.date}T${snapshot.time}`;
-    const startLocal = new Date(startString);
+    const startString =
+      `${snapshot.date}T${snapshot.time}`;
+
+    const startLocal =
+      new Date(startString);
 
     if (isNaN(startLocal.getTime())) {
-      console.error("Invalid date:", startString);
+      console.error(
+        "Invalid date:",
+        startString
+      );
       return;
     }
 
-    const endLocal = new Date(startLocal.getTime() + 60 * 60 * 1000);
+    const endLocal =
+      new Date(
+        startLocal.getTime() +
+        60 * 60 * 1000
+      );
 
     this.http.post(
       'http://localhost:8000/cronofy/create-event',
       {
         token,
         calendar_id: calendarId,
-        event_id: crypto.randomUUID(),
-        title: `Cita Médica: ${snapshot.medicalMatter}`,
+
+        // IMPORTANTE
+        event_id: event_id,
+
+        title:
+          `Cita Médica: ${snapshot.medicalMatter}`,
+
         description:
           `Paciente ID: ${patientId}\n` +
           `Doctor: ${snapshot.doctor}\n` +
           `Departamento: ${snapshot.department}\n` +
           `Motivo: ${snapshot.explanation}`,
+
         start: startLocal.toISOString(),
         end: endLocal.toISOString()
       }
+
     ).subscribe({
+
       next: (resp) => {
-        console.log("Evento en Google Calendar OK", resp);
+
+        console.log(
+          "Evento en Google Calendar OK",
+          resp
+        );
+
         this.resetForm();
       },
+
       error: (err) => {
-        console.error("Error en Cronofy", err);
+
+        console.error(
+          "Error en Cronofy",
+          err
+        );
       }
     });
   }

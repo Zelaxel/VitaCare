@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { TitleCasePipe } from '@angular/common';
 import { DoctorService } from '../../../services/doctor-service';
 import { AppointmentService } from '../../../services/appointment-service';
@@ -14,8 +15,9 @@ import Swal from 'sweetalert2';
   templateUrl: './appointment.html',
   styleUrl: './appointment.css',
 })
-export class Appointment implements OnInit { // Implementamos OnInit
+export class Appointment implements OnInit {
   @Input() id!: number;
+  @Input() event_id!: string;
   @Input() id_patient!: string;
   @Input() id_doctor!: string; 
   @Input() title!: string;
@@ -28,14 +30,14 @@ export class Appointment implements OnInit { // Implementamos OnInit
   @Input() active!: boolean;
   @Input() patientLayaut!: boolean;
   @Output() deleted = new EventEmitter<void>();
-  
   public displayDoctorName: string = '';
 
   constructor(
     private router: Router,
     private doctorService: DoctorService,
     private appointmentService: AppointmentService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +72,6 @@ export class Appointment implements OnInit { // Implementamos OnInit
       cancelButtonText: 'Volver atrás',
       reverseButtons: true
     }).then((result) => {
-      // Si el usuario hizo clic en "Sí, eliminar"
       if (result.isConfirmed) {
         this.executeDeletion();
       }
@@ -87,20 +88,103 @@ export class Appointment implements OnInit { // Implementamos OnInit
   }
 
   private executeDeletion(): void {
-    this.appointmentService.deleteAppointment(this.id).subscribe({
+
+    const identityDocument = localStorage.getItem('identity_document');
+
+    if (!identityDocument) {
+      Swal.fire(
+        'Error',
+        'User session not found.',
+        'error'
+      );
+      return;
+    }
+
+    const cronofyRaw = localStorage.getItem(`cronofy_${identityDocument}`);
+
+    // Si el usuario NO tiene calendario conectado
+    // borramos directamente la cita
+    if (!cronofyRaw || !this.event_id) {
+      this.deleteAppointmentFromDatabase();
+      return;
+    }
+
+    const cronofyData = JSON.parse(cronofyRaw);
+
+    const token = cronofyData.access_token;
+
+    const calendarId = localStorage.getItem(
+      `cronofy_calendar_${identityDocument}`
+    );
+
+    if (!token || !calendarId) {
+      this.deleteAppointmentFromDatabase();
+      return;
+    }
+
+    // 1. BORRAR EVENTO DE CRONOFY
+    this.http.delete(
+      'http://localhost:8000/cronofy/delete-event',
+      {
+        params: {
+          token: token,
+          calendar_id: calendarId,
+          event_id: this.event_id
+        }
+      }
+    ).subscribe({
+
+      // 2. SI CRONOFY VA BIEN → BORRAMOS BD
       next: () => {
+
+        console.log(
+          'Evento eliminado de Google Calendar'
+        );
+
+        this.deleteAppointmentFromDatabase();
+      },
+
+      error: (err) => {
+
+        console.error(
+          'Error deleting Cronofy event',
+          err
+        );
+
+        Swal.fire(
+          'Error',
+          'Unable to delete Google Calendar event.',
+          'error'
+        );
+      }
+    });
+  }
+
+  private deleteAppointmentFromDatabase(): void {
+
+    this.appointmentService.deleteAppointment(this.id).subscribe({
+
+      next: () => {
+
         Swal.fire(
           '¡Eliminado!',
           'La cita ha sido cancelada correctamente.',
           'success'
         );
+
         this.deleted.emit();
       },
+
       error: (err) => {
-        console.error('Error al eliminar:', err);
+
+        console.error(
+          'Error al eliminar:',
+          err
+        );
+
         Swal.fire(
           'Error',
-          'Hubo un problema al intentar eliminar la cita. Inténtalo de nuevo.',
+          'Hubo un problema al intentar eliminar la cita.',
           'error'
         );
       }

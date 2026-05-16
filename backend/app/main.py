@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi import Body
+from fastapi import Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException as HttpException
 from dataclasses import asdict
@@ -139,25 +140,43 @@ def create_cronofy_event(data: dict = Body(...)):
 # Delete endpoint
 @app.delete("/cronofy/delete-event")
 def delete_cronofy_event(
-    token: str,
-    calendar_id: str,
-    event_id: str
+    token: str = Query(...),
+    calendar_id: str = Query(...),
+    event_id: str = Query(...)
 ):
 
-    response = requests.delete(
-        f"https://api-uk.cronofy.com/v1/calendars/{calendar_id}/events/{event_id}",
+    response = requests.post(
+
+        "https://api-uk.cronofy.com/v1/calendars/events/delete",
+
         headers={
-            "Authorization": f"Bearer {token}"
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json"
+        },
+
+        json={
+            "calendar_id": calendar_id,
+            "event_id": event_id
         }
     )
 
-    print(response.status_code)
-    print(response.text)
+    print("STATUS:", response.status_code)
+    print("BODY:", response.text)
 
-    return {
-        "status_code": response.status_code,
-        "response": response.text
-    }
+    if response.status_code not in [200, 202]:
+
+        raise HttpException(
+            status_code=response.status_code,
+            detail=response.text
+        )
+
+    if not response.text:
+        return {
+            "status": "success",
+            "message": "Event deleted"
+        }
+
+    return response.json()
 
 # Obtain calendar_id
 @app.get("/cronofy/calendars")
