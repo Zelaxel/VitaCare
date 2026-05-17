@@ -30,6 +30,10 @@ export class PatientService {
   updatePatient(patient: Patient): Observable<Patient> {
     return this.http.put<Patient>(`${this.apiUrl}/${patient.identity_document}`, patient);
   }
+
+  checkDisponibility(identity_document: string, date: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check_disponibility/${identity_document}/${date}`);
+  }
 }
 
 

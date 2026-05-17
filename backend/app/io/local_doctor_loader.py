@@ -3,6 +3,8 @@ from architecture.model.doctor import Doctor
 from sqlmodel import Session, select
 from sqlalchemy import Engine
 from app.io.doctor_data import Doctor_data
+from datetime import datetime
+from app.io.appointment_data import Appointment_data
 
 class Local_doctor_loader(Doctor_loader):
 
@@ -40,4 +42,10 @@ class Local_doctor_loader(Doctor_loader):
             query = select(Doctor_data)
             doctor_datas = session.exec(query).all()
             return [self.__toDoctor(doctor_data) for doctor_data in doctor_datas]
+        
+    def check_disponibility(self, credentials: str, date: datetime) -> bool:
+        with Session(self.__engine) as session:
+            statement = select(Appointment_data).where(Appointment_data.attendance_date == date, Appointment_data.id_doctor == credentials)
+            appointment_data = session.exec(statement).first()
+            return appointment_data is None
 
