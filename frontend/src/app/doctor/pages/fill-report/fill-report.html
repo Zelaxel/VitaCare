@@ -50,6 +50,20 @@
       </textarea>
     </section>
 
+    <section class="appointment-paidment">
+      <input id="paid" type="checkbox" [(ngModel)]="paid" name="paidStatus">
+      <span><strong>Payment attached</strong></span>
+    </section>
+
+    @if(!paid){
+      <hr class="divider" />
+
+      <section class="appointment-taxes">
+        <label for="taxes">Taxes required</label>
+        <input id="taxes" type="text" [(ngModel)]="price" name="appointmentPrice" placeholder="€">
+      </section>
+    }
+
     <section class="submit-section">
       <button class="submit-button" (click)="submitReport()">
         Submit report

@@ -29,6 +29,8 @@ import Swal from 'sweetalert2';
   department: string = '';
   reason: string = 'Caricamento...'; 
   conclusion: string = ''; 
+  paid: boolean = true;
+  price: number = 0;
 
   constructor(
     private router: Router,
@@ -69,7 +71,8 @@ import Swal from 'sweetalert2';
         reason: state.description,
         conclusion: state.conclusion || '',
         active: state.active,
-        paid: false
+        paid: state.paid !== undefined ? state.paid : true,
+        price: state.price || 0
       };
     }
   }
@@ -90,6 +93,8 @@ import Swal from 'sweetalert2';
         this.date = new Date(appointment.attendance_date); 
         this.reason = appointment.reason;
         this.conclusion = appointment.conclusion || '';
+        this.paid = appointment.paid;
+        this.price = appointment.price || 0;
         this.cdr.detectChanges();
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
@@ -137,6 +142,8 @@ import Swal from 'sweetalert2';
 
     this.currentAppointment.conclusion = this.conclusion;
     this.currentAppointment.active = false;
+    this.currentAppointment.paid = this.paid;
+    this.currentAppointment.price = this.paid ? 0 : this.price;
 
     this.appointmentService.updateAppointment(this.currentAppointment).subscribe({
       next: (updatedAppointment) => {
