@@ -76,7 +76,6 @@ export class Home {
       return;
     }
 
-    console.log(doctorId);
     this.appointmentService.getAppointmentByDoctor(doctorId).subscribe({
       next: async (data: BackendAppointmentData[]) => {
         const sortedData = this.sortAppointments(data);
@@ -277,7 +276,6 @@ export class Home {
     fetch('http://localhost:8000/departments')
       .then(res => res.json())
       .then(data => {
-        console.log("Departments:", data);
         this.departments = data;
         this.cdr.detectChanges();
       });

@@ -160,7 +160,7 @@ export class AttendanceCreator implements OnInit{
     });
   }
 
-  createAppointment(): void {
+  async createAppointment(): Promise<void> {
     const patientId = localStorage.getItem('identity_document');
 
     if (!patientId) {
@@ -173,7 +173,58 @@ export class AttendanceCreator implements OnInit{
       return;
     }
 
-    const fullDateTime = `${this.date}T${this.time}:00`;
+    const fullDateTime: string = `${this.date}T${this.time}:00`;
+    const tomorrow = new Date();
+    tomorrow.setHours(0,0,0,0);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // Previous date
+    if(new Date(this.date).getTime() < tomorrow.getTime()) {
+      Swal.fire({
+          title: 'Schedule Conflict',
+          text: 'Appointments must be scheduled at least one day in advance. Same-day bookings are not available. Please select tomorrow or a later date.',
+          icon: 'error',
+          showConfirmButton: true
+      });
+      return;
+    }
+
+    // Sunday date
+    if(new Date(this.date).getDay() === 0) {
+      Swal.fire({
+          title: 'Schedule Conflict',
+          text: 'The medical center is closed on Sundays. Please schedule your appointment for a business day (Monday through Saturday).',
+          icon: 'error',
+          showConfirmButton: true
+      });
+      return;
+    }
+
+    const patient_disponibility: boolean = await firstValueFrom(this.patientService.checkDisponibility(patientId, fullDateTime));
+
+    // Patient not aviable.
+    if(patient_disponibility === false) {
+      Swal.fire({
+          title: 'Schedule Conflict',
+          text: 'The patient already has another appointment scheduled for this date and time. Please choose a different date.',
+          icon: 'error',
+          showConfirmButton: true
+      });
+      return;
+    }
+
+    const doctor_disponibility: boolean = await firstValueFrom(this.doctorService.checkDisponibility(this.doctor, fullDateTime));
+
+    // Doctor not aviable.
+    if(doctor_disponibility! === false) {
+      Swal.fire({
+          title: 'Schedule Conflict',
+          text: 'The doctor already has another appointment scheduled for this date and time. Please choose a different date.',
+          icon: 'error',
+          showConfirmButton: true
+      });
+      return;
+    }
 
     const appointment: AppointmentData = {
       id_patient: patientId,

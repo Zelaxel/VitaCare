@@ -3,6 +3,8 @@ from architecture.model.patient import Patient
 from sqlmodel import Session, select
 from sqlalchemy import Engine
 from app.io.patient_data import Patient_data
+from datetime import datetime
+from app.io.appointment_data import Appointment_data
 
 class Local_patient_loader(Patient_loader):
     
@@ -43,3 +45,9 @@ class Local_patient_loader(Patient_loader):
             statement = select(Patient_data).where(Patient_data.mail == email)
             patient_data = session.exec(statement).first()
             return self.__to_patient(patient_data) if patient_data else None
+        
+    def check_disponibility(self, identity_document: str, date: datetime) -> bool:
+        with Session(self.__engine) as session:
+            statement = select(Appointment_data).where(Appointment_data.attendance_date == date, Appointment_data.id_patient == identity_document)
+            appointment_data = session.exec(statement).first()
+            return appointment_data is None

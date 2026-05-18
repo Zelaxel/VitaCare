@@ -29,6 +29,7 @@ from app.io.local_appointment_storer import Local_appointment_storer
 from app.io.local_appointment_loader import Local_appointment_loader
 from app.io.local_appointment_updater import Local_appointment_updater
 from app.io.local_appointment_deleter import Local_appointment_deleter
+from datetime import datetime
 
 # Variables -------------------------------------------------------
 
@@ -119,6 +120,10 @@ def update_patient(identity_document: str, updated_patient: Patient) -> dict:
     patient_updater.update(updated_patient)
     return {"message": "Patient updated successfully", "patient": asdict(updated_patient)}
 
+@app.get("/patient/check_disponibility/{identity_document}/{date}")
+def check_patient_disponibility(identity_document: str, date: datetime) -> bool:
+    return patient_loader.check_disponibility(identity_document, date)
+
 # Doctors
 @app.get("/doctor/{credentials}")
 def get_doctor(credentials: str) -> dict:
@@ -137,6 +142,10 @@ def get_departments() -> list[str]:
     doctors = doctor_loader.load_all()
     departments = list(set([doctor.department for doctor in doctors]))
     return departments
+
+@app.get("/doctor/check_disponibility/{credentials}/{date}")
+def check_doctor_disponibility(credentials: str, date: datetime) -> bool:
+    return doctor_loader.check_disponibility(credentials, date)
 
 # Appointments
 @app.get("/appointment/by_patient/{identity_document}")
