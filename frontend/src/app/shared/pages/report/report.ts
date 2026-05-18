@@ -3,17 +3,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 
 import { Header } from '../../components/header/header';
-// Controlla che i percorsi siano corretti per il tuo progetto
 import { AppointmentService } from '../../../services/appointment-service';
 import { PatientService } from '../../../services/patient-service';
 import { DoctorService } from '../../../services/doctor-service';
 
+import { jsPDF } from 'jspdf';
+
 @Component({
   standalone: true,
   selector: 'app-report',
-  imports: [Header, DatePipe, TitleCasePipe], 
+  imports: [Header, DatePipe, TitleCasePipe],
   templateUrl: './report.html',
   styleUrl: './report.css',
+  providers: [DatePipe]
 })
 export class Report implements OnInit {
   patientName: string = "Caricamento...";
@@ -22,6 +24,10 @@ export class Report implements OnInit {
   department: string = "Caricamento...";
   reason: string = "Caricamento...";
   conclusion: string = "Caricamento...";
+  
+  // Nuove variabili per il costo
+  paid: boolean = true;
+  price: number = 0;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -29,41 +35,71 @@ export class Report implements OnInit {
   private patientService = inject(PatientService);
   private doctorService = inject(DoctorService);
   private cdr = inject(ChangeDetectorRef);
+  private datePipe = inject(DatePipe);
 
   ngOnInit(): void {
+    const appointmentId = this.route.snapshot.paramMap.get('id');
     const state = history.state;
 
-    // 1. Popoliamo subito l'interfaccia con i dati veloci provenienti dallo state (se ci sono)
-    // Questo evita di mostrare "Caricamento..." e dà l'impressione di un caricamento istantaneo.
-    // (Attenzione: qui il patientName ha solo il nome, senza cognome).
-    if (state && state.id) {
+    if (appointmentId) {
+      this.loadDataFromService(appointmentId);
+    } else if (state && state.id) {
       this.populateFromState(state);
+    } else {
+      console.warn("Nessun ID appuntamento trovato. Impossibile caricare il report.");
     }
-
-    // 2. IL FIX: Ci iscriviamo (subscribe) ai parametri dell'URL.
-    // In questo modo, ogni volta che l'ID nell'URL cambia, Angular eseguirà di nuovo questo 
-    // blocco senza bisogno di premere F5, recuperando così il COGNOME dal database!
-    this.route.paramMap.subscribe(params => {
-      const appointmentId = params.get('id');
-      
-      if (appointmentId) {
-        this.loadDataFromService(appointmentId);
-      } else if (state && state.id) {
-        // Fallback: se manca l'ID nell'URL ma c'è nello state, usa quello
-        this.loadDataFromService(state.id);
-      } else {
-        console.warn("Nessun ID appuntamento trovato. Impossibile caricare il report.");
-      }
-    });
   }
 
   isPatient(): boolean {
     return this.router.url.startsWith('/patient');
   }
 
-  downloadPDF(): void {
-    // Inserisci qui la tua logica per scaricare il PDF
-    console.log('Download PDF cliccato');
+public downloadPDF(): void {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    pdf.setFontSize(22);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('Medical Appointment Report', 105, 20, { align: 'center' });
+
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'normal');
+    
+    // Ecco la data formattata come richiesto (Giorno-Mese-Anno, Ore:Minuti)
+    const formattedDate = this.datePipe.transform(this.date, 'dd-MM-yyyy, HH:mm') || String(this.date);
+    const costText = this.paid ? 'Free' : `€${this.price}`;
+
+    pdf.text(`Patient Name: ${this.patientName}`, 20, 40);
+    pdf.text(`Doctor: ${this.doctorName}`, 20, 50);
+    pdf.text(`Date: ${formattedDate}`, 20, 60); 
+    pdf.text(`Department: ${this.department}`, 20, 70);
+    pdf.text(`Cost: ${costText}`, 20, 80); 
+
+    // Linea di separazione
+    pdf.line(20, 85, 190, 85);
+
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('Appointment Reason:', 20, 95); 
+    
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'normal');
+    const reasonLines = pdf.splitTextToSize(this.reason, 170);
+    pdf.text(reasonLines, 20, 105); 
+
+    // Calcolo dinamico per le conclusioni
+    const conclusionY = 105 + (reasonLines.length * 7) + 15; 
+
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('Doctor\'s Conclusion:', 20, conclusionY);
+    
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'normal');
+    const conclusionLines = pdf.splitTextToSize(this.conclusion, 170);
+    pdf.text(conclusionLines, 20, conclusionY + 10);
+
+    const safeName = this.patientName.replace(/\s+/g, '_');
+    pdf.save(`Medical_Report_${safeName}.pdf`);
   }
 
   private loadDataFromService(id: string): void {
@@ -72,11 +108,15 @@ export class Report implements OnInit {
         this.date = appointment.attendance_date;
         this.reason = appointment.reason;
         this.conclusion = appointment.conclusion || 'Nessuna conclusione registrata.';
+        
+        // Assegnazione variabili di costo dal DB
+        this.paid = appointment.paid;
+        this.price = appointment.price || 0;
+        
         this.cdr.detectChanges(); 
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
           next: (patient) => {
-            // Qui arriva il dato VERO dal database, sovrascrivendo quello parziale dello state
             this.patientName = `${patient.name} ${patient.surname}`;
             this.cdr.detectChanges(); 
           },
@@ -97,13 +137,17 @@ export class Report implements OnInit {
   }
 
   private populateFromState(state: any): void {
-    // Popolamento temporaneo in attesa dei dati completi dal database
     this.patientName = state.patientName || "Caricamento...";
     this.doctorName = state.doctorName || "Caricamento...";
     this.date = state.date;
     this.department = state.department;
     this.reason = state.description || state.reason; 
     this.conclusion = state.conclusion || 'Nessuna conclusione registrata.';
+    
+    // Assegnazione variabili di costo dallo stato
+    this.paid = state.paid !== undefined ? state.paid : true;
+    this.price = state.price || 0;
+    
     this.cdr.detectChanges();
   }
 }
