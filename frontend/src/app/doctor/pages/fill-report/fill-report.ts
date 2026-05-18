@@ -95,11 +95,15 @@ import Swal from 'sweetalert2';
         this.conclusion = appointment.conclusion || '';
         this.paid = appointment.paid;
         this.price = appointment.price || 0;
+        
+        // Aggiorniamo la UI per i dati base
         this.cdr.detectChanges();
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
           next: (patient) => {
             this.patientName = `${patient.name} ${patient.surname}`;
+            // AGGIUNTA FONDAMENTALE: Avvisa Angular che il nome paziente è arrivato
+            this.cdr.detectChanges(); 
           },
           error: (err) => console.error('Error fetching patient data', err)
         });
@@ -108,6 +112,8 @@ import Swal from 'sweetalert2';
           next: (doctor) => {
             this.doctorName = `Dr. ${doctor.name} ${doctor.surname}`;
             this.department = doctor.department;
+            // AGGIUNTA FONDAMENTALE: Avvisa Angular che i dati del dottore sono arrivati
+            this.cdr.detectChanges(); 
           },
           error: (err) => console.error('Error fetching doctor data', err)
         });
