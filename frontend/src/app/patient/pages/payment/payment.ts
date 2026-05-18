@@ -22,7 +22,8 @@ export class PaymentComponent implements OnInit {
     title: 'Loading...',
     doctorName: 'Loading...',
     description: 'Loading details...',
-    date: ''
+    date: '',
+    price: 0
   };
 
   constructor(
@@ -62,6 +63,7 @@ export class PaymentComponent implements OnInit {
         this.appointmentDetails.title = appointment.title || 'General Checkup';
         this.appointmentDetails.description = appointment.reason || 'No description found.';
         this.appointmentDetails.date = dataFormattata;
+        this.appointmentDetails.price = appointment.price || 0;
         this.appointmentDetails.doctorName = 'Finding name.';
 
         this.cdr.detectChanges();
@@ -94,23 +96,62 @@ export class PaymentComponent implements OnInit {
   }
 
   processPayment() {
+    const numeroCartaPulito = this.cardNumber.replace(/\s+/g, '');
     if (!this.cardNumber || !this.expiryDate || !this.cvv) {
-      Swal.fire('Warning', 'Please fill all card details.', 'warning');
+      Swal.fire('Attenzione', 'Per favore, compila tutti i dati della carta.', 'warning');
       return;
     }
 
+    // STRIPE simulation
+    if (numeroCartaPulito !== '4242424242424242') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Transazione Rifiutata',
+        text: 'La carta inserita non è valida o è stata rifiutata dal circuito bancario.',
+        footer: 'Suggerimento: Usa la carta di test 4242 4242 4242 4242'
+      });
+      return;
+    }
+    const appointmentId = this.route.snapshot.paramMap.get('id');
+    if (!appointmentId) {
+      Swal.fire('Errore', 'Impossibile trovare la visita di riferimento.', 'error');
+      return;
+    }
+
+    // 5. IL PROCESSO IN 3 FASI (Grafica realistica)
     Swal.fire({
-      title: 'Processing...',
-      text: 'Elaborating the payment',
+      title: 'Connessione al circuito bancario...',
+      html: 'Autorizzazione in corso tramite <b>Stripe</b>.<br/>Attendere prego.',
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
+
+        
         setTimeout(() => {
-          Swal.fire('Complete!', 'Succesfull payment.', 'success')
-            .then(() => {
-              this.router.navigate(['/home']); 
-            });
-        }, 2000);
+          
+          Swal.update({
+            title: 'Autorizzazione ricevuta!',
+            html: 'Registrazione del pagamento nel database in corso...'
+          });
+
+          
+          this.appointmentService.confirmPayment(appointmentId).subscribe({
+            next: () => {
+              Swal.fire(
+                'Pagamento Completato!',
+                'La ricevuta è stata generata e la visita è pagata.',
+                'success'
+              ).then(() => {
+                this.router.navigate(['/home']); // Riporta il paziente alla home
+              });
+            },
+            error: (err) => {
+              console.error("Errore di sincronizzazione col database:", err);
+              Swal.fire('Errore Interno', 'La banca ha autorizzato ma il server della clinica non risponde.', 'error');
+            }
+          });
+
+        }, 1500);
       }
     });
   }
