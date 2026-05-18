@@ -205,40 +205,45 @@ export class Home {
   }
   startDate: string = '';
   endDate: string = '';
+  selectedDepartment: string = '';
   applyDateFilter() {
-  
-    if (!this.startDate && !this.endDate) {
-      this.appointments = [...this.allAppointments];
-      return;
-    }
     this.appointments = this.allAppointments.filter(visit => {
       const visitDate = new Date(visit.date);
-      
+
       let matchesStart = true;
       let matchesEnd = true;
+      let matchesDepartment = true;
 
       if (this.startDate) {
         const start = new Date(this.startDate);
-        start.setHours(0, 0, 0, 0); 
+        start.setHours(0, 0, 0, 0);
         matchesStart = visitDate >= start;
       }
 
-      
       if (this.endDate) {
         const end = new Date(this.endDate);
-        end.setHours(23, 59, 59, 999); 
+        end.setHours(23, 59, 59, 999);
         matchesEnd = visitDate <= end;
       }
 
-      return matchesStart && matchesEnd;
+      if (this.selectedDepartment) {
+        matchesDepartment =
+          visit.department.toLowerCase() === this.selectedDepartment.toLowerCase();
+      }
+
+      return matchesStart && matchesEnd && matchesDepartment;
     });
+
+    this.cdr.detectChanges();
   }
 
   
   clearFilters() {
     this.startDate = '';
     this.endDate = '';
+    this.selectedDepartment = '';
     this.appointments = [...this.allAppointments];
+    this.cdr.detectChanges();
   }
 
   private sortAppointments(data: BackendAppointmentData[]): BackendAppointmentData[] {
