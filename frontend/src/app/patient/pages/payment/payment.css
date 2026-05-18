@@ -91,10 +91,13 @@
 .input-row {
   display: flex;
   gap: 1rem;
+  width: 100%; 
+  box-sizing: border-box;
 }
 
-.input-row .input-half {
-  flex: 1;
+.input-half {
+  flex: 1 1 0%; 
+  min-width: 0;
 }
 
 .inactive-card-payment {

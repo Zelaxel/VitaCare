@@ -24,14 +24,10 @@
           </div>
         </div>
 
-        <div class="card inactive-card-payment">
-           <div class="card-header">
-             <span class="icon">🏦</span> <strong>Bank Transfer</strong>
-           </div>
-        </div>
+        
 
         <div class="btn-wrapper">
-          <button class="btn-pay" (click)="processPayment()">Pay $60</button>
+          <button class="btn-pay" (click)="processPayment()"><strong>${{ appointmentDetails.price || '0.00' }}</strong></button>
         </div>
       </div>
 

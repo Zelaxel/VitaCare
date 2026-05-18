@@ -118,10 +118,9 @@ export class PaymentComponent implements OnInit {
       return;
     }
 
-    // 5. IL PROCESSO IN 3 FASI (Grafica realistica)
     Swal.fire({
-      title: 'Connessione al circuito bancario...',
-      html: 'Autorizzazione in corso tramite <b>Stripe</b>.<br/>Attendere prego.',
+      title: 'Connecting wth the bank...',
+      html: 'Authrization.. <b>Stripe</b>.<br/>wait please.',
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
@@ -130,24 +129,24 @@ export class PaymentComponent implements OnInit {
         setTimeout(() => {
           
           Swal.update({
-            title: 'Autorizzazione ricevuta!',
-            html: 'Registrazione del pagamento nel database in corso...'
+            title: 'Received Authorization!',
+            html: ' Registration of the payment in the database ...'
           });
 
           
           this.appointmentService.confirmPayment(appointmentId).subscribe({
             next: () => {
               Swal.fire(
-                'Pagamento Completato!',
-                'La ricevuta è stata generata e la visita è pagata.',
+                'Completed Payment!',
+                'The visit has been payed.',
                 'success'
               ).then(() => {
-                this.router.navigate(['/home']); // Riporta il paziente alla home
+                this.router.navigate(['/home']); 
               });
             },
-            error: (err) => {
-              console.error("Errore di sincronizzazione col database:", err);
-              Swal.fire('Errore Interno', 'La banca ha autorizzato ma il server della clinica non risponde.', 'error');
+            error: (err:any) => {
+              console.error("synchro error with the databse:", err);
+              Swal.fire('Error', 'The bank has authorized, but we have a problem with the clinic server .', 'error');
             }
           });
 

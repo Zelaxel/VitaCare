@@ -27,7 +27,7 @@ export class AppointmentService {
     return this.http.post<AppointmentData>(this.apiUrl, appointment)
   }
 
-  /** Update an existing appointment */
+  /** Update an existing appointment */ 
   updateAppointment(appointment: AppointmentData): Observable<AppointmentData> {
     return this.http.put<AppointmentData>(`${this.apiUrl}/${appointment.id}`, appointment)
   }
@@ -39,9 +39,15 @@ export class AppointmentService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  
+
   /**    added method */
   downloadReport(id: string | number): Observable<any> {
     
     return this.http.get(`${this.apiUrl}/${id}/report`, { responseType: 'blob' });
+  }
+  
+  confirmPayment(id: string | number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}/pay`, {});
   }
 }
