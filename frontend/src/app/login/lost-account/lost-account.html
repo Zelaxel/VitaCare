@@ -1,15 +1,12 @@
 <div class="recovery-page">
   <div class="layout-window">
-    
 
     <main class="main-area">
+      <button onclick="window.history.back()" class="back-button">
+        <img src="svg/left_arrow.svg" alt="back">
+      </button>
       <section class="recovery-card">
-        <div class="lock-circle">
-          <svg class="lock-svg" viewBox="0 0 64 64">
-            <rect x="16" y="28" width="32" height="26" rx="4"></rect>
-            <path d="M22 28v-9c0-8 4-13 10-13s10 5 10 13v9"></path>
-          </svg>
-        </div>
+        <img src="svg\padlock-locke.svg">
 
         <h1>Account Recovery</h1>
 
@@ -35,16 +32,6 @@
 
         <button class="send-btn" type="button" (click)="recoverPassword()">Send Password</button>
 
-
-        <div class="divider">
-          <span class="line"></span>
-          <span class="or-text">or</span>
-          <span class="line"></span>
-        </div>
-
-        <div class="back-login">
-          <a [routerLink]= "['/login/log-in']">back to login</a>
-        </div>
       </section>
     </main>
   </div>

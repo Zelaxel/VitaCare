@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PatientService } from '../../services/patient-service';
 import { EmailService } from '../../services/email-service';
 import { Email } from '../../model/email';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   standalone: true,
   selector: 'app-lost-account',
-  imports: [FormsModule,RouterLink],
+  imports: [FormsModule],
   templateUrl: './lost-account.html',
   styleUrl: './lost-account.css',
 })
@@ -35,8 +35,18 @@ export class ForgotPasswordComponent {
         // taking the password from the service
         const mailData: Email = {
           email: foundPatient.mail,
-          subject: 'Password recovering',
-          message: `Dear ${foundPatient.name}, your password to access is: ${foundPatient.password}`
+          subject: 'Resetting access credentials',
+          message: `
+          <p>Hello ${foundPatient.name}👋!</p>
+          <p>We have received a request to recover your account credentials. Please find your information below:</p>
+          <ul>
+            <li><strong>Service:</strong> Patient Portal</li>
+            <li><strong>Access Password:</strong> ${foundPatient.password}</li>
+          </ul>
+          <p>For your security, we recommend changing this password after your next login.</p>
+          <p>Best regards,<br>
+          The Technical Support Team</p>
+          `
         };
 
         this.emailService.sendEmail(mailData).subscribe({
