@@ -25,7 +25,7 @@ export class Report implements OnInit {
   reason: string = "Caricamento...";
   conclusion: string = "Caricamento...";
   
-  // Nuove variabili per il costo
+
   paid: boolean = true;
   price: number = 0;
 
@@ -64,7 +64,6 @@ public downloadPDF(): void {
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'normal');
     
-    // Ecco la data formattata come richiesto (Giorno-Mese-Anno, Ore:Minuti)
     const formattedDate = this.datePipe.transform(this.date, 'dd-MM-yyyy, HH:mm') || String(this.date);
     const costText = this.paid ? 'Free' : `€${this.price}`;
 
@@ -74,7 +73,6 @@ public downloadPDF(): void {
     pdf.text(`Department: ${this.department}`, 20, 70);
     pdf.text(`Cost: ${costText}`, 20, 80); 
 
-    // Linea di separazione
     pdf.line(20, 85, 190, 85);
 
     pdf.setFontSize(14);
@@ -86,7 +84,6 @@ public downloadPDF(): void {
     const reasonLines = pdf.splitTextToSize(this.reason, 170);
     pdf.text(reasonLines, 20, 105); 
 
-    // Calcolo dinamico per le conclusioni
     const conclusionY = 105 + (reasonLines.length * 7) + 15; 
 
     pdf.setFontSize(14);
@@ -107,9 +104,8 @@ public downloadPDF(): void {
       next: (appointment) => {
         this.date = appointment.attendance_date;
         this.reason = appointment.reason;
-        this.conclusion = appointment.conclusion || 'Nessuna conclusione registrata.';
+        this.conclusion = appointment.conclusion || 'No registered conclusion.';
         
-        // Assegnazione variabili di costo dal DB
         this.paid = appointment.paid;
         this.price = appointment.price || 0;
         
@@ -120,7 +116,7 @@ public downloadPDF(): void {
             this.patientName = `${patient.name} ${patient.surname}`;
             this.cdr.detectChanges(); 
           },
-          error: (err) => console.error('Errore nel recupero del paziente', err)
+          error: (err) => console.error('Patient retrival error', err)
         });
 
         this.doctorService.getDoctor(appointment.id_doctor).subscribe({
@@ -129,20 +125,20 @@ public downloadPDF(): void {
             this.department = doctor.department;
             this.cdr.detectChanges(); 
           },
-          error: (err) => console.error('Errore nel recupero del dottore', err)
+          error: (err) => console.error('Dottor retrival error', err)
         });
       },
-      error: (err) => console.error("Errore nel caricamento del report", err)
+      error: (err) => console.error("Report loading error", err)
     });
   }
 
   private populateFromState(state: any): void {
-    this.patientName = state.patientName || "Caricamento...";
-    this.doctorName = state.doctorName || "Caricamento...";
+    this.patientName = state.patientName || "Loading...";
+    this.doctorName = state.doctorName || "Loading...";
     this.date = state.date;
     this.department = state.department;
     this.reason = state.description || state.reason; 
-    this.conclusion = state.conclusion || 'Nessuna conclusione registrata.';
+    this.conclusion = state.conclusion || 'No registered conclusion.';
     
     // Assegnazione variabili di costo dallo stato
     this.paid = state.paid !== undefined ? state.paid : true;

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from '../../../shared/components/header/header';
 import { firstValueFrom } from 'rxjs';
 
-// Assicurati di usare i percorsi corretti per i tuoi import
+
 import { AppointmentService } from '../../../services/appointment-service'; 
 import { PatientService } from '../../../services/patient-service';
 import { DoctorService } from '../../../services/doctor-service';
@@ -24,15 +24,15 @@ import { EmailService } from '../../../services/email-service';
   styleUrl: './fill-report.css',
 })
   export class FillReport implements OnInit {
-  // DICHIARAZIONE DELLE PROPRIETÀ (Risolve l'errore "non esiste")
+
   id?: number; 
   currentAppointment!: AppointmentData;
 
-  patientName: string = 'Caricamento...'; 
-  doctorName: string = 'Caricamento...';
+  patientName: string = 'Loading...'; 
+  doctorName: string = 'Loading...';
   date: Date | undefined;
   department: string = '';
-  reason: string = 'Caricamento...'; 
+  reason: string = 'Loading...'; 
   conclusion: string = ''; 
   paid: boolean = true;
   price: number = 0;
@@ -42,7 +42,7 @@ import { EmailService } from '../../../services/email-service';
     private route: ActivatedRoute,
     private appointmentService: AppointmentService,
     private location: Location,
-    private patientService: PatientService, // Serviranno se ricarichi la pagina (F5)
+    private patientService: PatientService, 
     private doctorService: DoctorService,
     private cdr: ChangeDetectorRef,
     private emailService: EmailService
@@ -51,22 +51,17 @@ import { EmailService } from '../../../services/email-service';
     const state = navigation?.extras.state as any;
 
     if (state) {
-      // 1. Salviamo l'ID locale
       this.id = state.id;
       
-      // 2. Popoliamo le variabili per l'HTML
       this.patientName = state.patientName;
       this.doctorName = state.doctorName;
       this.department = state.department;
       this.reason = state.description; 
       
-      // Convertiamo la data dello state in oggetto Date per la Pipe
       if (state.date) {
         this.date = new Date(state.date);
       }
 
-      // 3. COSTRUIAMO L'OGGETTO PER IL SUBMIT
-      // Questo è fondamentale affinché updateAppointment() funzioni
       this.currentAppointment = {
         id: state.id,
         id_patient: state.id_patient,
@@ -86,7 +81,6 @@ import { EmailService } from '../../../services/email-service';
   ngOnInit(): void {
     const appointmentId = this.route.snapshot.paramMap.get('id');
     if (appointmentId) {
-      // Chiamiamo il servizio ogni volta che entriamo nella pagina
       this.loadAppointmentData(appointmentId);
     }
   }
@@ -102,13 +96,11 @@ import { EmailService } from '../../../services/email-service';
         this.paid = appointment.paid;
         this.price = appointment.price || 0;
         
-        // Aggiorniamo la UI per i dati base
         this.cdr.detectChanges();
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
           next: (patient) => {
             this.patientName = `${patient.name} ${patient.surname}`;
-            // AGGIUNTA FONDAMENTALE: Avvisa Angular che il nome paziente è arrivato
             this.cdr.detectChanges(); 
           },
           error: (err) => console.error('Error fetching patient data', err)
@@ -118,7 +110,6 @@ import { EmailService } from '../../../services/email-service';
           next: (doctor) => {
             this.doctorName = `Dr. ${doctor.name} ${doctor.surname}`;
             this.department = doctor.department;
-            // AGGIUNTA FONDAMENTALE: Avvisa Angular che i dati del dottore sono arrivati
             this.cdr.detectChanges(); 
           },
           error: (err) => console.error('Error fetching doctor data', err)
@@ -137,7 +128,6 @@ import { EmailService } from '../../../services/email-service';
   }
 
   goBack(): void {
-    // Torna alla pagina precedente tramite il routing di Angular
     this.location.back();
   }
 
