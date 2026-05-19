@@ -24,8 +24,6 @@ export class Report implements OnInit {
   department: string = "Caricamento...";
   reason: string = "Caricamento...";
   conclusion: string = "Caricamento...";
-  
-
   paid: boolean = true;
   price: number = 0;
 
@@ -65,7 +63,7 @@ public downloadPDF(): void {
     pdf.setFont('helvetica', 'normal');
     
     const formattedDate = this.datePipe.transform(this.date, 'dd-MM-yyyy, HH:mm') || String(this.date);
-    const costText = this.paid ? 'Free' : `€${this.price}`;
+    const costText = (this.price === null || this.price === 0) ? 'Free' : `€${this.price}`;
 
     pdf.text(`Patient Name: ${this.patientName}`, 20, 40);
     pdf.text(`Doctor: ${this.doctorName}`, 20, 50);
@@ -140,7 +138,6 @@ public downloadPDF(): void {
     this.reason = state.description || state.reason; 
     this.conclusion = state.conclusion || 'No registered conclusion.';
     
-    // Assegnazione variabili di costo dallo stato
     this.paid = state.paid !== undefined ? state.paid : true;
     this.price = state.price || 0;
     
