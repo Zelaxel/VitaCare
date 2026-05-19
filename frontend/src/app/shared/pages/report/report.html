@@ -50,11 +50,11 @@
     <section class="appointment-paid">
       <label>Paid state:</label>
       <label class="appointment-paid-label">
-        {{ paidState ? 'Complete' : 'Pending' }}
+        {{ paid ? 'Complete' : 'Pending' }}
       </label>
     </section>
 
-    @if(!paidState){
+    @if(!paid){
       <button class="pay-button" (click)="goToPayment()">Pay appointment</button>
     }
   </section>
