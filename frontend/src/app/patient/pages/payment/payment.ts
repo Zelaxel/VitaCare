@@ -116,7 +116,6 @@ export class PaymentComponent implements OnInit {
       return;
     }
 
-    // elimina espacios (porque el input ya formatea 1234 5678 9012)
     const cleanCard = this.cardNumber.replace(/\s+/g, '');
 
     if (!/^\d{12}$/.test(cleanCard)) {
