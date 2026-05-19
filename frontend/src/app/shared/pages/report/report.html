@@ -28,7 +28,6 @@
         <label>Department: </label>
         <label class="department-label">{{department}}</label>
       </section>
-      <!-- Nuova sezione per il Costo -->
       <section>
         <label>Cost: </label>
         <label class="cost-label">{{ paid ? 'Free' : '€' + price }}</label>
@@ -43,5 +42,19 @@
       <label>Appointment conclusion:</label>
       <label class="appointment-conclusion-label">{{conclusion}}</label>
     </section>
+    <section class="appointment-import">
+      <label>Import:</label>
+      <label class="appointment-import-label">{{ price }} €</label>
+    </section>
+    <section class="appointment-paid">
+      <label>Paid state:</label>
+      <label class="appointment-paid-label">
+        {{ paid ? 'Complete' : 'Pending' }}
+      </label>
+    </section>
+
+    @if(!paid){
+      <button class="pay-button" (click)="goToPayment()">Pay appointment</button>
+    }
   </section>
 </div>

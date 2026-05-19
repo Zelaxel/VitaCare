@@ -331,12 +331,22 @@ def update_appointment(id: int, updated_appointment: Appointment) -> dict:
     if not appointment: 
         raise HttpException(status_code=404, detail="Appointment not found")
     
-    # Qui aggiorniamo la visita (conclusione del dottore), non il paziente!
     appointment_updater.update(updated_appointment)
     
     return {
         "message": "Appointment updated successfully", 
         "appointment": asdict(updated_appointment)
+    }
+@app.put("/appointment/{id}/pay")
+def pay_appointment(id: int) -> dict:
+    appointment = appointment_loader.load_by_id(id)
+    if not appointment: 
+        raise HttpException(status_code=404, detail="Appointment not found")
+    appointment.paid = True
+    appointment_updater.update(appointment)
+    return {
+        "message": "Payment successful", 
+        "appointment": asdict(appointment)
     }
 
 @app.delete("/appointment/{id}")

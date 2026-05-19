@@ -10,6 +10,7 @@ export interface AppointmentData {
     description: string;
     department: string;
     date: Date;
+    paid: boolean;
     active: boolean;
     event_id: string;
 }

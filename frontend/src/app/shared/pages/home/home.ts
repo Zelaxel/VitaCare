@@ -202,6 +202,7 @@ export class Home {
       date: appointment.attendance_date,
       department: appointment.department,
       active: appointment.active,
+      paid: appointment.paid
     };
   }
   startDate: string = '';
