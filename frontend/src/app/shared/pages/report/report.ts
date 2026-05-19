@@ -12,7 +12,7 @@ import { jsPDF } from 'jspdf';
 @Component({
   standalone: true,
   selector: 'app-report',
-  imports: [Header, DatePipe, TitleCasePipe],
+  imports: [Header, DatePipe],
   templateUrl: './report.html',
   styleUrl: './report.css',
   providers: [DatePipe]
