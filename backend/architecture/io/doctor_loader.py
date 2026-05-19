@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from architecture.model.doctor import Doctor
+from datetime import datetime
 
 class Doctor_loader(ABC):
     @abstractmethod
@@ -14,4 +15,8 @@ class Doctor_loader(ABC):
 
     @abstractmethod
     def load_all(self) -> list[Doctor]:
+        pass
+
+    @abstractmethod
+    def check_disponibility(self, credentials: str, date: datetime) -> bool:
         pass

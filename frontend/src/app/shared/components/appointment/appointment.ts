@@ -7,6 +7,12 @@ import { AppointmentService } from '../../../services/appointment-service';
 import { Doctor } from '../../../model/doctor';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
+import { PatientService } from '../../../services/patient-service';
+import { formatDate } from '@angular/common';
+import { Patient } from '../../../model/patient';
+import { Email } from '../../../model/email';
+import { EmailService } from '../../../services/email-service';
 
 @Component({
   standalone: true,
@@ -37,7 +43,9 @@ export class Appointment implements OnInit {
     private doctorService: DoctorService,
     private appointmentService: AppointmentService,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient
+    private http: HttpClient,
+    private patientService: PatientService,
+    private emailService: EmailService
   ) {}
 
   ngOnInit(): void {
@@ -173,6 +181,8 @@ export class Appointment implements OnInit {
         );
 
         this.deleted.emit();
+        this.notifyDoctor();
+        this.notifyPatient();
       },
 
       error: (err) => {
@@ -193,5 +203,43 @@ export class Appointment implements OnInit {
 
   isPatient(): boolean {
     return this.router.url.includes('/patient/home');
+  }
+  
+  async getDoctor(id: string) {
+    return firstValueFrom(this.doctorService.getDoctor(id));
+  }
+
+  async getPatient(id: string) {
+    return firstValueFrom(this.patientService.getPatient(id));
+  }
+
+  async notifyDoctor(): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(this.id_doctor);
+    const patient: Patient = await this.getPatient(this.id_patient);
+    const email: Email = {
+      email: doctor.mail,
+      subject: "Appointment cancelation",
+      message: `
+                  <h1>Your appointment has been canceled</h1>
+                  <p>Hello Dr. ${doctor.name}👋!</p>
+                  <p>Your appointment at ${formatDate(this.date, 'yyyy-MM-dd : HH:mm', 'en-US')} has been canceled.</p>
+                `
+    }
+    this.emailService.sendEmail(email).subscribe({});
+  }
+
+  async notifyPatient(): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(this.id_doctor);
+    const patient: Patient = await this.getPatient(this.id_patient);
+    const email: Email = {
+      email: patient.mail,
+      subject: "Appointment cancelation",
+      message: `
+                  <h1>Your appointment has been canceled</h1>
+                  <p>Hello ${patient.name}👋!</p>
+                  <p>Your appointment at ${formatDate(this.date, 'yyyy-MM-dd : HH:mm', 'en-US')} has been canceled.</p>
+                `
+    }
+    this.emailService.sendEmail(email).subscribe({});
   }
 }

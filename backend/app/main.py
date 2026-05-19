@@ -1,8 +1,11 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi import Body
 from fastapi import Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException as HttpException
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from dataclasses import asdict
 from sqlmodel import create_engine
 from sqlalchemy import Engine
@@ -37,6 +40,7 @@ load_dotenv()
 CLIENT_ID = os.getenv("CRONOFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("CRONOFY_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("CRONOFY_REDIRECT_URI")
+from datetime import datetime
 
 # Variables -------------------------------------------------------
 
@@ -54,6 +58,18 @@ appointment_loader: Appointment_loader = Local_appointment_loader(engine)
 appointment_updater: Appointment_updater = Local_appointment_updater(engine) 
 appointment_deleter: Appointment_deleter = Local_appointment_deleter(engine)
 
+load_dotenv()
+
+conf = ConnectionConfig(
+    MAIL_USERNAME = os.getenv('mail'),
+    MAIL_PASSWORD = os.getenv('password'),
+    MAIL_FROM = os.getenv('mail'),
+    MAIL_PORT = 587,
+    MAIL_SERVER = "smtp.gmail.com",
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False,
+    VALIDATE_CERTS = False
+)
 
 app = FastAPI()
 app.add_middleware(
@@ -235,6 +251,12 @@ def get_patient(identity_document: str) -> dict:
     if not patient: raise HttpException(status_code=404, detail="Patient not found")
     return asdict(patient)
 
+@app.get("/patient/by_email/{email}")
+def get_patient(email: str) -> dict:
+    patient = patient_loader.load_by_email(email)
+    if not patient: raise HttpException(status_code=404, detail="Patient not found")
+    return asdict(patient)
+
 @app.post("/patient")
 def create_patient(patient: Patient) -> dict:
     try:
@@ -251,6 +273,10 @@ def update_patient(identity_document: str, updated_patient: Patient) -> dict:
     
     patient_updater.update(updated_patient)
     return {"message": "Patient updated successfully", "patient": asdict(updated_patient)}
+
+@app.get("/patient/check_disponibility/{identity_document}/{date}")
+def check_patient_disponibility(identity_document: str, date: datetime) -> bool:
+    return patient_loader.check_disponibility(identity_document, date)
 
 # Doctors
 @app.get("/doctor/{credentials}")
@@ -270,6 +296,10 @@ def get_departments() -> list[str]:
     doctors = doctor_loader.load_all()
     departments = list(set([doctor.department for doctor in doctors]))
     return departments
+
+@app.get("/doctor/check_disponibility/{credentials}/{date}")
+def check_doctor_disponibility(credentials: str, date: datetime) -> bool:
+    return doctor_loader.check_disponibility(credentials, date)
 
 # Appointments
 @app.get("/appointment/by_patient/{identity_document}")
@@ -312,3 +342,16 @@ def update_appointment(id: int, updated_appointment: Appointment) -> dict:
 @app.delete("/appointment/{id}")
 def delete_appointment(id: int) -> None:
     appointment_deleter.delete(id)
+
+#Mail
+@app.post("/send-email")
+async def send_at_email(data: dict):
+    message = MessageSchema(
+        subject=data.get("subject"),
+        recipients=[data.get("email")], # Correo del destino
+        body=data.get("message"),
+        subtype="html"
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return {"message": "Email enviado"}

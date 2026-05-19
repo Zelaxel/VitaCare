@@ -9,4 +9,6 @@ export interface AppointmentData {
     conclusion?: string
     active: boolean
     event_id?: string
+    paid: boolean
+    price?: number
 }

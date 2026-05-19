@@ -56,11 +56,6 @@
         <label for="explanation"><strong>Explanation</strong></label>
         <textarea id="explanation" [(ngModel)]="explanation" [disabled]="isEditMode"></textarea>
 
-        <label class="checkbox-row">
-          <input type="checkbox" [(ngModel)]="notifications">
-          <span><em>Activate automatic notifications</em></span>
-        </label>
-
         @if (loginErrorMessage) {
             <div class="global-error-banner">
                 {{ loginErrorMessage }}

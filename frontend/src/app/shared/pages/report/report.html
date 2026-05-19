@@ -5,10 +5,11 @@
     <button onclick="window.history.back()" class="back-button">
       <img src="svg/left_arrow.svg">
     </button>
-    <button class="download-button">
+    <button class="download-button" (click)="downloadPDF()">
       <img src="svg/download.svg">
     </button>
   </section>
+  
   <section class="appointment-info" [class.doctor-theme]="!isPatient()" [class.patient-theme]="isPatient()">
     <section class="appointment-details">
       <section class="appointment-patient">
@@ -21,13 +22,19 @@
       </section>
       <section>
         <label>Date: </label>
-        <label class="date-label">{{date}}</label>
+        <label class="date-label">{{ date | date:'dd-MM-yyyy, HH:mm' }}</label>
       </section>
       <section>
         <label>Department: </label>
         <label class="department-label">{{department}}</label>
       </section>
+      <!-- Nuova sezione per il Costo -->
+      <section>
+        <label>Cost: </label>
+        <label class="cost-label">{{ paid ? 'Free' : '€' + price }}</label>
+      </section>
     </section>
+    
     <section class="appointment-reason">
       <label>Appointment reason:</label>
       <label class ="appointment-reason-label">{{reason}}</label>

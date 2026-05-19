@@ -1,0 +1,237 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #8fc1c1;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+}
+
+.recovery-page {
+  background-color: #d6d6d6;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.layout-window {
+  background: #d6d6d6;
+  min-height: 930px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.back-button img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 0;
+  border: none;
+  background: none;
+}
+
+.main-area {
+  background-color: #d6d6d6;
+  max-width: 1110px; 
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.recovery-card img {
+  display: block;
+  margin: 0 auto 20px auto;
+  padding: 15px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 6px solid #3b6773;
+  background-color: #d6d6d6;
+}
+
+.top-bar {
+  height: 94px;
+  background: #366a78;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  box-sizing: border-box;
+}
+
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.user-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eadcff;
+  border: 4px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.user-circle svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: #5d3797;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.settings-btn {
+  border: none;
+  border-radius: 24px;
+  background: #eeeeee;
+  padding: 9px 31px;
+  font-size: 19px;
+  color: #111;
+}
+
+.recovery-card {
+  background: #78bd99;
+  border-radius: 18px;
+  min-height: 805px;
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 54px 70px 60px;
+  box-sizing: border-box;
+}
+
+
+.lock-svg {
+  width: 74px;
+  height: 74px;
+  fill: none;
+  stroke: #1d1d1d;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 57px;
+  font-weight: 800;
+}
+
+.title-line {
+  height: 5px;
+  background: #000;
+  margin: 28px 0 32px;
+}
+
+.description {
+  margin: 0;
+  max-width: 850px;
+  font-size: 29px;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.email-area {
+  width: 610px;
+  margin: 32px auto 0;
+}
+
+.email-area label {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 9px;
+}
+
+.input-box {
+  width: 100%;
+  height: 58px;
+  background: #e5e5e5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  box-sizing: border-box;
+}
+
+.mail-svg {
+  width: 28px;
+  height: 28px;
+  margin-right: 22px;
+  fill: none;
+  stroke: #77717e;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.input-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 23px;
+}
+
+.input-box input::placeholder {
+  color: #a5a5a5;
+}
+
+.send-btn {
+  display: block;
+  width: 410px;
+  height: 62px;
+  margin: 40px auto 0;
+  background: #366a78;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 44px 25px 0;
+}
+
+.line {
+  height: 5px;
+  background: #000;
+  flex: 1;
+}
+
+.or-text {
+  font-size: 29px;
+  font-weight: 800;
+}
+
+.back-login {
+  margin-top: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.arrow {
+  font-size: 55px;
+  line-height: 1;
+}

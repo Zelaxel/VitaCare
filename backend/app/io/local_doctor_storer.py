@@ -17,7 +17,8 @@ class Local_doctor_storer(Doctor_storer):
             name=doctor.name,
             surname=doctor.surname,
             department=doctor.department,
-            password=doctor.password
+            password=doctor.password,
+            mail=doctor.mail
         )
     
     def store(self, doctor) -> None:

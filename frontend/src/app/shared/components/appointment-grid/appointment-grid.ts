@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
 import { AppointmentData } from '../appointment/appointmentData';
 import { Appointment } from '../appointment/appointment';
-import { Input, ViewChild, ElementRef } from '@angular/core';
+import { OnChanges, Component, EventEmitter, HostListener, Output, Input, ViewChild, ElementRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-appointment-grid',
@@ -9,25 +9,39 @@ import { Input, ViewChild, ElementRef } from '@angular/core';
   templateUrl: './appointment-grid.html',
   styleUrl: './appointment-grid.css',
 })
-export class AppointmentGrid {
+export class AppointmentGrid implements OnChanges  {
   @Input() appointments: AppointmentData[] = [];
-  buttonDisabled: boolean = false;
+  showScrollButtons: boolean = false;
 
   @Input() isPatient!: boolean;
 
-  @ViewChild("appointmentGrid") grid!: ElementRef;
+  @ViewChild("appointmentGrid") grid!: ElementRef<HTMLDivElement>;
 
   @Output() deletedAppointment = new EventEmitter<void>();
 
   horizontalScroll(amount:number){
-    if(this.buttonDisabled) return;
-    this.buttonDisabled = true;
-
     this.grid.nativeElement.scrollBy({left: + amount, behavior: 'smooth'});
+  }
 
-    // Debounce
-    setTimeout(() => {
-      this.buttonDisabled = false;
-    }, 100);
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    this.showScrollButtons = this.checkScrolleable();
+  }
+  
+  ngOnChanges() {
+    this.showScrollButtons = this.checkScrolleable();
+  }
+  
+  checkScrolleable(): boolean {
+    if(!this.grid) return false;
+    const mode: number = +getComputedStyle(this.grid.nativeElement).getPropertyValue('--mode').trim();
+    switch(mode){
+      case 0:
+        return this.appointments.length > 6;
+        case 1:
+          return this.appointments.length > 4;
+      default:
+        return this.appointments.length > 2
+    }
   }
 }

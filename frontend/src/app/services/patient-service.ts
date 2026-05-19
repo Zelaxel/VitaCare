@@ -16,6 +16,11 @@ export class PatientService {
     return this.http.get<Patient>(`${this.apiUrl}/${identityDocument}`);
   }
 
+  /** Get patient information by email */
+  getPatientByEmail(email: string): Observable<Patient> {
+    return this.http.get<Patient>(`${this.apiUrl}/by_email/${email}`);
+  }
+
   /** Create a new patient record */
   createPatient(patient: Patient): Observable<Patient> {
     return this.http.post<Patient>(this.apiUrl, patient);
@@ -25,4 +30,10 @@ export class PatientService {
   updatePatient(patient: Patient): Observable<Patient> {
     return this.http.put<Patient>(`${this.apiUrl}/${patient.identity_document}`, patient);
   }
+
+  checkDisponibility(identity_document: string, date: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check_disponibility/${identity_document}/${date}`);
+  }
 }
+
+

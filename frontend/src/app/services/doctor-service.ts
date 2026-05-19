@@ -22,4 +22,8 @@ export class DoctorService {
       `${this.apiUrl}/by_department/${department}`
     );
   }
+
+  checkDisponibility(credentials: string, date: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check_disponibility/${credentials}/${date}`);
+  }
 }
