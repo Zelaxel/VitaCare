@@ -12,4 +12,5 @@ export interface AppointmentData {
     date: Date;
     paid: boolean;
     active: boolean;
+    event_id: string;
 }

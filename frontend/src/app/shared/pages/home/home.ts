@@ -190,6 +190,7 @@ export class Home {
     const patient = await firstValueFrom(this.patientService.getPatient(appointment.id_patient));
     return {
       id: appointment.id ?? 0,
+      event_id: appointment.event_id ?? "",
       id_patient: appointment.id_patient,
       id_doctor: appointment.id_doctor,
       title: appointment.title,

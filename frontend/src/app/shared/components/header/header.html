@@ -16,7 +16,7 @@
   </div>
 
   <div class="header-right">
-
+    <app-cronofy-calendar></app-cronofy-calendar>
     <div *ngIf="isDoctor()" class="doctor-menu">
       <div class="profile-circle">
         <span>👤</span> 
@@ -34,7 +34,7 @@
 
         <div class="dropdown-menu" *ngIf="isDropdownMenuOpen">
           <button [routerLink]="['/patient/user-profile']">Configuration</button>
-          <button [routerLink]="['/']">Logout</button>
+          <button (click)="logout()" class="btn-rounded">Logout</button>
         </div>
       </div>
     </div>

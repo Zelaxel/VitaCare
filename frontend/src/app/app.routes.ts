@@ -10,6 +10,7 @@ import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { Report } from './shared/pages/report/report';
 import { PaymentComponent } from './patient/pages/payment/payment';
+import { Callback } from './shared/components/callback/callback';
 
 
 export const routes: Routes = [
@@ -62,5 +63,6 @@ export const routes: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full'}
         ]
     },
+    { path: 'callback', component: Callback },
     { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
