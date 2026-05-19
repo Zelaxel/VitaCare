@@ -150,4 +150,11 @@ public downloadPDF(): void {
     
     this.cdr.detectChanges();
   }
+
+  goToPayment(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+    
+    this.router.navigate(['/patient/payment', id]);
+  }
 }

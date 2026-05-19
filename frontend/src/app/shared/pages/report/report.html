@@ -43,5 +43,19 @@
       <label>Appointment conclusion:</label>
       <label class="appointment-conclusion-label">{{conclusion}}</label>
     </section>
+    <section class="appointment-import">
+      <label>Import:</label>
+      <label class="appointment-import-label">{{ price }} €</label>
+    </section>
+    <section class="appointment-paid">
+      <label>Paid state:</label>
+      <label class="appointment-paid-label">
+        {{ paidState ? 'Complete' : 'Pending' }}
+      </label>
+    </section>
+
+    @if(!paidState){
+      <button class="pay-button" (click)="goToPayment()">Pay appointment</button>
+    }
   </section>
 </div>

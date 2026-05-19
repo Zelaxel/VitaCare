@@ -54,7 +54,7 @@ button img {
   gap: 1rem;
 }
 
-.appointment-reason, .appointment-conclusion {
+.appointment-reason, .appointment-conclusion, .appointment-import, .appointment-paid {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -65,9 +65,25 @@ button img {
   gap: 0.25rem;
 }
 
-.appointment-reason-label, .appointment-conclusion-label, .patient-name-label,
-.doctor-name-label, .date-label, .department-label {
+.appointment-reason-label, .appointment-conclusion-label, .appointment-import-label, 
+.patient-name-label, .appointment-paid-label, .doctor-name-label, .date-label, .department-label {
   font-weight: normal;
   text-align: justify;
   text-justify: inter-word;
+}
+
+.pay-button {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #366a78;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.pay-button:hover {
+  opacity: 0.9;
 }
