@@ -22,7 +22,6 @@
   height: auto;
 }
 
-/* La card verde del mockup */
 .appointment-info {
   background-color: #ad8666;
   border-radius: 15px;
@@ -98,7 +97,7 @@ label {
   outline: 2px solid #733b3b;
 }
 
-/* Pulsante Submit in basso al centro */
+
 .submit-section {
   display: flex;
   justify-content: center;
