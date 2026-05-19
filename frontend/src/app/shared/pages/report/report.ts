@@ -22,6 +22,8 @@ export class Report implements OnInit {
   department: string = "Caricamento...";
   reason: string = "Caricamento...";
   conclusion: string = "Caricamento...";
+  price: number = 0;
+  paidState: boolean = false;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -72,6 +74,8 @@ export class Report implements OnInit {
         this.date = appointment.attendance_date;
         this.reason = appointment.reason;
         this.conclusion = appointment.conclusion || 'Nessuna conclusione registrata.';
+        this.price = appointment.price;
+        this.paidState = appointment.paid;
         this.cdr.detectChanges(); 
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
@@ -105,5 +109,12 @@ export class Report implements OnInit {
     this.reason = state.description || state.reason; 
     this.conclusion = state.conclusion || 'Nessuna conclusione registrata.';
     this.cdr.detectChanges();
+  }
+
+  goToPayment(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+    
+    this.router.navigate(['/patient/payment', id]);
   }
 }

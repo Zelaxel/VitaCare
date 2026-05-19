@@ -1,7 +1,11 @@
 <app-header></app-header>
 
 <div class="page-background">
-
+  <div class="top-actions">
+    <button onclick="window.history.back()" class="back-button">
+      <img src="svg/left_arrow.svg" alt="back">
+    </button>
+  </div>
   <main class="figma-green-box">
     
     <div class="title-wrapper">
@@ -19,7 +23,7 @@
           </div>
           <input type="text" placeholder="Card number (1234 5678 9123)" class="input-full" [(ngModel)]="cardNumber">
           <div class="input-row">
-             <input type="text" placeholder="Expiration Date (MM/YY)" class="input-half" [(ngModel)]="expiryDate">
+             <input type="text" placeholder="Exp. (MM/YY)" class="input-half" [(ngModel)]="expiryDate">
              <input type="text" placeholder="CVV (123)" class="input-half" [(ngModel)]="cvv">
           </div>
         </div>
@@ -37,7 +41,7 @@
          <article class="appointment-container inactive-card">
   <h1 class="appointment-title">{{ appointmentDetails.title }}</h1>
   
-  <div lass="doctor-static-info">
+  <div class="doctor-static-info">
       <div class="profile-circle-small">👤</div>
       <span>{{ appointmentDetails.doctorName }}</span>
   </div>
