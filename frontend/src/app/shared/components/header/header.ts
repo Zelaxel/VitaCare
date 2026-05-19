@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CronofyCalendar } from "../cronofy-calendar/cronofy-calendar";
 
 
 @Component({
@@ -8,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './header.html',
   styleUrl: './header.css',
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink, CronofyCalendar]
 })
 export class Header {
   

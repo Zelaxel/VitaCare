@@ -15,3 +15,4 @@ class Appointment:
     id: Optional[int] = None
     price: Optional[float] = None
     conclusion: Optional[str] = None
+    event_id: Optional[str] = None

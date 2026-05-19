@@ -21,6 +21,7 @@ class Local_appointment_updater(Appointment_updater):
             reason=attendance.reason,
             conclusion=attendance.conclusion,
             active=attendance.active,
+            event_id=attendance.event_id,
             paid=attendance.paid,
             price=attendance.price
         )
