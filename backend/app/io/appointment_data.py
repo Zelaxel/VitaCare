@@ -14,3 +14,4 @@ class Appointment_data(SQLModel, table=True):
     paid: bool
     price: Optional[float]
     conclusion: Optional[str]
+    event_id: Optional[str]

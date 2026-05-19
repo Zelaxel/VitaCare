@@ -21,7 +21,11 @@
         </label>
       </div>
       @if(isPatient()){
-        <select class="department-select" (change)="loadDepartments()">
+        <select
+          class="department-select"
+          [(ngModel)]="selectedDepartment"
+          name="department"
+        >
           <option value="" disabled selected>○○ Departament ○○</option>
           <option *ngFor="let dep of departments" [value]="dep">
               {{ dep | titlecase}}

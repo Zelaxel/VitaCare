@@ -9,6 +9,8 @@ import { Home } from './shared/pages/home/home';
 import { UserProfile } from './patient/pages/user-profile/user-profile';
 import { FillReport } from './doctor/pages/fill-report/fill-report';
 import { Report } from './shared/pages/report/report';
+import { PaymentComponent } from './patient/pages/payment/payment';
+import { Callback } from './shared/components/callback/callback';
 
 
 export const routes: Routes = [
@@ -36,11 +38,15 @@ export const routes: Routes = [
         children: [
             { path: 'home', component: Home },
             { path: 'report', component: Report },
-            { path: 'report/:id', component: Report }, // Aggiunto per il paziente
+            { path: 'report/:id', component: Report }, 
             { path: 'create-appointment', component: AttendanceCreator },
             { path: 'create-appointment/:id', component: AttendanceCreator},
             { path: 'doctor-info/:id', component: DoctorInfo },
             { path: 'user-profile', component: UserProfile },
+            {
+    path: 'payment/:id',
+    loadComponent: () => import('./patient/pages/payment/payment').then(m => m.PaymentComponent)
+  },
             { path: '', redirectTo: 'home', pathMatch: 'full'}
         ]
     },
@@ -57,5 +63,6 @@ export const routes: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full'}
         ]
     },
+    { path: 'callback', component: Callback },
     { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];

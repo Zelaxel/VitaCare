@@ -1,8 +1,9 @@
 import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Location, DatePipe } from '@angular/common';
+import { Location, DatePipe, formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from '../../../shared/components/header/header';
+import { firstValueFrom } from 'rxjs';
 
 // Assicurati di usare i percorsi corretti per i tuoi import
 import { AppointmentService } from '../../../services/appointment-service'; 
@@ -10,6 +11,10 @@ import { PatientService } from '../../../services/patient-service';
 import { DoctorService } from '../../../services/doctor-service';
 import { AppointmentData } from '../../../model/appointment';
 import Swal from 'sweetalert2';
+import { Doctor } from '../../../model/doctor';
+import { Patient } from '../../../model/patient';
+import { Email } from '../../../model/email';
+import { EmailService } from '../../../services/email-service';
 
 @Component({
   selector: 'app-fill-report',
@@ -39,7 +44,8 @@ import Swal from 'sweetalert2';
     private location: Location,
     private patientService: PatientService, // Serviranno se ricarichi la pagina (F5)
     private doctorService: DoctorService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private emailService: EmailService
   ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as any;
@@ -95,11 +101,15 @@ import Swal from 'sweetalert2';
         this.conclusion = appointment.conclusion || '';
         this.paid = appointment.paid;
         this.price = appointment.price || 0;
+        
+        // Aggiorniamo la UI per i dati base
         this.cdr.detectChanges();
 
         this.patientService.getPatient(appointment.id_patient).subscribe({
           next: (patient) => {
             this.patientName = `${patient.name} ${patient.surname}`;
+            // AGGIUNTA FONDAMENTALE: Avvisa Angular che il nome paziente è arrivato
+            this.cdr.detectChanges(); 
           },
           error: (err) => console.error('Error fetching patient data', err)
         });
@@ -108,6 +118,8 @@ import Swal from 'sweetalert2';
           next: (doctor) => {
             this.doctorName = `Dr. ${doctor.name} ${doctor.surname}`;
             this.department = doctor.department;
+            // AGGIUNTA FONDAMENTALE: Avvisa Angular che i dati del dottore sono arrivati
+            this.cdr.detectChanges(); 
           },
           error: (err) => console.error('Error fetching doctor data', err)
         });
@@ -147,8 +159,7 @@ import Swal from 'sweetalert2';
 
     this.appointmentService.updateAppointment(this.currentAppointment).subscribe({
       next: (updatedAppointment) => {
-        console.log('Report successfully saved:', updatedAppointment);
-        
+        this.notifyPatient(this.currentAppointment);
         Swal.fire({
           icon: 'success',
           title: 'Report Approved',
@@ -170,5 +181,27 @@ import Swal from 'sweetalert2';
         });
       }
     });
+  }
+
+  async getDoctor(id: string) {
+    return firstValueFrom(this.doctorService.getDoctor(id));
+  }
+
+  async getPatient(id: string) {
+    return firstValueFrom(this.patientService.getPatient(id));
+  }
+
+  async notifyPatient(appointment: AppointmentData): Promise<void> {
+    const doctor: Doctor = await this.getDoctor(appointment.id_doctor);
+    const patient: Patient = await this.getPatient(appointment.id_patient);
+    const email: Email = {
+      email: patient.mail,
+      subject: `Finalized appointment`,
+      message: `
+                  <p>Hello ${patient.name}👋!</p>
+                  <p>We are writing to inform you that your medical appointment on ${formatDate(appointment.attendance_date, 'yyyy-MM-dd : HH:mm', 'en-US')} with Dr. ${doctor.name} ${doctor.surname} has been officially finalized, as the specialist has submitted their final clinical conclusion.</p>
+                `
+    }
+    this.emailService.sendEmail(email).subscribe({});
   }
 }
