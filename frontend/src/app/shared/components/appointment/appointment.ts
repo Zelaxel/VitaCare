@@ -33,6 +33,7 @@ export class Appointment implements OnInit { // Implementamos OnInit
   @Input() department!: string;
   @Input() active!: boolean;
   @Input() patientLayaut!: boolean;
+  @Input() paid!: boolean;
   @Output() deleted = new EventEmitter<void>();
   
   public displayDoctorName: string = '';

@@ -95,61 +95,76 @@ export class PaymentComponent implements OnInit {
     return true; 
   }
 
+  formatCardNumber(value: string): string {
+    return value
+      .replace(/\D/g, '')
+      .slice(0, 12)
+      .replace(/(.{4})/g, '$1 ')
+      .trim();
+  }
+
   processPayment() {
-    const numeroCartaPulito = this.cardNumber.replace(/\s+/g, '');
-    if (!this.cardNumber || !this.expiryDate || !this.cvv) {
-      Swal.fire('Attenzione', 'Per favore, compila tutti i dati della carta.', 'warning');
+    const appointmentId = this.route.snapshot.paramMap.get('id');
+
+    if (!appointmentId) {
+      Swal.fire('Error', 'No appointment found.', 'error');
       return;
     }
 
-    // STRIPE simulation
-    if (numeroCartaPulito !== '4242424242424242') {
+    if (!this.cardNumber || !this.expiryDate || !this.cvv) {
+      Swal.fire('Warning', 'Please fill all card fields.', 'warning');
+      return;
+    }
+
+    // elimina espacios (porque el input ya formatea 1234 5678 9012)
+    const cleanCard = this.cardNumber.replace(/\s+/g, '');
+
+    if (!/^\d{12}$/.test(cleanCard)) {
       Swal.fire({
         icon: 'error',
-        title: 'Transazione Rifiutata',
-        text: 'La carta inserita non è valida o è stata rifiutata dal circuito bancario.',
-        footer: 'Suggerimento: Usa la carta di test 4242 4242 4242 4242'
+        title: 'Invalid card number',
+        text: 'Card must contain exactly 12 digits (formatted as 1234 5678 9012).'
       });
       return;
     }
-    const appointmentId = this.route.snapshot.paramMap.get('id');
-    if (!appointmentId) {
-      Swal.fire('Errore', 'Impossibile trovare la visita di riferimento.', 'error');
+
+    if (cleanCard !== '123456789012') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Transaction declined',
+        text: 'Card not recognized by the system.',
+        footer: 'Use test card: 1234 5678 9012'
+      });
       return;
     }
 
     Swal.fire({
-      title: 'Connecting wth the bank...',
-      html: 'Authrization.. <b>Stripe</b>.<br/>wait please.',
+      title: 'Processing payment...',
+      html: 'Contacting bank system...',
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
 
-        
         setTimeout(() => {
-          
-          Swal.update({
-            title: 'Received Authorization!',
-            html: ' Registration of the payment in the database ...'
-          });
-
-          
           this.appointmentService.confirmPayment(appointmentId).subscribe({
             next: () => {
-              Swal.fire(
-                'Completed Payment!',
-                'The visit has been payed.',
-                'success'
-              ).then(() => {
-                this.router.navigate(['/home']); 
+              Swal.fire({
+                icon: 'success',
+                title: 'Payment successful',
+                text: 'The appointment has been marked as paid.'
+              }).then(() => {
+                this.router.navigate(['/patient/home']);
               });
             },
-            error: (err:any) => {
-              console.error("synchro error with the databse:", err);
-              Swal.fire('Error', 'The bank has authorized, but we have a problem with the clinic server .', 'error');
+            error: (err) => {
+              console.error('Payment sync error:', err);
+              Swal.fire(
+                'Error',
+                'Payment was approved but failed to update the server.',
+                'error'
+              );
             }
           });
-
         }, 1500);
       }
     });

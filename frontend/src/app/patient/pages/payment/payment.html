@@ -21,7 +21,7 @@
           <div class="card-header">
             <span class="icon">💳</span> <strong>Credit or Debit Card</strong>
           </div>
-          <input type="text" placeholder="Card number (1234 5678 9123)" class="input-full" [(ngModel)]="cardNumber">
+          <input type="text" placeholder="Card number (1234 5678 9123)" class="input-full" [(ngModel)]="cardNumber" (ngModelChange)="cardNumber = formatCardNumber($event)">
           <div class="input-row">
              <input type="text" placeholder="Exp. (MM/YY)" class="input-half" [(ngModel)]="expiryDate">
              <input type="text" placeholder="CVV (123)" class="input-half" [(ngModel)]="cvv">
