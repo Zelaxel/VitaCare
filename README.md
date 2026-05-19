@@ -1,59 +1,54 @@
-# VitaCare
+# 🩺 VitaCare - Medical Appointment Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.6.
+**VitaCare** is a modern healthcare platform designed for medical appointment scheduling. The system allows patients to book appointments by medical departments and specialists, with automated HTML email confirmations.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🛠️ Tech Stack
 
+### Backend
+*   **Python:** Managed via **uv** for quick dependency management.
+*   **FastAPI:** Synchronous web framework.
+*   **SQLModel & Pydantic:** Local database.
+*   **FastAPI-Mail / SMTPlib:** Secure backend mail engine for dispatching notifications.
+*   **Calendar Sync:** Powered by **Cronofy** to add appointments directly into doctors' and patients' real-world calendars (Google, Outlook, Apple Calendar).
+
+### Frontend
+*   **Angular:** Component-based framework for a responsive Single Page Application.
+
+---
+
+## 📦 Installation & Setup
+
+### Prerequisites
+Before running the application, ensure you have the following installed:
+*   **Frontend Environment:**
+    *   [Node.js](https://nodejs.org/) `v22.22.x`
+    *   [Angular CLI](https://angular.dev/) `v21.2.x`
+    *   [npm](https://www.npmjs.com/) `v11.11.x`
+*   **Backend Environment:**
+    *   [uv](https://github.com/astral-sh/uv) `>= 0.10.9`
+
+Also create a `.env` file in the `backend/` directory, copy the following structure and fill in your credentials:
+*  mail
+*  password
+*  CRONOFY_CLIENT_ID
+*  CRONOFY_CLIENT_SECRET
+*  CRONOFY_REDIRECT_URI
+
+### Setup
 ```bash
-ng serve
+# Install dependencies to gestion the backend and frontend.
+npm install
+
+# Install The depependencies for the backend and frontend.
+npm run sync
+
+# Set up the backend and frontend.
+npm run dev
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🚀 Try the service
+Once the aplication is up and running, you can access the service through your browser: [http://localhost:4200](http://localhost:4200)
