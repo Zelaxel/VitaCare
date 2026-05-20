@@ -177,85 +177,16 @@ export class AttendanceCreator implements OnInit{
     }
 
     this.appointmentService.updateAppointment(updatedAppointment).subscribe({
-        next: () => {
-          const identityDocument = localStorage.getItem('identity_document');
-
-          if (!identityDocument) {
-            return;
-          }
-
-          const cronofyRaw = localStorage.getItem(`cronofy_${identityDocument}`);
-
-          if (!cronofyRaw) {
-            return;
-          }
-
-          const cronofyData = JSON.parse(cronofyRaw);
-          const token = cronofyData.access_token;
-          const calendarId = localStorage.getItem(`cronofy_calendar_${identityDocument}`);
-
-          if (token && calendarId) {
-            this.http.delete(
-              `http://localhost:8000/cronofy/delete-event`,
-              {
-                params: {
-                  token: token,
-                  calendar_id: calendarId,
-                  event_id:
-                    (updatedAppointment as any)
-                      .event_id
-                }
-              }
-            ).subscribe({
-              next: () => {
-                const snapshot = {
-                  date: this.date,
-                  time: this.time,
-                  medicalMatter: this.medicalMatter,
-                  explanation: this.explanation,
-                  department: this.department,
-                  doctor: this.doctor,
-                  eventId:
-                    (updatedAppointment as any)
-                      .event_id
-                };
-
-                this.sendEventToCronofy(
-                  token,
-                  calendarId,
-                  identityDocument,
-                  snapshot,
-                  this.event_id
-                );
-              },
-
-              error: (err) => {
-                console.error(
-                  "Error deleting old event",
-                  err
-                );
-              }
-            });
-          }
-
-          Swal.fire(
-            'Updated!',
-            'The appointment has been successfully modified.',
-            'success'
-          ).then(() => {
-
-            this.navigateHome();
-
-          });
-        },
-
-        error: (err) =>
-          console.error(
-            'Error al actualizar',
-            err
-          )
+      next: () => {
+        Swal.fire(
+          'Updated!',
+          'The appointment has been successfully modified.',
+          'success'
+        ).then(() => {this.navigateHome();});
+      }, error: (err) => {
+        console.error('Error al actualizar', err)}
       });
-  }
+}
 
   saveAppointment(): void {
     if (this.isEditMode) {
