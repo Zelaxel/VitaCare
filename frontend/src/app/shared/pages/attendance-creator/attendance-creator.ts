@@ -120,7 +120,6 @@ export class AttendanceCreator implements OnInit{
       attendance_date: fullDateTime as any,
       reason: this.explanation,
       active: true,
-      event_id: this.event_id as any,
       paid: false
     };
 

@@ -97,76 +97,7 @@ export class Appointment implements OnInit {
   }
 
   private executeDeletion(): void {
-
-    const identityDocument = localStorage.getItem('identity_document');
-
-    if (!identityDocument) {
-      Swal.fire(
-        'Error',
-        'User session not found.',
-        'error'
-      );
-      return;
-    }
-
-    const cronofyRaw = localStorage.getItem(`cronofy_${identityDocument}`);
-
-    // Si el usuario NO tiene calendario conectado
-    // borramos directamente la cita
-    if (!cronofyRaw || !this.event_id) {
-      this.deleteAppointmentFromDatabase();
-      return;
-    }
-
-    const cronofyData = JSON.parse(cronofyRaw);
-
-    const token = cronofyData.access_token;
-
-    const calendarId = localStorage.getItem(
-      `cronofy_calendar_${identityDocument}`
-    );
-
-    if (!token || !calendarId) {
-      this.deleteAppointmentFromDatabase();
-      return;
-    }
-
-    // 1. BORRAR EVENTO DE CRONOFY
-    this.http.delete(
-      'http://localhost:8000/cronofy/delete-event',
-      {
-        params: {
-          token: token,
-          calendar_id: calendarId,
-          event_id: this.event_id
-        }
-      }
-    ).subscribe({
-
-      // 2. SI CRONOFY VA BIEN → BORRAMOS BD
-      next: () => {
-
-        console.log(
-          'Evento eliminado de Google Calendar'
-        );
-
-        this.deleteAppointmentFromDatabase();
-      },
-
-      error: (err) => {
-
-        console.error(
-          'Error deleting Cronofy event',
-          err
-        );
-
-        Swal.fire(
-          'Error',
-          'Unable to delete Google Calendar event.',
-          'error'
-        );
-      }
-    });
+    this.deleteAppointmentFromDatabase();
   }
 
   private deleteAppointmentFromDatabase(): void {
