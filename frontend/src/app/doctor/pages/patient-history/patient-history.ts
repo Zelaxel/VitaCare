@@ -4,15 +4,15 @@ import { AppointmentService } from '../../../services/appointment-service';
 import { Header } from '../../../shared/components/header/header';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../../services/patient-service';
-import { RouterLink } from '@angular/router';
 import { DoctorService } from '../../../services/doctor-service';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 import { Doctor } from '../../../model/doctor';
 
 @Component({
   standalone: true,
   selector: 'app-patient-history',
-  imports: [Header, CommonModule, RouterLink],
+  imports: [Header, CommonModule],
   templateUrl: './patient-history.html',
   styleUrl: './patient-history.css',
 })
@@ -26,7 +26,8 @@ export class PatientHistory implements OnInit {
     private appointmentService: AppointmentService,
     private patientService: PatientService,
     private doctorService: DoctorService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -71,6 +72,11 @@ export class PatientHistory implements OnInit {
       console.error("Error fetching doctor name:", error);
       return 'Unknown Doctor';
     }
+  }
+
+  requestAppointment() {
+    localStorage.setItem('identity_document', this.patientId!);
+    this.router.navigate(['/doctor/create-appointment']);
   }
 }
 

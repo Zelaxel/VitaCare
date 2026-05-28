@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <button [routerLink] = "['/doctor/create-appointment']" class="request-btn">Solicitar cita para el paciente</button>
+      <button (click)="requestAppointment()" class="request-btn">Solicitar cita para el paciente</button>
     </section>
   </main>
 </div>
